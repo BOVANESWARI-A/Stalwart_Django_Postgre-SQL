@@ -1,0 +1,376 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stalwart Business Solutions</title>
+<!-- favicons-->
+<link rel="icon" href="{% static "core/assets/images/favicon.png" %}" type="image/x-icon">
+<!-- favicons-->
+<!-- css -->
+<link type="text/css" href="{% static "core/assets/css/master.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "core/assets/css/style.css" %}" rel="stylesheet">
+<!-- css -->
+<!--[if lt IE 9]>
+<script src="{% static "core/assets/js/html5shiv.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/css3-mediaqueries.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/respond.min.js" %}" type="text/javascript" defer></script>
+<![endif]-->
+</head>
+<body>
+<div class="wrapper"> 
+  <!-- Sidebar -->
+  {% include "core/sidebar.html" %} 
+  <!-- Main -->
+  <div id="main-content" class="flex-grow-1"> 
+    <!-- Header -->
+    <header class="header header-light">
+      <div class="container-fluid px-4 py-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <div> <a href="javascript:void(0)" class="toggle-sidebar-btn" onClick="toggleSidebar()"> <i class="bi bi-list toggle-sidebar-btn"></i> </a> </div>
+         <!--profile-->
+           <!-- PROFILE -->
+
+                    <div>
+
+                        <nav class="header-nav ms-auto">
+
+                            <ul class="d-flex align-items-center">
+
+                                <li class="nav-item dropdown">
+
+
+                                    <a class="nav-link nav-profile d-flex align-items-center pe-0"
+                                       href="javascript:void(0)"
+                                       data-bs-toggle="dropdown">
+
+
+                                        <img
+                                            src="{% static 'core/assets/images/profile.png' %}"
+                                            alt="Profile"
+                                            class="rounded-circle">
+
+
+                                        <span class="d-none d-md-block dropdown-toggle ps-2">
+
+                                            {{ request.user.first_name|default:request.user.username }}
+
+                                        </span>
+
+
+                                    </a>
+
+
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+
+                                        <li class="dropdown-header border-bottom">
+
+                                            <p class="text-extra-small text-dark font-weight-500">
+
+                                                {{ request.user.get_full_name|default:request.user.username }}
+
+                                            </p>
+
+                                            <small>
+
+                                                {{ request.user.email }}
+
+                                            </small>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'myprofile' %}">
+
+                                                <i class="bi bi-person"></i>
+
+                                                <span>My Profile</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'security' %}">
+
+                                                <i class="bi bi-lock"></i>
+
+                                                <span>Security</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li>
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'logout' %}">
+
+                                                <i class="bi bi-box-arrow-right"></i>
+
+                                                <span>Sign Out</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+
+                        </nav>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </header>
+
+    <!-- Header --> 
+    <!-- Content Body -->
+    <div class="content-wrapper">
+      <div class="container-fluid px-4">
+        <div class="py-4">
+          <section class="page-container"> 
+            <!-- Title -->
+            <div class="pagetitle pt-2 mb-3">
+              <p class="text-medium font-weight-500">Frequently Asked Questions</p>
+            </div>
+            <!-- center body -->
+            <div class="content-section">
+              <div class="row">
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header border-bottom">
+                      <p class="text-medium font-weight-600">Frequently Asked Questions (FAQ's)</p>
+                      <p class="text-extra-small font-weight-400 text-muted">For any inquiries regarding our staffing services, please refer to our FAQs, which provide essential information for both job seekers and employers.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+                  <div class="custom-accordion">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne"> How does Stalwart Business Solutions help job seekers? </button>
+                        </p>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">We assist job seekers by connecting them with potential employers who are hiring for positions that match their skills, experience, and preferences. Our team works with a variety of industries, providing opportunities for both temporary and permanent placements.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo"> How can I apply for a job through Stalwart Business Solutions? </button>
+                        </p>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">To apply for a job, simply browse the available listings on our website or submit your resume directly to us. Once submitted, our recruitment specialists will review your profile and reach out if there’s a suitable match.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree"> What types of jobs are available? </button>
+                        </p>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">We offer positions in various industries, including manufacturing, information technology, healthcare, finance, and more. These include temporary, part-time, contract, and permanent job roles.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">How long does it take to get placed in a job? </button>
+                        </p>
+                        <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">The time it takes to find a suitable job varies depending on the market, your qualifications, and employer requirements. Our goal is to match you with the right job as quickly as possible.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive"> Is there a fee to use Stalwart Business Solution's services? </button>
+                        </p>
+                        <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">No, our services for job seekers are completely free of charge. We earn our fees from the employers we work with.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix"> How do employers benefit from using Stalwart Business Solutions? </button>
+                        </p>
+                        <div id="flush-collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">We help employers by streamlining their recruitment process, sourcing qualified candidates, and conducting initial screening. This saves employers time and resources while ensuring they find the best candidates for their open positions.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven"> What kind of support do you offer after placing candidates? </button>
+                        </p>
+                        <div id="flush-collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">We provide ongoing support after job placement, including handling payroll for temporary employees, offering onboarding assistance, and resolving any issues that may arise during the employment period.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false" aria-controls="flush-collapseEight"> Can Stalwart Business Solutions help with contract and temporary staffing? </button>
+                        </p>
+                        <div id="flush-collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">Yes, we specialize in both contract and temporary staffing solutions, offering flexible options for employers who need short-term or project-based staff.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseNine" aria-expanded="false" aria-controls="flush-collapseNine"> How does Stalwart Business Solutions ensure candidates are qualified?</button>
+                        </p>
+                        <div id="flush-collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">We thoroughly screen all candidates, including reviewing resumes, conducting interviews, and performing background checks as required. We ensure that candidates have the necessary skills and experience for the positions they apply for.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <p class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTen" aria-expanded="false" aria-controls="flush-collapseTen"> How do I contact Stalwart Business Solutions?</button>
+                        </p>
+                        <div id="flush-collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <p class="text-extra-small font-weight-400">You can reach us via email at <span class="text-decoration-underline">hello@stalwart.asia</span>, call us at <span class="text-decoration-underline"> +603 2725 9216</span>, or visit our office at Level 28, G Tower, #199 Jalan Tun Razak, 50400 Malaysia. You can also fill out our contact form on the website, and our team will get back to you promptly.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- center body --> 
+            
+            <!-- Footer -->
+            <footer id="footer" class="footer">
+              <div class="container-fluid px-4">
+                <div class="row">
+                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div>
+                        <p class="text-extra-small font-weight-400"> &copy; <span id="current-year"></span> Stalwart Business Solutions.</p>
+                      </div>
+                      <div>
+                        <p class="text-extra-small font-weight-400 backtotop" id="toTop">To top
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                          </svg>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- Footer --> 
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Main --> 
+<!-- logout -->
+<div class="custom-modal">
+  <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="logoutModalLabel">Confirm</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+              <div class="py-3">
+                <p class="text-small font-weight-400">Are you sure you want to log out?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="brand-button me-1" data-bs-dismiss="modal">Stay Connected</button>
+          <form method="post" action="{% url 'logout' %}" style="display:inline;">{% csrf_token %}<button type="submit" class="brand-button-alt">Logout</button></form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- logout --> 
+<!-- js --> 
+<script src="{% static "core/assets/js/bundle.js" %}" type="text/javascript"></script> 
+<script src="{% static "core/assets/js/scripts.js" %}" type="text/javascript"></script> 
+<!-- js -->
+</body>
+</html>

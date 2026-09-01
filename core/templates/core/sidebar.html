@@ -1,0 +1,125 @@
+{% load static %}
+<div id="sidebar">
+  <div class="sidebarwrapper">
+    <div class="sidebarmask">
+      <div class="sidebar-dropdown">
+        <div class="mb-3">
+          <a href="{% url 'dashboard' %}" class="logo">
+            <img src="{% static "core/assets/images/logo-light.png" %}" alt="Stalwart Business Solutions" width="150">
+          </a>
+        </div>
+        <ul class="list-group list-group-flush">
+
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'dashboard' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-grid"></i></span><span>Dashboard</span>
+            </a>
+          </li>
+
+          {% if app_role == "hr" or app_role == "administration" %}
+          <li class="list-group-item bg-transparent">
+            <a class="nav-link sidebar-link list-group-item-action" data-bs-target="#icons-application" data-bs-toggle="collapse" href="#icons-application">
+              <span class="pe-1"><i class="bi bi-file-earmark-text"></i></span><span>Job Application</span>
+              <span class="ms-auto"><i class="bi bi-chevron-down"></i></span>
+            </a>
+            <ul id="icons-application" class="nav-content collapse show" data-bs-parent="#sidebar">
+              {% if app_role == "hr" %}
+                {% if app_application_type == "insitemy" %}
+                  <li><a href="{% url 'insitemy' %}" class="sidebar-link {% if request.resolver_match.url_name == 'insitemy' %}active{% endif %}"><span class="pe-1">&#9679;</span><span>InsiteMy</span></a></li>
+                {% else %}
+                  <li><a href="{% url 'macro_kiosk' %}" class="sidebar-link {% if request.resolver_match.url_name == 'macro_kiosk' %}active{% endif %}"><span class="pe-1">&#9679;</span><span>Macro Kiosk</span></a></li>
+                {% endif %}
+              {% else %}
+                <li><a href="{% url 'insitemy' %}" class="sidebar-link {% if request.resolver_match.url_name == 'insitemy' %}active{% endif %}"><span class="pe-1">&#9679;</span><span>InsiteMy</span></a></li>
+                <li><a href="{% url 'macro_kiosk' %}" class="sidebar-link {% if request.resolver_match.url_name == 'macro_kiosk' %}active{% endif %}"><span class="pe-1">&#9679;</span><span>Macro Kiosk</span></a></li>
+              {% endif %}
+            </ul>
+          </li>
+          {% endif %}
+
+          {% if app_role == "administration" %}
+          <li class="list-group-item bg-transparent">
+            <a class="nav-link sidebar-link list-group-item-action" data-bs-target="#candidate-management" data-bs-toggle="collapse" href="#candidate-management">
+              <span class="pe-1"><i class="bi bi-people"></i></span><span>Candidate Management</span>
+              <span class="ms-auto"><i class="bi bi-chevron-down"></i></span>
+            </a>
+            <ul id="candidate-management" class="nav-content collapse {% if request.resolver_match.url_name == 'candidate_list' or request.resolver_match.url_name == 'candidate_detail' or request.resolver_match.url_name == 'add_candidate' %}show{% endif %}" data-bs-parent="#sidebar">
+              <li><a href="{% url 'candidate_list' %}" class="sidebar-link {% if request.resolver_match.url_name == 'candidate_list' %}active{% endif %}"><span class="pe-1">&#9679;</span><span>All Candidates</span></a></li>
+              {% if app_role == "hr" or app_role == "administration" %}
+              <li><a href="{% url 'add_candidate' %}" class="sidebar-link {% if request.resolver_match.url_name == 'add_candidate' %}active{% endif %}"><span class="pe-1">&#9679;</span><span>Add Candidate</span></a></li>
+              {% endif %}
+            </ul>
+          </li>
+          {% endif %}
+
+          {% if app_role == "candidate" or app_role == "agent" or app_role == "hr" or app_role == "administration" %}
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'submitted_applications' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'submitted_applications' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-journal-check"></i></span><span>Submitted Applications</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% if app_role == "hr" or app_role == "administration" %}
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'received_applications' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'received_applications' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-file-arrow-down"></i></span><span>Received Applications</span>
+            </a>
+          </li>
+          {% endif %}
+
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'settings' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-gear"></i></span><span>Settings</span>
+            </a>
+          </li>
+
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'myprofile' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'myprofile' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-person"></i></span><span>My Profile</span>
+            </a>
+          </li>
+
+          {% if app_role == "candidate" %}
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'mydata' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'mydata' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-filetype-doc"></i></span><span>My Data</span>
+            </a>
+          </li>
+          {% endif %}
+
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'security' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'security' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-lock"></i></span><span>Security</span>
+            </a>
+          </li>
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'faqs' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'faqs' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-info-circle"></i></span><span>FAQ's</span>
+            </a>
+          </li>
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'terms' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'terms' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-list-check"></i></span><span>Terms &amp; Conditions</span>
+            </a>
+          </li>
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'privacy' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'privacy' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-shield-check"></i></span><span>Privacy Policy</span>
+            </a>
+          </li>
+          <li class="list-group-item bg-transparent">
+            <a href="{% url 'feedback' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'feedback' %}active{% endif %}">
+              <span class="pe-1"><i class="bi bi-star-half"></i></span><span>Feedback</span>
+            </a>
+          </li>
+          <li class="list-group-item bg-transparent">
+            <a href="javascript:void(0)" class="sidebar-link list-group-item-action" data-bs-toggle="modal" data-bs-target="#logoutModal">
+              <span class="pe-1"><i class="bi bi-power"></i></span><span>Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

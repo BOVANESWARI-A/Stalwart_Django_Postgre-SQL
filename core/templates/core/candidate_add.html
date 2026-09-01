@@ -1,0 +1,219 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Candidate | Stalwart Business Solutions</title>
+
+    <link rel="stylesheet"
+          href="{% static 'core/assets/css/master.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'core/assets/css/style.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'core/assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'core/assets/icons/bootstrap-icons/bootstrap-icons.css' %}">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <div id="main-content" class="flex-grow-1">
+
+        <header class="header header-light">
+
+            <div class="container-fluid px-4 py-3">
+
+                <div class="d-flex align-items-center justify-content-between">
+
+                    <h4 class="mb-0">
+                        Add Candidate
+                    </h4>
+
+                    <a href="{% url 'candidate_list' %}"
+                       class="btn btn-outline-secondary">
+
+                        <i class="bi bi-arrow-left"></i>
+
+                        Back to Candidates
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <div class="content-wrapper">
+
+            <div class="container-fluid px-4">
+
+                <div class="py-4">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body p-4">
+
+                            <div class="mb-4">
+
+                                <h4>
+                                    Candidate Information
+                                </h4>
+
+                                <p class="text-muted">
+                                    Enter the candidate's basic information.
+                                </p>
+
+                            </div>
+
+
+                            {% if messages %}
+
+                                {% for message in messages %}
+
+                                    <div class="alert alert-danger">
+                                        {{ message }}
+                                    </div>
+
+                                {% endfor %}
+
+                            {% endif %}
+
+
+                            <form method="POST">
+
+                                {% csrf_token %}
+
+                                <div class="row">
+
+                                    <!-- FULL NAME -->
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+
+                                            Full Name
+
+                                            <span class="text-danger">
+                                                *
+                                            </span>
+
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="full_name"
+                                            class="form-control"
+                                            placeholder="Enter full name"
+                                            required>
+
+                                    </div>
+
+
+                                    <!-- EMAIL -->
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+
+                                            Email Address
+
+                                            <span class="text-danger">
+                                                *
+                                            </span>
+
+                                        </label>
+
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            class="form-control"
+                                            placeholder="Enter email address"
+                                            required>
+
+                                    </div>
+
+
+                                    <!-- PHONE -->
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+
+                                            Phone Number
+
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            class="form-control"
+                                            placeholder="Enter phone number">
+
+                                    </div>
+
+                                </div>
+
+
+                                <hr class="my-4">
+
+
+                                <div class="d-flex justify-content-end gap-2">
+
+                                    <a href="{% url 'candidate_list' %}"
+                                       class="btn btn-light">
+
+                                        Cancel
+
+                                    </a>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary">
+
+                                        <i class="bi bi-person-plus me-1"></i>
+
+                                        Add Candidate
+
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="{% static 'core/assets/js/bundle.js' %}"></script>
+
+<script src="{% static 'core/assets/js/scripts.js' %}"></script>
+
+</body>
+
+</html>

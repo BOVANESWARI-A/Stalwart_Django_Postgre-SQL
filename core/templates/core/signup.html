@@ -1,0 +1,173 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stalwart Business Solutions</title>
+<!-- favicons-->
+<link rel="icon" href="{% static "core/assets/images/favicon.png" %}" type="image/x-icon">
+<!-- favicons-->
+<!-- css -->
+<link type="text/css" href="{% static "core/assets/css/master.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "core/assets/css/style.css" %}" rel="stylesheet">
+<!-- css -->
+<!--[if lt IE 9]>
+<script src="{% static "core/assets/js/html5shiv.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/css3-mediaqueries.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/respond.min.js" %}" type="text/javascript" defer></script>
+<![endif]-->
+</head>
+<body>
+<main>
+  <div class="container">
+    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xxl-7 col-xxl-7 col-lg-7 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div class="d-flex justify-content-center py-4"> <a href="javascript:void(0)" class="text-center"> <img src="{% static "core/assets/images/logo.png" %}" alt="Stalwart Business Solutions" width="200"> </a> </div>
+            <div class="card card-box">
+              <div class="card-body p-5">
+                <div class="mb-4">
+                  <p class="text-large font-weight-700 text-center mb-1">Create an One</p>
+                  <p class="text-extra-small font-weight-400 text-center text-muted">Enter your personal details to create account.</p>
+                </div>
+                <form method="POST">
+
+    {% csrf_token %}
+
+    <input type="hidden"
+           name="next"
+           value="{{ next }}">
+                  <div class="row">
+                    {% if messages %}
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      {% for message in messages %}
+                      <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} mb-0" role="alert">{{ message }}</div>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      <div class="row">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                          <div class="bg-silver p-3 rounded border">
+                            <p class="text-extra-small text-muted font-weight-500 text-center mb-0">Choose Your Role</p>
+                          </div>
+                        </div>
+                        <!-- Job Seeker -->
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                          <label class="radio-card">
+                          <input type="radio" name="userRole" value="jobSeeker">
+                          <div class="radio-content">
+                            <div class="radio-icon"><div><img src="{% static "core/assets/images/jobseeker.png" %}" alt="Stalwart Business Solutions" width="60"></div></div>
+                            <div class="radio-label">Job Seeker</div>
+                          </div>
+                          </label>
+                        </div>
+                        <!-- Employer -->
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                          <label class="radio-card">
+                          <input type="radio" name="userRole" value="employer">
+                          <div class="radio-content">
+                            <div class="radio-icon"><div><img src="{% static "core/assets/images/employer.png" %}" alt="Stalwart Business Solutions" width="60"></div></div>
+                            <div class="radio-label">Employer</div>
+                          </div>
+                          </label>
+                        </div>
+                        <!-- Agency -->
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                          <label class="radio-card">
+                          <input type="radio" name="userRole" value="agency">
+                          <div class="radio-content">
+                            <div class="radio-icon"><div><img src="{% static "core/assets/images/agency.png" %}" alt="Stalwart Business Solutions" width="60"></div></div>
+                            <div class="radio-label">Agency</div>
+                          </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3" id="application-type-wrap" style="display:none;">
+                      <label for="application_type" class="form-label mb-0"><sup class="text-danger">*</sup>Company Application</label>
+                      <select class="form-select" id="application_type" name="application_type">
+                        <option value="">Please Select</option>
+                        <option value="macro_kiosk">Macro Kiosk</option>
+                        <option value="insitemy">InsiteMy</option>
+                      </select>
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      <label for="name" class="form-label mb-0"><sup class="text-danger">*</sup>Your Name</label>
+                      <input type="text" class="form-control" id="address" name="address" placeholder="Your Name">
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      <label for="email" class="form-label mb-0"><sup class="text-danger">*</sup>Email Address</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      <div class="bg-silver border rounded p-4">
+                        <p class="text-extra-small font-weight-400">Your password should be at least 8-12 characters long and include a mix of uppercase and lowercase letters, numbers, and special symbols.</p>
+                      </div>
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      <label for="pass" class="form-label mb-0"><sup class="text-danger">*</sup>Password</label>
+                      <input type="password" class="form-control" id="pass" name="pass" placeholder="Password">
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      <label for="cpass" class="form-label mb-0"><sup class="text-danger">*</sup>Confirm Password</label>
+                      <input type="password" class="form-control" id="cpass" name="cpass" placeholder="Confirm Password">
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="accept" value="true" id="accept">
+                        <label class="form-check-label" for="accept">I agree and accept the terms and conditions</label>
+                      </div>
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                      <button class="brand-button w-100" type="submit">
+    Create Account
+</button>
+                    </div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                      <div class="text-center">
+                        <p class="text-small font-weight-500 mb-0 lh-1">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="auth-footer">
+              <p class="text-extra-small font-weight-400 text-dark-90"> &copy; <span id="current-year"></span> Stalwart Business Solutions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<!-- js --> 
+<script src="{% static "core/assets/js/bundle.js" %}" type="text/javascript"></script> 
+<script src="{% static "core/assets/js/scripts.js" %}" type="text/javascript"></script> 
+<!-- js -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const wrap = document.getElementById("application-type-wrap");
+  const select = document.getElementById("application_type");
+  const roles = document.querySelectorAll('input[name="userRole"]');
+  const invited = {% if invitation %}true{% else %}false{% endif %};
+
+  function syncCompanySelector() {
+    const selected = document.querySelector('input[name="userRole"]:checked');
+    const show = !invited && selected && selected.value === "employer";
+    if (wrap) wrap.style.display = show ? "" : "none";
+    if (select) select.required = !!show;
+    if (!show && select) select.value = "";
+  }
+
+  roles.forEach(function (radio) {
+    radio.addEventListener("change", syncCompanySelector);
+  });
+  syncCompanySelector();
+});
+</script>
+</body>
+</html>

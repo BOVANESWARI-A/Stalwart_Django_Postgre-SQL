@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Application Invitation - Stalwart Business Solutions</title>
+
+    <link rel="stylesheet"
+          href="{% static 'core/assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'core/assets/icons/bootstrap-icons/bootstrap-icons.css' %}">
+</head>
+
+<body>
+
+<div class="container d-flex justify-content-center align-items-center"
+     style="min-height:100vh;">
+
+    <div class="card shadow-sm"
+         style="max-width:600px; width:100%;">
+
+        <div class="card-body p-5 text-center">
+
+            <img src="{% static 'core/assets/images/logo-light.png' %}"
+                 alt="Stalwart Business Solutions"
+                 width="180"
+                 class="mb-4">
+
+            <h3 class="mb-3">
+                Application Invitation
+            </h3>
+
+            <p class="text-muted mb-4">
+                You have been invited to complete your
+                <strong>{{ company }}</strong>
+                job application.
+            </p>
+
+            <p class="mb-4">
+                Please login if you already have an account.
+                If you are a new candidate, create an account to continue.
+            </p>
+
+            <div class="d-flex justify-content-center gap-3">
+
+              <a href="{% url 'login' %}?next={{ next|urlencode }}"
+   class="btn btn-primary px-4">
+
+                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                    Login
+
+                </a>
+
+                <a href="{% url 'signup' %}?next={{ next|urlencode }}"
+   class="btn btn-outline-primary px-4">
+
+                    <i class="bi bi-person-plus me-1"></i>
+                    Register
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

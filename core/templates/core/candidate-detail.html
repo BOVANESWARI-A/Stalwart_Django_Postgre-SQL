@@ -1,0 +1,48 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Candidate Details | Stalwart Business Solutions</title>
+<link rel="icon" href="{% static 'core/assets/images/favicon.png' %}" type="image/x-icon">
+<link href="{% static 'core/assets/css/master.css' %}" rel="stylesheet">
+<link href="{% static 'core/assets/css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="wrapper">
+  {% include "core/sidebar.html" %}
+<div id="content">
+    <div class="container-fluid py-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div><h3 class="mb-1">Candidate Details</h3><p class="text-muted mb-0">Candidate information stored in PostgreSQL.</p></div>
+        <a href="{% url 'candidate_list' %}" class="btn btn-outline-primary">Back to Candidates</a>
+      </div>
+      <div class="card shadow-sm border-0 mb-4"><div class="card-body">
+        <div class="row g-4">
+          <div class="col-md-6"><small class="text-muted">Full Name</small><div class="fw-semibold">{{ candidate.full_name|default:"—" }}</div></div>
+          <div class="col-md-6"><small class="text-muted">Email</small><div class="fw-semibold">{{ candidate.email }}</div></div>
+          <div class="col-md-6"><small class="text-muted">Phone</small><div>{{ candidate.phone|default:"—" }}</div></div>
+          <div class="col-md-6"><small class="text-muted">Created</small><div>{{ candidate.created_at|date:"d M Y, h:i A" }}</div></div>
+        </div>
+      </div></div>
+      <div class="card shadow-sm border-0"><div class="card-body">
+        <h5 class="mb-3">Applications</h5>
+        {% if candidate.applications.all %}
+        <div class="table-responsive"><table class="table align-middle">
+          <thead><tr><th>Company</th><th>Status</th><th>Created</th><th>Submitted</th></tr></thead>
+          <tbody>
+          {% for application in candidate.applications.all %}
+            <tr><td>{{ application.company }}</td><td>{{ application.get_status_display }}</td><td>{{ application.created_at|date:"d M Y" }}</td><td>{{ application.submitted_at|date:"d M Y"|default:"—" }}</td></tr>
+          {% empty %}<tr><td colspan="4" class="text-muted">No applications found.</td></tr>{% endfor %}
+          </tbody>
+        </table></div>
+        {% endif %}
+      </div></div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'core/assets/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'core/assets/js/scripts.js' %}"></script>
+</body>
+</html>

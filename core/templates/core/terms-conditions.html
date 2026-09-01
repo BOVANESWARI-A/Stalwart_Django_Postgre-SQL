@@ -1,0 +1,258 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stalwart Business Solutions</title>
+<!-- favicons-->
+<link rel="icon" href="{% static "core/assets/images/favicon.png" %}" type="image/x-icon">
+<!-- favicons-->
+<!-- css -->
+<link type="text/css" href="{% static "core/assets/css/master.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "core/assets/css/style.css" %}" rel="stylesheet">
+<!-- css -->
+<!--[if lt IE 9]>
+<script src="{% static "core/assets/js/html5shiv.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/css3-mediaqueries.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/respond.min.js" %}" type="text/javascript" defer></script>
+<![endif]-->
+</head>
+<body>
+<div class="wrapper"> 
+  <!-- Sidebar -->
+  {% include "core/sidebar.html" %} 
+  <!-- Main -->
+  <div id="main-content" class="flex-grow-1"> 
+    <!-- Header -->
+    <header class="header header-light">
+      <div class="container-fluid px-4 py-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <div> <a href="javascript:void(0)" class="toggle-sidebar-btn" onClick="toggleSidebar()"> <i class="bi bi-list toggle-sidebar-btn"></i> </a> </div>
+         <!--profile--> 
+          <!-- PROFILE -->
+
+                    <div>
+
+                        <nav class="header-nav ms-auto">
+
+                            <ul class="d-flex align-items-center">
+
+                                <li class="nav-item dropdown">
+
+
+                                    <a class="nav-link nav-profile d-flex align-items-center pe-0"
+                                       href="javascript:void(0)"
+                                       data-bs-toggle="dropdown">
+
+
+                                        <img
+                                            src="{% static 'core/assets/images/profile.png' %}"
+                                            alt="Profile"
+                                            class="rounded-circle">
+
+
+                                        <span class="d-none d-md-block dropdown-toggle ps-2">
+
+                                            {{ request.user.first_name|default:request.user.username }}
+
+                                        </span>
+
+
+                                    </a>
+
+
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+
+                                        <li class="dropdown-header border-bottom">
+
+                                            <p class="text-extra-small text-dark font-weight-500">
+
+                                                {{ request.user.get_full_name|default:request.user.username }}
+
+                                            </p>
+
+                                            <small>
+
+                                                {{ request.user.email }}
+
+                                            </small>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'myprofile' %}">
+
+                                                <i class="bi bi-person"></i>
+
+                                                <span>My Profile</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'security' %}">
+
+                                                <i class="bi bi-lock"></i>
+
+                                                <span>Security</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li>
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'logout' %}">
+
+                                                <i class="bi bi-box-arrow-right"></i>
+
+                                                <span>Sign Out</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+
+                        </nav>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </header>
+
+    <!-- Header --> 
+    <!-- Content Body -->
+    <div class="content-wrapper">
+      <div class="container-fluid px-4">
+        <div class="py-4">
+          <section class="page-container"> 
+            <!-- Title -->
+            <div class="pagetitle pt-2 mb-3">
+              <p class="text-medium font-weight-500">Terms and Conditions</p>
+            </div>
+            <!-- center body -->
+            <div class="content-section">
+              <div class="row">
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header border-bottom">
+                      <p class="text-medium font-weight-600">Terms and Conditions</p>
+                      <p class="text-extra-small font-weight-400 text-muted">By using our staffing services, you agree to comply with our terms and conditions, including the guidelines for data protection, service limitations, and the responsibilities of both employers and job seekers.</p>
+                    </div>
+                    <div class="card-body p-4">
+                      <div class="row">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                          <p class="text-small font-weight-600">Introduction</p>
+                          <p class="text-extra-small font-weight-400 mb-4">Welcome to Stalwart Business Solutions. These Terms and Conditions govern your use of our staffing and recruitment services, either as a job seeker or an employer. By accessing or using our services, you agree to comply with these terms. If you do not agree with any part of these Terms, you should refrain from using our services.</p>
+                          <p class="text-small font-weight-600">Services Provided</p>
+                          <p class="text-extra-small font-weight-400 mb-4">Stalwart Business Solutions offers recruitment and staffing solutions, matching job seekers with employers. We reserve the right to modify, suspend, or terminate our services at any time without prior notice.</p>
+                          <p class="text-small font-weight-600">User Responsibilities</p>
+                          <ul class="text-extra-small font-weight-400 mb-2">
+                            <li><span class="font-weight-600">For Job Seekers:</span> You agree that all information provided in your application (such as resume, qualifications, and work history) is accurate and truthful.</li>
+                            <li><span class="font-weight-600">For Employers:</span> You agree to provide clear and legal job descriptions, terms of employment, and comply with all relevant labor laws.</li>
+                          </ul>
+                          <p class="text-extra-small font-weight-400 mb-4">Users are responsible for maintaining the confidentiality of their account information.</p>
+                          <p class="text-small font-weight-600">Data Protection</p>
+                          <p class="text-extra-small font-weight-400 mb-4">We collect and process personal data in compliance with Malaysia’s Personal Data Protection Act (PDPA). For more details, refer to our Privacy Policy.</p>
+                          <p class="text-small font-weight-600">Liability</p>
+                          <p class="text-extra-small font-weight-400 mb-4">While we strive to provide accurate job matches, Stalwart Business Solutions is not liable for any disputes, losses, or damages arising from the employment relationship between employers and job seekers.</p>
+                          <p class="text-small font-weight-600">Termination</p>
+                          <p class="text-extra-small font-weight-400 mb-4">We reserve the right to terminate any account or service for breach of these Terms and Conditions or if illegal activity is suspected.</p>
+                          <p class="text-small font-weight-600">Governing Law</p>
+                          <p class="text-extra-small font-weight-400 mb-4">These Terms and Conditions are governed by the laws of Malaysia. Any disputes arising will be subject to the exclusive jurisdiction of the Malaysian courts.</p>
+                          <p class="text-small font-weight-600"> Changes to Terms</p>
+                          <p class="text-extra-small font-weight-400 mb-4">Stalwart Business Solutions may update these Terms and Conditions from time to time. Changes will be posted on our website, and continued use of the services constitutes acceptance of the revised terms.</p>
+                          <p class="text-small font-weight-600">Contact Us</p>
+                          <p class="text-extra-small font-weight-400 mb-0">For any questions regarding these Terms and Conditions, please contact us at: <span class="text-decoration-underline">hello@stalwart.asia</span>.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- center body --> 
+            
+            <!-- Footer -->
+            <footer id="footer" class="footer">
+              <div class="container-fluid px-4">
+                <div class="row">
+                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div>
+                        <p class="text-extra-small font-weight-400"> &copy; <span id="current-year"></span> Stalwart Business Solutions.</p>
+                      </div>
+                      <div>
+                        <p class="text-extra-small font-weight-400 backtotop" id="toTop">To top
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                          </svg>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- Footer --> 
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Main --> 
+<!-- logout -->
+<div class="custom-modal">
+  <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="logoutModalLabel">Confirm</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+              <div class="py-3">
+                <p class="text-small font-weight-400">Are you sure you want to log out?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="brand-button me-1" data-bs-dismiss="modal">Stay Connected</button>
+          <form method="post" action="{% url 'logout' %}" style="display:inline;">{% csrf_token %}<button type="submit" class="brand-button-alt">Logout</button></form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- logout --> 
+<!-- js --> 
+<script src="{% static "core/assets/js/bundle.js" %}" type="text/javascript"></script> 
+<script src="{% static "core/assets/js/scripts.js" %}" type="text/javascript"></script> 
+<!-- js -->
+</body>
+</html>

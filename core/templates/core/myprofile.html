@@ -1,0 +1,3344 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stalwart Business Solutions</title>
+<!-- favicons-->
+<link rel="icon" href="{% static "core/assets/images/favicon.png" %}" type="image/x-icon">
+<!-- favicons-->
+<!-- css -->
+<link type="text/css" href="{% static "core/assets/css/master.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "core/assets/css/style.css" %}" rel="stylesheet">
+<!-- css -->
+<!--[if lt IE 9]>
+<script src="{% static "core/assets/js/html5shiv.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/css3-mediaqueries.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/respond.min.js" %}" type="text/javascript" defer></script>
+<![endif]-->
+</head>
+<body>
+<div class="wrapper"> 
+  <!-- Sidebar -->
+  {% include "core/sidebar.html" %} 
+  <!-- Main -->
+  <div id="main-content" class="flex-grow-1"> 
+    <!-- Header -->
+    <header class="header header-light">
+      <div class="container-fluid px-4 py-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <div> <a href="javascript:void(0)" class="toggle-sidebar-btn" onClick="toggleSidebar()"> <i class="bi bi-list toggle-sidebar-btn"></i> </a> </div>
+          <div>
+            <nav class="header-nav ms-auto">
+              <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown"> <a class="nav-link nav-profile d-flex align-items-center pe-0" href="javascript:void(0)" data-bs-toggle="dropdown"><img src="{% static "core/assets/images/profile.png" %}" alt="Stalwart Business Solutions" class="rounded-circle"> <span class="d-none d-md-block dropdown-toggle ps-2">{{ request.user.first_name|default:request.user.username }}</span> </a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header border-bottom">
+                      <p class="text-extra-small text-dark font-weight-500">{{ request.user.get_full_name|default:request.user.username }}</p>
+                      <small>{{ request.user.email }}</small> </li>
+                    <li class="border-bottom"> <a class="dropdown-item d-flex align-items-center" href="{% url 'myprofile' %}"> <i class="bi bi-person"></i> <span>My Profile</span> </a> </li>
+                   <li class="border-bottom"> <a class="dropdown-item d-flex align-items-center" href="{% url 'security' %}"> <i class="bi bi-lock"></i> <span>Security</span> </a> </li>
+                    <li> <a class="dropdown-item d-flex align-items-center" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#logoutModal"> <i class="bi bi-box-arrow-right"></i> <span>Sign Out</span> </a> </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Header --> 
+    <!-- Content Body -->
+    <div class="content-wrapper">
+      <div class="container-fluid px-4">
+        <div class="py-4">
+          <section class="page-container"> 
+            <!-- Title -->
+            <div class="pagetitle pt-2 mb-3">
+              <p class="text-medium font-weight-500">My Profile</p>
+              <p class="text-extra-small font-weight-400 text-muted">View and update your personal details, contact information, and account settings. Ensure your profile is accurate and up to date for a smooth experience.</p>
+            </div>
+            <!-- progress bar -->
+            <div class="MyProgress mb-4">
+              <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar bg-green" style="width: 45%"></div>
+              </div>
+            </div>
+            <!-- center body -->
+            <div class="content-section">
+              <div class="row">
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Your Information</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-1" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+                        <div class="row">
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <div class="profile-pic">
+                                <label class="-label" for="file"> <i class="bi bi-camera"></i> <span>Change</span> </label>
+                                <input id="file" name="profile_photo" type="file" accept=".jpg,.jpeg,.png,.webp" onChange="loadFile(event)"/>
+                                <img src="{% if profile.profile_photo %}{{ profile.profile_photo.url }}{% else %}{% static "core/assets/images/profile.png" %}{% endif %}" id="output" width="80" /> </div>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="fname" class="form-label mb-0"><sup class="text-danger">*</sup>First Name</label>
+                              <input type="text" class="form-control" id="inputField1" name="fname" placeholder="First Name" value="{{ request.user.first_name|default:'' }}" disabled>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="mname" class="form-label mb-0"><sup class="text-danger">*</sup>Middle Name</label>
+                              <input type="text"
+       class="form-control"
+       id="inputField2"
+       name="mname"
+       placeholder="Middle Name"
+       value="{{ profile.middle_name|default:'' }}"
+       disabled>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="lname" class="form-label mb-0"><sup class="text-danger">*</sup>Last Name</label>
+                              <input type="text" class="form-control" id="inputField3" name="lname" placeholder="Last Name" value="{{ request.user.last_name|default:'' }}" disabled>
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="email" class="form-label mb-0"><sup class="text-danger">*</sup>Email Address </label>
+                              <input type="email" class="form-control" id="inputField4" name="email" placeholder="Email Address" value="{{ request.user.email }}" disabled>
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="phone" class="form-label mb-0"><sup class="text-danger">*</sup>Phone Number </label>
+                              <input type="tel" class="form-control" id="inputField5" name="phone" placeholder="Phone Number" value="{{ profile.phone|default:'' }}" >
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Applying for the position</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-2" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                            <div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_1">
+                                <label class="form-check-label" for="flexCheckDefault"> Analyst Programmer (Java / .Net) </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_2">
+                                <label class="form-check-label" for="flexCheckDefault"> Product / Project Manager </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_3">
+                                <label class="form-check-label" for="flexCheckDefault"> Business Manager / Sales / Marketing </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_4">
+                                <label class="form-check-label" for="flexCheckDefault">Finance / HR / Admin </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_5">
+                                <label class="form-check-label" for="flexCheckDefault"> RPA Developer </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_6">
+                                <label class="form-check-label" for="flexCheckDefault"> Consultant </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_7">
+                                <label class="form-check-label" for="flexCheckDefault">Designer </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_8">
+                                <label class="form-check-label" for="flexCheckDefault">Others </label>
+                              </div>
+                              <div class="pt-2">
+                                <input type="text" class="form-control" id="others" name="others" placeholder="Others">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Personal Information</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-3" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="passportnumber" class="form-label mb-0"><sup class="text-danger">*</sup>NRIC/Passport No</label>
+                              <input type="text" class="form-control" id="passportnumber" name="passportnumber" placeholder="XXXXXX-XX-XXXX">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="nationality" class="form-label mb-0"><sup class="text-danger">*</sup>Nationality </label>
+                              <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nationality">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="dob" class="form-label mb-0"><sup class="text-danger">*</sup>Date of Birth </label>
+                              <input type="date" class="form-control" id="dob" name="dob" placeholder="Date of Birth">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="age" class="form-label mb-0"><sup class="text-danger">*</sup>Age </label>
+                              <input type="text" class="form-control" id="age" name="age" placeholder="Age">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="gender" class="form-label mb-0"><sup class="text-danger">*</sup>Gender </label>
+                              <select class="form-select" aria-label="gender" name="gender">
+                                <option selected>Please Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="marital" class="form-label mb-0"><sup class="text-danger">*</sup>Marital Status </label>
+                              <select class="form-select" aria-label="marital" name="marital">
+                                <option selected>Please Select</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widow">Widow</option>
+                                <option value="Divorsed">Divorsed</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Family Information</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-4" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="father" class="form-label mb-0"><sup class="text-danger">*</sup>Father</label>
+                              <input type="text" class="form-control" id="father" name="father" placeholder="Father">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="mother" class="form-label mb-0"><sup class="text-danger">*</sup>Mother</label>
+                              <input type="text" class="form-control" id="mother" name="mother" placeholder="Mother">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="spouse" class="form-label mb-0"><sup class="text-danger">*</sup>Spouse</label>
+                              <input type="text" class="form-control" id="spouse" name="spouse" placeholder="Spouse">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="children" class="form-label mb-0"><sup class="text-danger">*</sup>Children</label>
+                              <input type="text" class="form-control" id="children" name="children" placeholder="Children">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="brothers" class="form-label mb-0"><sup class="text-danger">*</sup>Brothers</label>
+                              <input type="text" class="form-control" id="brothers" name="brothers" placeholder="Brothers">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="sisters" class="form-label mb-0"><sup class="text-danger">*</sup>Sisters</label>
+                              <input type="text" class="form-control" id="sisters" name="sisters" placeholder="Sisters">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Address Information</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-5" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_9">
+                                <label class="form-check-label" for="flexCheckDefault"> I live in my own house </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_10">
+                                <label class="form-check-label" for="flexCheckDefault"> With Parents</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_11">
+                                <label class="form-check-label" for="flexCheckDefault"> Rented Home</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_12">
+                                <label class="form-check-label" for="flexCheckDefault">Others </label>
+                              </div>
+                              <div class="pt-2">
+                                <input type="text" class="form-control" id="others" name="others" placeholder="Others">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div class="bg-light rounded p-2">
+                              <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Residential Address</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="address" class="form-label mb-0"><sup class="text-danger">*</sup>Address</label>
+                              <input type="text" class="form-control" id="address" name="address" placeholder="Address">
+                            </div>
+                          </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="city" class="form-label mb-0"><sup class="text-danger">*</sup>City</label>
+                              <input type="text" class="form-control" id="city" name="city" placeholder="City">
+                            </div>
+                          </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="state" class="form-label mb-0"><sup class="text-danger">*</sup>State</label>
+                              <input type="text" class="form-control" id="state" name="state" placeholder="State">
+                            </div>
+                          </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="country" class="form-label mb-0"><sup class="text-danger">*</sup>Country</label>
+                              <input type="text" class="form-control" id="country" name="country" placeholder="Country">
+                            </div>
+                          </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="pincode" class="form-label mb-0"><sup class="text-danger">*</sup>Pincode</label>
+                              <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode">
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div class="bg-light rounded p-2">
+                              <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Permanent Address</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_13">
+                              <label class="form-check-label" for="flexCheckDefault">Same as above </label>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="address" class="form-label mb-0"><sup class="text-danger">*</sup>Address</label>
+                              <input type="text" class="form-control" id="address" name="address" placeholder="Address">
+                            </div>
+                          </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="city" class="form-label mb-0"><sup class="text-danger">*</sup>City</label>
+                              <input type="text" class="form-control" id="city" name="city" placeholder="City">
+                            </div>
+                          </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="state" class="form-label mb-0"><sup class="text-danger">*</sup>State</label>
+                              <input type="text" class="form-control" id="state" name="state" placeholder="State">
+                            </div>
+                          </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="country" class="form-label mb-0"><sup class="text-danger">*</sup>Country</label>
+                              <input type="text" class="form-control" id="country" name="country" placeholder="Country">
+                            </div>
+                          </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="pincode" class="form-label mb-0"><sup class="text-danger">*</sup>Pincode</label>
+                              <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Personal Health Metrics</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-6" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="height" class="form-label mb-0"><sup class="text-danger">*</sup>Height (CMS)</label>
+                              <input type="text" class="form-control" id="height" name="height" placeholder="Height">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="weight" class="form-label mb-0"><sup class="text-danger">*</sup>Weight (KG)</label>
+                              <input type="text" class="form-control" id="weight" name="weight" placeholder="Weight">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="bms" class="form-label mb-0"><sup class="text-danger">*</sup>BMS (Body Mass Index)</label>
+                              <input type="text" class="form-control" id="bms" name="bms" placeholder="BMS (Body Mass Index)">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Employment Expectations</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-7" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="travel" class="form-label mb-0"><sup class="text-danger">*</sup>Willing to Travel</label>
+                              <select class="form-select" aria-label="travel" name="travel">
+                                <option selected>Please Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="travel" class="form-label mb-0"><sup class="text-danger">*</sup>Willing to Relocates</label>
+                              <select class="form-select" aria-label="travel" name="travel">
+                                <option selected>Please Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="travel" class="form-label mb-0"><sup class="text-danger">*</sup>Possess Own Transport</label>
+                              <select class="form-select" aria-label="travel" name="travel">
+                                <option selected>Please Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="lastsalary" class="form-label mb-0"><sup class="text-danger">*</sup>Last Drawn Salary (RM)</label>
+                              <input type="text" class="form-control" id="lastsalary" name="lastsalary" placeholder="Last Drawn Salary">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="expectedsalary" class="form-label mb-0"><sup class="text-danger">*</sup>Expected Salary (RM)</label>
+                              <input type="text" class="form-control" id="expectedsalary" name="expectedsalary" placeholder="Expected Salary">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="notice" class="form-label mb-0"><sup class="text-danger">*</sup>Notice Period / Availability </label>
+                              <select class="form-select" aria-label="notice" name="notice">
+                                <option selected>Please Select</option>
+                                <option value="Immediate">Immediate</option>
+                                <option value="15 Days">15 Days</option>
+                                <option value="1 Month">1 Month</option>
+                                <option value="2 Months">2 Months</option>
+                                <option value="3 Months">3 Months</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Employment History</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-8" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Add Employment</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="bg-silver p-4 rounded mb-3">
+                        <div class="row">
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
+                              <p class="text-extra-small font-weight-600 text-muted">10/01/2023</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
+                              <p class="text-extra-small font-weight-600 text-muted">10/01/2024</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
+                              <p class="text-extra-small font-weight-600 text-muted">TCS</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Kuala Ketil</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
+                              <p class="text-extra-small font-weight-600 text-muted">3000RM</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
+                              <p class="text-extra-small font-weight-600 text-muted">3100RM</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Due to distance not able to travel 50 kms daily</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Here am a full stack developer of web design and web development</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button" class="text-extra-small font-weight-600 text-decoration-underline text-danger" id="deleteBtn">Delete</a></div>
+                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-8" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        </div>
+                      </div>
+                      <div class="bg-silver p-4 rounded mb-3">
+                        <div class="row">
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
+                              <p class="text-extra-small font-weight-600 text-muted">10/01/2023</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
+                              <p class="text-extra-small font-weight-600 text-muted">10/01/2024</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
+                              <p class="text-extra-small font-weight-600 text-muted">TCS</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Kuala Ketil</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
+                              <p class="text-extra-small font-weight-600 text-muted">3000RM</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
+                              <p class="text-extra-small font-weight-600 text-muted">3100RM</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Due to distance not able to travel 50 kms daily</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Here am a full stack developer of web design and web development</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button" class="text-extra-small font-weight-600 text-decoration-underline text-danger" id="deleteBtn">Delete</a></div>
+                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-8" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Education History</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-9" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Add Education</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="bg-silver p-4 rounded mb-3">
+                        <div class="row">
+                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
+                              <p class="text-extra-small font-weight-600 text-muted">National University of Malaysia</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Kelantan</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p>
+                              <p class="text-extra-small font-weight-600 text-muted">2020</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p>
+                              <p class="text-extra-small font-weight-600 text-muted">2023</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Bachelor of Commerce</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button" class="text-extra-small font-weight-600 text-decoration-underline text-danger" id="deleteBtn">Delete</a></div>
+                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-9" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        </div>
+                      </div>
+                      <div class="bg-silver p-4 rounded mb-3">
+                        <div class="row">
+                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
+                              <p class="text-extra-small font-weight-600 text-muted">National University of Malaysia</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Kelantan</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p>
+                              <p class="text-extra-small font-weight-600 text-muted">2020</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p>
+                              <p class="text-extra-small font-weight-600 text-muted">2023</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                            <div>
+                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
+                              <p class="text-extra-small font-weight-600 text-muted">Bachelor of Commerce</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button" class="text-extra-small font-weight-600 text-decoration-underline text-danger" id="deleteBtn">Delete</a></div>
+                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-9" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Language / Dialect</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <table class="table table-borderless table-hover table-striped mb-0">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Language / Dialect</th>
+                                    <th scope="col">Speak</th>
+                                    <th scope="col">Read</th>
+                                    <th scope="col">Write</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">English</th>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Malay</th>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Mandarin</th>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Tamil</th>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row"> <input type="text" class="form-control form-control-sm" id="others" name="others" placeholder="Others"></th>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row"> <input type="text" class="form-control form-control-sm" id="others" name="others" placeholder="Others"></th>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                            <div>
+                              <button type="button" class="brand-button" id="editBtn">Update</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">Activities / Interest / Hobbies</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-10" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="height" class="form-label mb-0"><sup class="text-danger">*</sup>Activities / Interest / Hobbies</label>
+                              <input type="text" class="form-control" id="height" name="height" placeholder="Activities / Interest / Hobbies">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-extra-small font-weight-500">References Details</p>
+                        </div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-11" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div class="bg-light rounded p-2">
+                              <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Reference 1</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1name" class="form-label mb-0"><sup class="text-danger">*</sup>Name</label>
+                              <input type="text" class="form-control" id="ref1name" name="ref1name" placeholder="Name">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1pos" class="form-label mb-0"><sup class="text-danger">*</sup>Position</label>
+                              <input type="text" class="form-control" id="ref1pos" name="ref1pos" placeholder="Position">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1com" class="form-label mb-0"><sup class="text-danger">*</sup>Company</label>
+                              <input type="text" class="form-control" id="ref1com" name="ref1com" placeholder="Company">
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1email" class="form-label mb-0"><sup class="text-danger">*</sup>Email Address</label>
+                              <input type="email" class="form-control" id="ref1email" name="ref1email" placeholder="Email Address">
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1phn" class="form-label mb-0"><sup class="text-danger">*</sup>Phone Number</label>
+                              <input type="tel" class="form-control" id="ref1phn" name="ref1phn" placeholder="Phone Number">
+                            </div>
+                          </div>
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div class="bg-light rounded p-2">
+                              <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Reference 2</p>
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1name" class="form-label mb-0"><sup class="text-danger">*</sup>Name</label>
+                              <input type="text" class="form-control" id="ref1name" name="ref1name" placeholder="Name">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1pos" class="form-label mb-0"><sup class="text-danger">*</sup>Position</label>
+                              <input type="text" class="form-control" id="ref1pos" name="ref1pos" placeholder="Position">
+                            </div>
+                          </div>
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1com" class="form-label mb-0"><sup class="text-danger">*</sup>Company</label>
+                              <input type="text" class="form-control" id="ref1com" name="ref1com" placeholder="Company">
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1email" class="form-label mb-0"><sup class="text-danger">*</sup>Email Address</label>
+                              <input type="email" class="form-control" id="ref1email" name="ref1email" placeholder="Email Address">
+                            </div>
+                          </div>
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                            <div>
+                              <label for="ref1phn" class="form-label mb-0"><sup class="text-danger">*</sup>Phone Number</label>
+                              <input type="tel" class="form-control" id="ref1phn" name="ref1phn" placeholder="Phone Number">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- center body --> 
+            <!-- Footer -->
+            <footer id="footer" class="footer">
+              <div class="container-fluid px-4">
+                <div class="row">
+                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div>
+                        <p class="text-extra-small font-weight-400"> &copy; <span id="current-year"></span> Stalwart Business Solutions.</p>
+                      </div>
+                      <div>
+                        <p class="text-extra-small font-weight-400 backtotop" id="toTop">To top <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                          </svg> </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- Footer --> 
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Main --> 
+<!-- Modal -->
+<!-- ============================================================
+     PROFILE MODALS
+============================================================ -->
+
+<!-- ============================================================
+     MODIFY 1 - YOUR INFORMATION
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-1"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel1"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modifyModalLabel1">
+                            Your Information
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- First Name -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <div>
+                                    <label for="fname" class="form-label mb-0">
+                                        <sup class="text-danger">*</sup>
+                                        First Name
+                                    </label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="fname"
+                                           name="fname"
+                                           placeholder="First Name"
+                                           value="{{ request.user.first_name|default:'' }}">
+                                </div>
+                            </div>
+
+                            <!-- Middle Name -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <div>
+                                    <label for="mname" class="form-label mb-0">
+                                        Middle Name
+                                    </label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="mname"
+                                           name="mname"
+                                           placeholder="Middle Name"
+                                           value="{{ candidate.profile_data.mname|default:'' }}">
+                                </div>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                                <div>
+                                    <label for="lname" class="form-label mb-0">
+                                        <sup class="text-danger">*</sup>
+                                        Last Name
+                                    </label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="lname"
+                                           name="lname"
+                                           placeholder="Last Name"
+                                           value="{{ request.user.last_name|default:'' }}">
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                                <div>
+                                    <label for="email" class="form-label mb-0">
+                                        <sup class="text-danger">*</sup>
+                                        Email Address
+                                    </label>
+
+                                    <input type="email"
+                                           class="form-control"
+                                           id="email"
+                                           name="email"
+                                           placeholder="Email Address"
+                                           value="{{ request.user.email|default:'' }}">
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                                <div>
+                                    <label for="phone" class="form-label mb-0">
+                                        <sup class="text-danger">*</sup>
+                                        Phone Number
+                                    </label>
+
+                                    <input type="tel"
+                                           class="form-control"
+                                           id="phone"
+                                           name="phone"
+                                           placeholder="Phone Number"
+                                           value="{{ candidate.phone|default:'' }}">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 2 - APPLYING FOR POSITION
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-2"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel2"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modifyModalLabel2">
+                            Applying for the position
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-12 mb-3">
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Analyst Programmer (Java / .Net)"
+                                           id="profile_option_14"
+                                           name="profile_option_14"
+                                           {% if candidate.profile_data.profile_option_14 %}
+                                               checked
+                                           {% endif %}>
+
+                                    <label class="form-check-label"
+                                           for="profile_option_14">
+                                        Analyst Programmer (Java / .Net)
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Product / Project Manager"
+                                           id="profile_option_15"
+                                           name="profile_option_15"
+                                           {% if candidate.profile_data.profile_option_15 %}
+                                               checked
+                                           {% endif %}>
+
+                                    <label class="form-check-label"
+                                           for="profile_option_15">
+                                        Product / Project Manager
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Business Manager / Sales / Marketing"
+                                           id="profile_option_16"
+                                           name="profile_option_16"
+                                           {% if candidate.profile_data.profile_option_16 %}
+                                               checked
+                                           {% endif %}>
+
+                                    <label class="form-check-label"
+                                           for="profile_option_16">
+                                        Business Manager / Sales / Marketing
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Finance / HR / Admin"
+                                           id="profile_option_17"
+                                           name="profile_option_17"
+                                           {% if candidate.profile_data.profile_option_17 %}
+                                               checked
+                                           {% endif %}>
+
+                                    <label class="form-check-label"
+                                           for="profile_option_17">
+                                        Finance / HR / Admin
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="RPA Developer"
+                                           id="profile_option_18"
+                                           name="profile_option_18"
+                                           {% if candidate.profile_data.profile_option_18 %}
+                                               checked
+                                           {% endif %}>
+
+                                    <label class="form-check-label"
+                                           for="profile_option_18">
+                                        RPA Developer
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Consultant"
+                                           id="profile_option_19"
+                                           name="profile_option_19"
+                                           {% if candidate.profile_data.profile_option_19 %}
+                                               checked
+                                           {% endif %}>
+
+                                    <label class="form-check-label"
+                                           for="profile_option_19">
+                                        Consultant
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Designer"
+                                           id="profile_option_20"
+                                           name="profile_option_20"
+                                           {% if candidate.profile_data.profile_option_20 %}
+                                               checked
+                                           {% endif %}>
+
+                                    <label class="form-check-label"
+                                           for="profile_option_20">
+                                        Designer
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Others"
+                                           id="profile_option_21"
+                                           name="profile_option_21"
+                                           {% if candidate.profile_data.profile_option_21 %}
+                                               checked
+                                           {% endif %}>
+
+                                    <label class="form-check-label"
+                                           for="profile_option_21">
+                                        Others
+                                    </label>
+                                </div>
+
+                                <div class="pt-2">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="position_others"
+                                           name="position_others"
+                                           placeholder="Others"
+                                           value="{{ candidate.profile_data.position_others|default:'' }}">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 3 - PERSONAL INFORMATION
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-3"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel3"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modifyModalLabel3">
+                            Personal Information
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- Passport -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+                                <label for="passportnumber" class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    NRIC/Passport No
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="passportnumber"
+                                       name="passportnumber"
+                                       placeholder="XXXXXX-XX-XXXX"
+                                       value="{{ candidate.profile_data.passportnumber|default:'' }}">
+                            </div>
+
+                            <!-- Nationality -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+                                <label for="nationality" class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Nationality
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="nationality"
+                                       name="nationality"
+                                       placeholder="Nationality"
+                                       value="{{ candidate.profile_data.nationality|default:'' }}">
+                            </div>
+
+                            <!-- DOB -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+                                <label for="dob" class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Date of Birth
+                                </label>
+
+                                <input type="date"
+                                       class="form-control"
+                                       id="dob"
+                                       name="dob"
+                                       value="{{ candidate.profile_data.dob|default:'' }}">
+                            </div>
+
+                            <!-- Age -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+                                <label for="age" class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Age
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="age"
+                                       name="age"
+                                       placeholder="Age"
+                                       value="{{ candidate.profile_data.age|default:'' }}">
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+                                <label for="gender" class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Gender
+                                </label>
+
+                                <select class="form-select"
+                                        id="gender"
+                                        name="gender">
+
+                                    <option value="">Please Select</option>
+
+                                    <option value="Male"
+                                        {% if candidate.profile_data.gender == "Male" %}selected{% endif %}>
+                                        Male
+                                    </option>
+
+                                    <option value="Female"
+                                        {% if candidate.profile_data.gender == "Female" %}selected{% endif %}>
+                                        Female
+                                    </option>
+
+                                </select>
+                            </div>
+
+                            <!-- Marital -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+                                <label for="marital" class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Marital Status
+                                </label>
+
+                                <select class="form-select"
+                                        id="marital"
+                                        name="marital">
+
+                                    <option value="">Please Select</option>
+
+                                    <option value="Single"
+                                        {% if candidate.profile_data.marital == "Single" %}selected{% endif %}>
+                                        Single
+                                    </option>
+
+                                    <option value="Married"
+                                        {% if candidate.profile_data.marital == "Married" %}selected{% endif %}>
+                                        Married
+                                    </option>
+
+                                    <option value="Widow"
+                                        {% if candidate.profile_data.marital == "Widow" %}selected{% endif %}>
+                                        Widow
+                                    </option>
+
+                                    <option value="Divorsed"
+                                        {% if candidate.profile_data.marital == "Divorsed" %}selected{% endif %}>
+                                        Divorsed
+                                    </option>
+
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 4 - FAMILY INFORMATION
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-4"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel4"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modifyModalLabel4">
+                            Family Information
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
+                                <label for="father" class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Father
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="father"
+                                       name="father"
+                                       placeholder="Father"
+                                       value="{{ candidate.profile_data.father|default:'' }}">
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
+                                <label for="mother" class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Mother
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="mother"
+                                       name="mother"
+                                       placeholder="Mother"
+                                       value="{{ candidate.profile_data.mother|default:'' }}">
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
+                                <label for="spouse" class="form-label mb-0">
+                                    Spouse
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="spouse"
+                                       name="spouse"
+                                       placeholder="Spouse"
+                                       value="{{ candidate.profile_data.spouse|default:'' }}">
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
+                                <label for="children" class="form-label mb-0">
+                                    Children
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="children"
+                                       name="children"
+                                       placeholder="Children"
+                                       value="{{ candidate.profile_data.children|default:'' }}">
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
+                                <label for="brothers" class="form-label mb-0">
+                                    Brothers
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="brothers"
+                                       name="brothers"
+                                       placeholder="Brothers"
+                                       value="{{ candidate.profile_data.brothers|default:'' }}">
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
+                                <label for="sisters" class="form-label mb-0">
+                                    Sisters
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="sisters"
+                                       name="sisters"
+                                       placeholder="Sisters"
+                                       value="{{ candidate.profile_data.sisters|default:'' }}">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 5 - ADDRESS INFORMATION
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-5"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel5"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modifyModalLabel5">
+                            Address Information
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- Residence -->
+                            <div class="col-12 mb-3">
+
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="I live in my own house"
+                                           id="house"
+                                           name="address_option_house">
+
+                                    <label class="form-check-label" for="house">
+                                        I live in my own house
+                                    </label>
+
+                                </div>
+
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="With Parents"
+                                           id="parents"
+                                           name="address_option_parents">
+
+                                    <label class="form-check-label" for="parents">
+                                        With Parents
+                                    </label>
+
+                                </div>
+
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Rented Home"
+                                           id="rented"
+                                           name="address_option_rented">
+
+                                    <label class="form-check-label" for="rented">
+                                        Rented Home
+                                    </label>
+
+                                </div>
+
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Others"
+                                           id="address_other_option"
+                                           name="address_option_other">
+
+                                    <label class="form-check-label"
+                                           for="address_other_option">
+                                        Others
+                                    </label>
+
+                                </div>
+
+                                <div class="pt-2">
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="address_others"
+                                           name="address_others"
+                                           placeholder="Others"
+                                           value="{{ candidate.profile_data.address_others|default:'' }}">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Residential Address -->
+                            <div class="col-12 mb-3">
+
+                                <div class="bg-light rounded p-2">
+                                    <p class="text-tiny text-secondary font-weight-500 mb-0">
+                                        &nbsp;&nbsp;Residential Address
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 mb-3">
+
+                                <label for="residential_address"
+                                       class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Address
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="residential_address"
+                                       name="residential_address"
+                                       placeholder="Address"
+                                       value="{{ candidate.profile_data.residential_address|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+
+                                <label for="residential_city"
+                                       class="form-label mb-0">
+                                    City
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="residential_city"
+                                       name="residential_city"
+                                       placeholder="City"
+                                       value="{{ candidate.profile_data.residential_city|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+
+                                <label for="residential_state"
+                                       class="form-label mb-0">
+                                    State
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="residential_state"
+                                       name="residential_state"
+                                       placeholder="State"
+                                       value="{{ candidate.profile_data.residential_state|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+
+                                <label for="residential_country"
+                                       class="form-label mb-0">
+                                    Country
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="residential_country"
+                                       name="residential_country"
+                                       placeholder="Country"
+                                       value="{{ candidate.profile_data.residential_country|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+
+                                <label for="residential_pincode"
+                                       class="form-label mb-0">
+                                    Pincode
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="residential_pincode"
+                                       name="residential_pincode"
+                                       placeholder="Pincode"
+                                       value="{{ candidate.profile_data.residential_pincode|default:'' }}">
+
+                            </div>
+
+
+                            <!-- Permanent -->
+                            <div class="col-12 mb-3">
+
+                                <div class="bg-light rounded p-2">
+
+                                    <p class="text-tiny text-secondary font-weight-500 mb-0">
+                                        &nbsp;&nbsp;Permanent Address
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-12 mb-3">
+
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="Same as above"
+                                           id="same_address"
+                                           name="permanent_same_as_residential">
+
+                                    <label class="form-check-label"
+                                           for="same_address">
+                                        Same as above
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-12 mb-3">
+
+                                <label for="permanent_address"
+                                       class="form-label mb-0">
+                                    <sup class="text-danger">*</sup>
+                                    Address
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="permanent_address"
+                                       name="permanent_address"
+                                       placeholder="Address"
+                                       value="{{ candidate.profile_data.permanent_address|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+
+                                <label for="permanent_city"
+                                       class="form-label mb-0">
+                                    City
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="permanent_city"
+                                       name="permanent_city"
+                                       placeholder="City"
+                                       value="{{ candidate.profile_data.permanent_city|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+
+                                <label for="permanent_state"
+                                       class="form-label mb-0">
+                                    State
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="permanent_state"
+                                       name="permanent_state"
+                                       placeholder="State"
+                                       value="{{ candidate.profile_data.permanent_state|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+
+                                <label for="permanent_country"
+                                       class="form-label mb-0">
+                                    Country
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="permanent_country"
+                                       name="permanent_country"
+                                       placeholder="Country"
+                                       value="{{ candidate.profile_data.permanent_country|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+
+                                <label for="permanent_pincode"
+                                       class="form-label mb-0">
+                                    Pincode
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="permanent_pincode"
+                                       name="permanent_pincode"
+                                       placeholder="Pincode"
+                                       value="{{ candidate.profile_data.permanent_pincode|default:'' }}">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 6 - PERSONAL HEALTH METRICS
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-6"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel6"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h1 class="modal-title fs-5"
+                            id="modifyModalLabel6">
+                            Personal Health Metrics
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="height"
+                                       class="form-label mb-0">
+                                    Height (CMS)
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="height"
+                                       name="height"
+                                       placeholder="Height"
+                                       value="{{ candidate.profile_data.height|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="weight"
+                                       class="form-label mb-0">
+                                    Weight (KG)
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="weight"
+                                       name="weight"
+                                       placeholder="Weight"
+                                       value="{{ candidate.profile_data.weight|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="bms"
+                                       class="form-label mb-0">
+                                    BMS (Body Mass Index)
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="bms"
+                                       name="bms"
+                                       placeholder="BMS (Body Mass Index)"
+                                       value="{{ candidate.profile_data.bms|default:'' }}">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 7 - EMPLOYMENT EXPECTATIONS
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-7"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel7"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h1 class="modal-title fs-5"
+                            id="modifyModalLabel7">
+                            Employment Expectations
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- Travel -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="willing_to_travel"
+                                       class="form-label mb-0">
+                                    Willing to Travel
+                                </label>
+
+                                <select class="form-select"
+                                        id="willing_to_travel"
+                                        name="willing_to_travel">
+
+                                    <option value="">Please Select</option>
+
+                                    <option value="Yes"
+                                        {% if candidate.profile_data.willing_to_travel == "Yes" %}selected{% endif %}>
+                                        Yes
+                                    </option>
+
+                                    <option value="No"
+                                        {% if candidate.profile_data.willing_to_travel == "No" %}selected{% endif %}>
+                                        No
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Relocate -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="willing_to_relocate"
+                                       class="form-label mb-0">
+                                    Willing to Relocate
+                                </label>
+
+                                <select class="form-select"
+                                        id="willing_to_relocate"
+                                        name="willing_to_relocate">
+
+                                    <option value="">Please Select</option>
+
+                                    <option value="Yes"
+                                        {% if candidate.profile_data.willing_to_relocate == "Yes" %}selected{% endif %}>
+                                        Yes
+                                    </option>
+
+                                    <option value="No"
+                                        {% if candidate.profile_data.willing_to_relocate == "No" %}selected{% endif %}>
+                                        No
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Own Transport -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="own_transport"
+                                       class="form-label mb-0">
+                                    Possess Own Transport
+                                </label>
+
+                                <select class="form-select"
+                                        id="own_transport"
+                                        name="own_transport">
+
+                                    <option value="">Please Select</option>
+
+                                    <option value="Yes"
+                                        {% if candidate.profile_data.own_transport == "Yes" %}selected{% endif %}>
+                                        Yes
+                                    </option>
+
+                                    <option value="No"
+                                        {% if candidate.profile_data.own_transport == "No" %}selected{% endif %}>
+                                        No
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Last Salary -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="lastsalary"
+                                       class="form-label mb-0">
+                                    Last Drawn Salary (RM)
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="lastsalary"
+                                       name="lastsalary"
+                                       placeholder="Last Drawn Salary"
+                                       value="{{ candidate.profile_data.lastsalary|default:'' }}">
+
+                            </div>
+
+                            <!-- Expected Salary -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="expectedsalary"
+                                       class="form-label mb-0">
+                                    Expected Salary (RM)
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="expectedsalary"
+                                       name="expectedsalary"
+                                       placeholder="Expected Salary"
+                                       value="{{ candidate.profile_data.expectedsalary|default:'' }}">
+
+                            </div>
+
+                            <!-- Notice -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="notice"
+                                       class="form-label mb-0">
+                                    Notice Period / Availability
+                                </label>
+
+                                <select class="form-select"
+                                        id="notice"
+                                        name="notice">
+
+                                    <option value="">Please Select</option>
+
+                                    <option value="Immediate"
+                                        {% if candidate.profile_data.notice == "Immediate" %}selected{% endif %}>
+                                        Immediate
+                                    </option>
+
+                                    <option value="15 Days"
+                                        {% if candidate.profile_data.notice == "15 Days" %}selected{% endif %}>
+                                        15 Days
+                                    </option>
+
+                                    <option value="1 Month"
+                                        {% if candidate.profile_data.notice == "1 Month" %}selected{% endif %}>
+                                        1 Month
+                                    </option>
+
+                                    <option value="2 Months"
+                                        {% if candidate.profile_data.notice == "2 Months" %}selected{% endif %}>
+                                        2 Months
+                                    </option>
+
+                                    <option value="3 Months"
+                                        {% if candidate.profile_data.notice == "3 Months" %}selected{% endif %}>
+                                        3 Months
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 8 - EMPLOYMENT HISTORY
+============================================================ -->
+<!-- ============================================================
+     MODIFY 8 - EMPLOYMENT HISTORY
+============================================================ -->
+<div class="custom-modal">
+
+    <div class="modal fade"
+         id="modify-8"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel8"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100"
+                  method="post"
+                  action="{% url 'myprofile' %}">
+
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h1 class="modal-title fs-5"
+                            id="modifyModalLabel8">
+                            Employment History
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- DATE FROM -->
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 mb-3">
+
+                                <label for="employment_date_from"
+                                       class="form-label mb-0">
+                                    Date From
+                                </label>
+
+                                <input type="date"
+                                       class="form-control"
+                                       id="employment_date_from"
+                                       name="employment_date_from"
+                                       value="{% if employment_history.date_from %}{{ employment_history.date_from|date:'Y-m-d' }}{% endif %}">
+
+                            </div>
+
+
+                            <!-- DATE TO -->
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 mb-3">
+
+                                <label for="employment_date_to"
+                                       class="form-label mb-0">
+                                    Date To
+                                </label>
+
+                                <input type="date"
+                                       class="form-control"
+                                       id="employment_date_to"
+                                       name="employment_date_to"
+                                       value="{% if employment_history.date_to %}{{ employment_history.date_to|date:'Y-m-d' }}{% endif %}">
+
+                            </div>
+
+
+                            <!-- EMPLOYER -->
+                            <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 mb-3">
+
+                                <label for="employer_name"
+                                       class="form-label mb-0">
+                                    Name of Employer
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="employer_name"
+                                       name="employer_name"
+                                       placeholder="Name of Employer"
+                                       value="{{ employment_history.employer_name|default:'' }}">
+
+                            </div>
+
+
+                            <!-- LOCATION -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="employment_location"
+                                       class="form-label mb-0">
+                                    Location
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="employment_location"
+                                       name="employment_location"
+                                       placeholder="Location"
+                                       value="{{ employment_history.location|default:'' }}">
+
+                            </div>
+
+
+                            <!-- IMMEDIATE SUPERIOR -->
+                            <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 mb-3">
+
+                                <label for="superior"
+                                       class="form-label mb-0">
+                                    Name of Immediate Superior
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="superior"
+                                       name="superior"
+                                       placeholder="Name of Immediate Superior"
+                                       value="{{ employment_history.immediate_superior|default:'' }}">
+
+                            </div>
+
+
+                            <!-- POSITION -->
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="position"
+                                       class="form-label mb-0">
+                                    Position
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="position"
+                                       name="position"
+                                       placeholder="Position"
+                                       value="{{ employment_history.position|default:'' }}">
+
+                            </div>
+
+
+                            <!-- START SALARY -->
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 mb-3">
+
+                                <label for="ssalary"
+                                       class="form-label mb-0">
+                                    Start Salary
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="ssalary"
+                                       name="ssalary"
+                                       placeholder="Start Salary"
+                                       value="{{ employment_history.start_salary|default:'' }}">
+
+                            </div>
+
+
+                            <!-- END SALARY -->
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 mb-3">
+
+                                <label for="esalary"
+                                       class="form-label mb-0">
+                                    End Salary
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="esalary"
+                                       name="esalary"
+                                       placeholder="End Salary"
+                                       value="{{ employment_history.end_salary|default:'' }}">
+
+                            </div>
+
+
+                            <!-- REASON FOR LEAVING -->
+                            <div class="col-12 mb-3">
+
+                                <label for="reasons"
+                                       class="form-label mb-0">
+                                    Reasons For Leaving
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="reasons"
+                                       name="reasons"
+                                       placeholder="Reasons For Leaving"
+                                       value="{{ employment_history.reason_for_leaving|default:'' }}">
+
+                            </div>
+
+
+                            <!-- JOB DESCRIPTION -->
+                            <div class="col-12 mb-3">
+
+                                <label for="job_description"
+                                       class="form-label mb-0">
+                                    Brief Job Description
+                                </label>
+
+                                <textarea class="form-control"
+                                          id="job_description"
+                                          name="job_description"
+                                          rows="3"
+                                          placeholder="Brief Job Description">{{ employment_history.job_description|default:'' }}</textarea>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     MODIFY 9 - EDUCATION HISTORY
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-9"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel9"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h1 class="modal-title fs-5"
+                            id="modifyModalLabel9">
+                            Education History
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 mb-3">
+
+                                <label for="institution"
+                                       class="form-label mb-0">
+                                    School / College / University
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="institution"
+                                       name="institution"
+                                       placeholder="School / College / University"
+                                       value="{{ candidate.profile_data.institution|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="education_location"
+                                       class="form-label mb-0">
+                                    Location
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="education_location"
+                                       name="education_location"
+                                       placeholder="Location"
+                                       value="{{ candidate.profile_data.education_location|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="yearfrom"
+                                       class="form-label mb-0">
+                                    Year From
+                                </label>
+
+                                <input type="date"
+                                       class="form-control"
+                                       id="yearfrom"
+                                       name="yearfrom"
+                                       value="{{ candidate.profile_data.yearfrom|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="yearto"
+                                       class="form-label mb-0">
+                                    Year To
+                                </label>
+
+                                <input type="date"
+                                       class="form-control"
+                                       id="yearto"
+                                       name="yearto"
+                                       value="{{ candidate.profile_data.yearto|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="qualification"
+                                       class="form-label mb-0">
+                                    Qualification
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="qualification"
+                                       name="qualification"
+                                       placeholder="Qualification"
+                                       value="{{ candidate.profile_data.qualification|default:'' }}">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 10 - ACTIVITIES / INTEREST / HOBBIES
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-10"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel10"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h1 class="modal-title fs-5"
+                            id="modifyModalLabel10">
+                            Activities / Interest / Hobbies
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-12 mb-3">
+
+                                <label for="activities"
+                                       class="form-label mb-0">
+                                    Activities / Interest / Hobbies
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="activities"
+                                       name="activities"
+                                       placeholder="Activities / Interest / Hobbies"
+                                       value="{{ candidate.profile_data.activities|default:'' }}">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODIFY 11 - REFERENCES
+============================================================ -->
+<div class="custom-modal">
+    <div class="modal fade"
+         id="modify-11"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="modifyModalLabel11"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <form class="w-100" method="post">
+                {% csrf_token %}
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h1 class="modal-title fs-5"
+                            id="modifyModalLabel11">
+                            References Details
+                        </h1>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- Reference 1 -->
+                            <div class="col-12 mb-3">
+
+                                <div class="bg-light rounded p-2">
+
+                                    <p class="text-tiny text-secondary font-weight-500 mb-0">
+                                        &nbsp;&nbsp;Reference 1
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="ref1name"
+                                       class="form-label mb-0">
+                                    Name
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="ref1name"
+                                       name="ref1name"
+                                       placeholder="Name"
+                                       value="{{ candidate.profile_data.ref1name|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="ref1pos"
+                                       class="form-label mb-0">
+                                    Position
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="ref1pos"
+                                       name="ref1pos"
+                                       placeholder="Position"
+                                       value="{{ candidate.profile_data.ref1pos|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="ref1com"
+                                       class="form-label mb-0">
+                                    Company
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="ref1com"
+                                       name="ref1com"
+                                       placeholder="Company"
+                                       value="{{ candidate.profile_data.ref1com|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 mb-3">
+
+                                <label for="ref1email"
+                                       class="form-label mb-0">
+                                    Email Address
+                                </label>
+
+                                <input type="email"
+                                       class="form-control"
+                                       id="ref1email"
+                                       name="ref1email"
+                                       placeholder="Email Address"
+                                       value="{{ candidate.profile_data.ref1email|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 mb-3">
+
+                                <label for="ref1phn"
+                                       class="form-label mb-0">
+                                    Phone Number
+                                </label>
+
+                                <input type="tel"
+                                       class="form-control"
+                                       id="ref1phn"
+                                       name="ref1phn"
+                                       placeholder="Phone Number"
+                                       value="{{ candidate.profile_data.ref1phn|default:'' }}">
+
+                            </div>
+
+
+                            <!-- Reference 2 -->
+                            <div class="col-12 mb-3">
+
+                                <div class="bg-light rounded p-2">
+
+                                    <p class="text-tiny text-secondary font-weight-500 mb-0">
+                                        &nbsp;&nbsp;Reference 2
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="ref2name"
+                                       class="form-label mb-0">
+                                    Name
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="ref2name"
+                                       name="ref2name"
+                                       placeholder="Name"
+                                       value="{{ candidate.profile_data.ref2name|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="ref2pos"
+                                       class="form-label mb-0">
+                                    Position
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="ref2pos"
+                                       name="ref2pos"
+                                       placeholder="Position"
+                                       value="{{ candidate.profile_data.ref2pos|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mb-3">
+
+                                <label for="ref2com"
+                                       class="form-label mb-0">
+                                    Company
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="ref2com"
+                                       name="ref2com"
+                                       placeholder="Company"
+                                       value="{{ candidate.profile_data.ref2com|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 mb-3">
+
+                                <label for="ref2email"
+                                       class="form-label mb-0">
+                                    Email Address
+                                </label>
+
+                                <input type="email"
+                                       class="form-control"
+                                       id="ref2email"
+                                       name="ref2email"
+                                       placeholder="Email Address"
+                                       value="{{ candidate.profile_data.ref2email|default:'' }}">
+
+                            </div>
+
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 mb-3">
+
+                                <label for="ref2phn"
+                                       class="form-label mb-0">
+                                    Phone Number
+                                </label>
+
+                                <input type="tel"
+                                       class="form-control"
+                                       id="ref2phn"
+                                       name="ref2phn"
+                                       placeholder="Phone Number"
+                                       value="{{ candidate.profile_data.ref2phn|default:'' }}">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="brand-button me-1"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Update
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     DELETE MODAL
+============================================================ -->
+<div class="custom-modal">
+
+    <div class="modal fade"
+         id="deleteModal"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="deleteModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h1 class="modal-title fs-5"
+                        id="deleteModalLabel">
+                        Confirm
+                    </h1>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-12">
+
+                            <div class="py-3">
+
+                                <p class="text-small font-weight-400">
+                                    Are you sure you want to delete this record?
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="brand-button me-1"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                    <button type="button"
+                            class="brand-button-alt">
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     LOGOUT MODAL
+============================================================ -->
+<div class="custom-modal">
+
+    <div class="modal fade"
+         id="logoutModal"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="logoutModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h1 class="modal-title fs-5"
+                        id="logoutModalLabel">
+                        Confirm
+                    </h1>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-12">
+
+                            <div class="py-3">
+
+                                <p class="text-small font-weight-400">
+                                    Are you sure you want to log out?
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="brand-button me-1"
+                            data-bs-dismiss="modal">
+                        Stay Connected
+                    </button>
+
+                    <form method="post"
+                          action="{% url 'logout' %}"
+                          style="display:inline;">
+
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="brand-button-alt">
+                            Logout
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     JS
+============================================================ -->
+<script src="{% static 'core/assets/js/bundle.js' %}"
+        type="text/javascript">
+</script>
+
+<script src="{% static 'core/assets/js/scripts.js' %}"
+        type="text/javascript">
+</script>

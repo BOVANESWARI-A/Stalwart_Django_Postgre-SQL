@@ -1,0 +1,95 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ company }} - Send Invitation</title>
+<link rel="icon" href="{% static "core/assets/images/favicon.png" %}" type="image/x-icon">
+<link rel="stylesheet" href="{% static "core/assets/css/master.css" %}">
+<link rel="stylesheet" href="{% static "core/assets/css/style.css" %}">
+</head>
+<body>
+<div class="wrapper">
+  {% include "core/sidebar.html" %}
+  <div id="main-content" class="flex-grow-1">
+    <header class="header header-light">
+      <div class="container-fluid px-4 py-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <div><a href="javascript:void(0)" class="toggle-sidebar-btn" onclick="toggleSidebar()"><i class="bi bi-list"></i></a></div>
+          <div>
+            <nav class="header-nav ms-auto">
+              <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown">
+                  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="javascript:void(0)" data-bs-toggle="dropdown">
+                    <img src="{% if hr_profile.profile_photo %}{{ hr_profile.profile_photo.url }}{% else %}{% static 'core/assets/images/profile.png' %}{% endif %}" alt="Profile" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ request.user.first_name|default:request.user.username }}</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header border-bottom"><p class="text-extra-small text-dark font-weight-500">{{ request.user.get_full_name|default:request.user.username }}</p><small>{{ request.user.email }}</small></li>
+                    <li class="border-bottom"><a class="dropdown-item d-flex align-items-center" href="{% url 'myprofile' %}"><i class="bi bi-person"></i><span>My Profile</span></a></li>
+                    <li class="border-bottom"><a class="dropdown-item d-flex align-items-center" href="{% url 'security' %}"><i class="bi bi-lock"></i><span>Security</span></a></li>
+                    <li><a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i><span>Sign Out</span></a></li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <div class="container-fluid px-4">
+        <div class="py-4">
+          <section class="page-container">
+            <div class="pagetitle pt-2 mb-3">
+              <p class="text-medium font-weight-500">{{ company }} — Send Candidate Invitation</p>
+              <p class="text-extra-small font-weight-400 text-muted">This HR account is permanently connected to {{ company }}. The company cannot be changed from this invitation form.</p>
+            </div>
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+            <div class="content-section">
+              <div class="row">
+                <div class="col-xxl-8 col-xl-9 col-lg-10 col-md-12 mx-auto">
+                  <div class="card card-box">
+                    <div class="card-header"><p class="text-extra-small font-weight-500 mb-0">Candidate Invitation</p></div>
+                    <div class="card-body">
+                      <form method="post" action="{% url 'send_invitation' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                          <label for="emails" class="form-label mb-0"><sup class="text-danger">*</sup>Candidate Email Address(es)</label>
+                          <textarea class="form-control" id="emails" name="emails" rows="5" placeholder="candidate1@example.com&#10;candidate2@example.com, candidate3@example.com" required></textarea>
+                          <div class="form-text">Use one per line, comma, semicolon or space separated. Each candidate receives an individual secure invitation.</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="invite-name" class="form-label mb-0">Candidate Name</label>
+                            <input class="form-control" id="invite-name" name="name" type="text" placeholder="Optional">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="invite-phone" class="form-label mb-0">Phone Number</label>
+                            <input class="form-control" id="invite-phone" name="phone" type="text" placeholder="Optional">
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                          <button class="brand-button" type="submit"><i class="bi bi-send me-1"></i>Send Invitation</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static "core/assets/js/bundle.js" %}"></script>
+<script src="{% static "core/assets/js/scripts.js" %}"></script>
+</body>
+</html>

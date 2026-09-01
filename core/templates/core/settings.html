@@ -1,0 +1,2173 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Stalwart Business Solutions</title>
+
+<!-- favicons -->
+<link rel="icon"
+      href="{% static 'core/assets/images/favicon.png' %}"
+      type="image/x-icon">
+<!-- favicons -->
+
+<!-- css -->
+<link type="text/css"
+      href="{% static 'core/assets/css/master.css' %}"
+      rel="stylesheet">
+
+<link type="text/css"
+      href="{% static 'core/assets/css/style.css' %}"
+      rel="stylesheet">
+<!-- css -->
+
+<!--[if lt IE 9]>
+<script src="{% static 'core/assets/js/html5shiv.js' %}"
+        type="text/javascript"
+        defer></script>
+
+<script src="{% static 'core/assets/js/css3-mediaqueries.js' %}"
+        type="text/javascript"
+        defer></script>
+
+<script src="{% static 'core/assets/js/respond.min.js' %}"
+        type="text/javascript"
+        defer></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <!-- Sidebar -->
+  {% include "core/sidebar.html" %}
+  <!-- Sidebar -->
+
+  <!-- Main -->
+  <div id="main-content" class="flex-grow-1">
+
+    <!-- Header -->
+    <header class="header header-light">
+
+      <div class="container-fluid px-4 py-2">
+
+        <div class="d-flex align-items-center justify-content-between">
+
+          <div>
+            <a href="javascript:void(0)"
+               class="toggle-sidebar-btn"
+               onclick="toggleSidebar()">
+              <i class="bi bi-list toggle-sidebar-btn"></i>
+            </a>
+          </div>
+<!---profile-->
+ <div>
+
+                        <nav class="header-nav ms-auto">
+
+                            <ul class="d-flex align-items-center">
+
+                                <li class="nav-item dropdown">
+
+
+                                    <a class="nav-link nav-profile d-flex align-items-center pe-0"
+                                       href="javascript:void(0)"
+                                       data-bs-toggle="dropdown">
+
+
+                                        <img
+                                            src="{% static 'core/assets/images/profile.png' %}"
+                                            alt="Profile"
+                                            class="rounded-circle">
+
+
+                                        <span class="d-none d-md-block dropdown-toggle ps-2">
+
+                                            {{ request.user.first_name|default:request.user.username }}
+
+                                        </span>
+
+
+                                    </a>
+
+
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+
+                                        <li class="dropdown-header border-bottom">
+
+                                            <p class="text-extra-small text-dark font-weight-500">
+
+                                                {{ request.user.get_full_name|default:request.user.username }}
+
+                                            </p>
+
+                                            <small>
+
+                                                {{ request.user.email }}
+
+                                            </small>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'myprofile' %}">
+
+                                                <i class="bi bi-person"></i>
+
+                                                <span>My Profile</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'security' %}">
+
+                                                <i class="bi bi-lock"></i>
+
+                                                <span>Security</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li>
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'logout' %}">
+
+                                                <i class="bi bi-box-arrow-right"></i>
+
+                                                <span>Sign Out</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+
+                        </nav>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+    <!-- Header -->
+
+
+    <!-- Content Body -->
+
+    <div class="content-wrapper">
+
+      
+
+      <!-- Account settings are available to every authenticated user. -->
+      <div class="container-fluid px-4">
+        <div class="py-4">
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                <div>
+                  <p class="text-medium font-weight-500 mb-1">Account Settings</p>
+                  <p class="text-extra-small text-muted mb-0">Update the details linked to your current login account.</p>
+                </div>
+                <i class="bi bi-person-gear fs-4 text-muted"></i>
+              </div>
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="account">
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <label class="form-label">First Name</label>
+                    <input type="text" name="first_name" class="form-control" value="{{ request.user.first_name }}" required>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" value="{{ request.user.last_name }}">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-control" value="{{ request.user.email }}" required>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% if role == "administration" %}
+<div class="container-fluid px-4">
+
+        <div class="py-4">
+
+          <section class="page-container">
+
+            <!-- Title -->
+
+            <div class="pagetitle pt-2 mb-3">
+
+              <p class="text-medium font-weight-500">
+                Administrator
+              </p>
+
+            </div>
+
+            <!-- center body -->
+
+            <div class="content-section">
+
+              <div class="row">
+
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                  <div class="custom-horizontal-tabs">
+
+                    <ul class="nav nav-tabs nav-justified mb-3"
+                        id="myTab"
+                        role="tablist">
+
+                      <li class="nav-item" role="presentation">
+
+                        <button class="nav-link active"
+                                id="job-tab-0"
+                                data-bs-toggle="tab"
+                                data-bs-target="#home-tab-0"
+                                type="button"
+                                role="tab"
+                                aria-controls="home-tab-0"
+                                aria-selected="true">
+
+                          Company
+
+                        </button>
+
+                      </li>
+
+                      <li class="nav-item" role="presentation">
+
+                        <button class="nav-link"
+                                id="job-tab-1"
+                                data-bs-toggle="tab"
+                                data-bs-target="#home-tab-1"
+                                type="button"
+                                role="tab"
+                                aria-controls="home-tab-1"
+                                aria-selected="false">
+
+                          Users Listing
+
+                        </button>
+
+                      </li>
+
+                      <li class="nav-item" role="presentation">
+
+                        <button class="nav-link"
+                                id="job-tab-2"
+                                data-bs-toggle="tab"
+                                data-bs-target="#home-tab-2"
+                                type="button"
+                                role="tab"
+                                aria-controls="home-tab-2"
+                                aria-selected="false">
+
+                          Permissions
+
+                        </button>
+
+                      </li>
+
+                      <li class="nav-item" role="presentation">
+
+                        <button class="nav-link"
+                                id="job-tab-3"
+                                data-bs-toggle="tab"
+                                data-bs-target="#home-tab-3"
+                                type="button"
+                                role="tab"
+                                aria-controls="home-tab-3"
+                                aria-selected="false">
+
+                          Terms & Conditions
+
+                        </button>
+
+                      </li>
+
+                      <li class="nav-item" role="presentation">
+
+                        <button class="nav-link"
+                                id="job-tab-4"
+                                data-bs-toggle="tab"
+                                data-bs-target="#home-tab-4"
+                                type="button"
+                                role="tab"
+                                aria-controls="home-tab-4"
+                                aria-selected="false">
+
+                          Privacy Policy
+
+                        </button>
+
+                      </li>
+
+                    </ul>
+
+
+                    <div class="tab-content" id="myTabContent">
+
+
+                      <!-- ================================================= -->
+                      <!-- COMPANY -->
+                      <!-- ================================================= -->
+
+                      <div class="tab-pane fade show active"
+                           id="home-tab-0"
+                           role="tabpanel"
+                           aria-labelledby="job-tab-0"
+                           tabindex="0">
+
+                        <div class="row">
+
+
+                          <!-- CREATE COMPANY -->
+
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                            <div class="card card-box">
+
+                              <div data-bs-toggle="collapse"
+                                   href="#collapseExample-1"
+                                   role="button"
+                                   aria-expanded="false"
+                                   aria-controls="collapseExample-1">
+
+                                <div class="card-header border-bottom">
+
+                                  <div class="d-flex align-items-center justify-content-between">
+
+                                    <div>
+
+                                      <p class="text-medium font-weight-600">
+                                        Create Company
+                                      </p>
+
+                                      <p class="text-extra-small font-weight-400 text-muted">
+                                        Please provide the basic details about your company, including name, address, contact information, and a brief overview.
+                                      </p>
+
+                                    </div>
+
+                                    <div>
+                                      <span>
+                                        <i class="bi bi-chevron-down"></i>
+                                      </span>
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+
+                              <div class="collapse"
+                                   id="collapseExample-1">
+
+                                <div class="card-body p-4">
+
+                                  <form method="post">
+
+                                    {% csrf_token %}
+
+                                    <input type="hidden"
+                                           name="action"
+                                           value="company">
+
+                                    <div class="row">
+
+
+                                      {% if messages %}
+
+                                        {% for message in messages %}
+
+                                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                            <div class="alert alert-{{ message.tags|default:'success' }} mb-0"
+                                                 role="alert">
+
+                                              {{ message }}
+
+                                            </div>
+
+                                          </div>
+
+                                        {% endfor %}
+
+                                      {% endif %}
+
+
+                                      <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="ccompany"
+                                                 class="form-label mb-0">
+
+                                            <sup class="text-danger">*</sup>
+                                            Company Name
+
+                                          </label>
+
+                                          <input type="text"
+                                                 class="form-control"
+                                                 id="ccompany"
+                                                 name="company_name"
+                                                 placeholder="Company Name"
+                                                 value="{{ settings_map.company_name|default:'' }}"
+                                                 required>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="cemail"
+                                                 class="form-label mb-0">
+
+                                            <sup class="text-danger">*</sup>
+                                            Email Address
+
+                                          </label>
+
+                                          <input type="email"
+                                                 class="form-control"
+                                                 id="cemail"
+                                                 name="company_email"
+                                                 placeholder="Email Address"
+                                                 value="{{ settings_map.company_email|default:'' }}"
+                                                 required>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="cphone"
+                                                 class="form-label mb-0">
+
+                                            <sup class="text-danger">*</sup>
+                                            Phone Number
+
+                                          </label>
+
+                                          <input type="text"
+                                                 class="form-control"
+                                                 id="cphone"
+                                                 name="company_phone"
+                                                 placeholder="Phone Number"
+                                                 value="{{ settings_map.company_phone|default:'' }}"
+                                                 required>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                        <div>
+
+                                          <button type="submit"
+                                                  class="brand-button">
+
+                                            Create Company
+
+                                          </button>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  </form>
+
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+
+                          <!-- LIST COMPANIES -->
+
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                            <div class="card card-box">
+
+                              <div class="card-header border-bottom">
+
+                                <p class="text-medium font-weight-600">
+                                  List of Companies
+                                </p>
+
+                                <p class="text-extra-small font-weight-400 text-muted">
+                                  Explore the list of companies.
+                                </p>
+
+                              </div>
+
+
+                              <div class="card-body p-4">
+
+                                <div class="row">
+
+                                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                    <div class="table-responsive-lg">
+
+                                      <table class="table table-borderless table-striped table-hover text-nowrap w-100 align-middle mb-0"
+                                             id="data-table-1">
+
+                                        <thead class="table-dark">
+
+                                          <tr>
+
+                                            <th scope="col">
+                                              ID
+                                            </th>
+
+                                            <th scope="col">
+                                              Company Name
+                                            </th>
+
+                                            <th scope="col">
+                                              Email Address
+                                            </th>
+
+                                            <th scope="col">
+                                              Phone
+                                            </th>
+
+                                            <th scope="col">
+                                              Actions
+                                            </th>
+
+                                          </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                          {% for company in companies %}
+
+                                            <tr>
+
+                                              <td>
+                                                {{ company.id }}
+                                              </td>
+
+                                              <td>
+                                                {{ company.name }}
+                                              </td>
+
+                                              <td>
+                                                {{ company.email }}
+                                              </td>
+
+                                              <td>
+                                               {{ company.phone }}
+                                              </td>
+
+                                              <td>
+
+                                                <div class="navigation-icon-split">
+
+                                                  <ul>
+
+                                                    <li data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Delete">
+
+                                                      <form method="post"
+                                                            style="display:inline;">
+
+                                                        {% csrf_token %}
+
+                                                        <input type="hidden"
+                                                               name="action"
+                                                               value="delete_company">
+
+                                                        <input type="hidden"
+                                                               name="company_id"
+                                                               value="{{ company.id }}">
+
+                                                        <button type="submit"
+                                                                class="btn btn-link p-0">
+
+                                                          <i class="bi bi-trash"></i>
+
+                                                        </button>
+
+                                                      </form>
+
+                                                    </li>
+
+                                                  </ul>
+
+                                                </div>
+
+                                              </td>
+
+                                            </tr>
+
+                                          {% empty %}
+
+                                            <tr>
+
+                                              <td></td>
+
+                                              <td class="text-muted">
+                                                No companies found.
+                                              </td>
+
+                                              <td></td>
+
+                                              <td></td>
+
+                                              <td></td>
+
+                                            </tr>
+
+                                          {% endfor %}
+
+                                        </tbody>
+
+                                      </table>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                      <!-- ================================================= -->
+                      <!-- USERS -->
+                      <!-- ================================================= -->
+
+                      <div class="tab-pane fade"
+                           id="home-tab-1"
+                           role="tabpanel"
+                           aria-labelledby="job-tab-1"
+                           tabindex="0">
+
+                        <div class="row">
+
+
+                          <!-- ADD USERS -->
+
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                            <div class="card card-box">
+
+                              <div data-bs-toggle="collapse"
+                                   href="#collapseExample-2"
+                                   role="button"
+                                   aria-expanded="false"
+                                   aria-controls="collapseExample-2">
+
+                                <div class="card-header border-bottom">
+
+                                  <div class="d-flex align-items-center justify-content-between">
+
+                                    <div>
+
+                                      <p class="text-medium font-weight-600">
+                                        Add Users
+                                      </p>
+
+                                      <p class="text-extra-small font-weight-400 text-muted">
+                                        Quickly add new users to expand your network and manage connections.
+                                      </p>
+
+                                    </div>
+
+                                    <div>
+
+                                      <span>
+                                        <i class="bi bi-chevron-down"></i>
+                                      </span>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+
+                              <div class="collapse"
+                                   id="collapseExample-2">
+
+                                <div class="card-body p-4">
+
+                                  <form method="post">
+
+                                    {% csrf_token %}
+
+                                    <input type="hidden"
+                                           name="action"
+                                           value="create_user">
+
+                                    <div class="row">
+
+
+                                      <!-- ROLE -->
+
+                                      <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="user-role"
+                                                 class="form-label mb-0">
+
+                                            <sup class="text-danger">*</sup>
+                                            Select Role
+
+                                          </label>
+
+                                          <select class="form-select"
+                                                  id="user-role"
+                                                  name="role"
+                                                  aria-label="Role"
+                                                  required>
+
+                                            <option value="">
+                                              Please Select
+                                            </option>
+
+                                            <option value="candidate">
+                                              Candidate
+                                            </option>
+
+                                            <option value="agent">
+                                              Agent
+                                            </option>
+
+                                            <option value="hr">
+                                              HR
+                                            </option>
+
+                                            <option value="administration">
+                                              Administration
+                                            </option>
+
+                                          </select>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <!-- COMPANY -->
+
+                                      <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="user-company"
+                                                 class="form-label mb-0">
+
+                                            Choose Company
+
+                                          </label>
+
+                                          <select class="form-select"
+                                                  id="user-company"
+                                                  name="company"
+                                                  aria-label="Company">
+
+                                            <option value="">
+                                              Please Select
+                                            </option>
+
+                                            {% for company in companies %}
+
+                                              <option value="{{ company.id }}">
+
+                                                {{ company.name }}
+
+                                              </option>
+
+                                            {% empty %}
+
+                                              <option value="">
+                                                InsiteMy
+                                              </option>
+
+                                              <option value="">
+                                                Macro Kiosk
+                                              </option>
+
+                                            {% endfor %}
+
+                                          </select>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <!-- NAME -->
+
+                                      <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="Name"
+                                                 class="form-label mb-0">
+
+                                            <sup class="text-danger">*</sup>
+                                            Name
+
+                                          </label>
+
+                                          <input type="text"
+                                                 class="form-control"
+                                                 id="Name"
+                                                 name="name"
+                                                 placeholder="Name"
+                                                 required>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <!-- EMAIL -->
+
+                                      <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="email"
+                                                 class="form-label mb-0">
+
+                                            <sup class="text-danger">*</sup>
+                                            Email Address
+
+                                          </label>
+
+                                          <input type="email"
+                                                 class="form-control"
+                                                 id="email"
+                                                 name="email"
+                                                 placeholder="Email Address"
+                                                 required>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <!-- PASSWORD -->
+
+                                      <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="newpass"
+                                                 class="form-label mb-0">
+
+                                            <sup class="text-danger">*</sup>
+                                            New Password
+
+                                          </label>
+
+                                          <input type="password"
+                                                 class="form-control"
+                                                 id="newpass"
+                                                 name="newpass"
+                                                 placeholder="New Password"
+                                                 required>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <!-- CONFIRM PASSWORD -->
+
+                                      <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                        <div>
+
+                                          <label for="confirmnewpass"
+                                                 class="form-label mb-0">
+
+                                            <sup class="text-danger">*</sup>
+                                            Confirm New Password
+
+                                          </label>
+
+                                          <input type="password"
+                                                 class="form-control"
+                                                 id="confirmnewpass"
+                                                 name="confirmnewpass"
+                                                 placeholder="Confirm New Password"
+                                                 required>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                        <div>
+
+                                          <button type="submit"
+                                                  class="brand-button">
+
+                                            Create User
+
+                                          </button>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  </form>
+
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+
+                          <!-- USERS LIST -->
+
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                            <div class="card card-box">
+
+                              <div class="card-header border-bottom">
+
+                                <p class="text-medium font-weight-600">
+                                  Users
+                                </p>
+
+                                <p class="text-extra-small font-weight-400 text-muted">
+                                  Explore the list of registered users and connect effortlessly.
+                                </p>
+
+                              </div>
+
+
+                              <div class="card-body p-4">
+
+                                <div class="row">
+
+                                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                    <div class="table-responsive-lg">
+
+                                      <table class="table table-borderless table-striped table-hover text-nowrap w-100 align-middle mb-0"
+                                             id="data-table-2">
+
+                                        <thead class="table-dark">
+
+                                          <tr>
+
+                                            <th scope="col">
+                                              ID
+                                            </th>
+
+                                            <th scope="col">
+                                              Name
+                                            </th>
+
+                                            <th scope="col">
+                                              Company Name
+                                            </th>
+
+                                            <th scope="col">
+                                              Email Address
+                                            </th>
+
+                                            <th scope="col">
+                                              Role
+                                            </th>
+
+                                            <th scope="col">
+                                              Actions
+                                            </th>
+
+                                          </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                          {% for user in users %}
+
+                                            <tr>
+
+                                              <td>
+                                                {{ user.id }}
+                                              </td>
+
+                                              <td>
+                                                {{ user.get_full_name|default:user.username }}
+                                              </td>
+
+                                              <td>
+                                                Stalwart Business Solutions
+                                              </td>
+
+                                              <td>
+                                                {{ user.email }}
+                                              </td>
+
+                                              <td>
+
+                                                {% with group=user.groups.first %}
+
+                                                  {{ group.name|default:"candidate"|title }}
+
+                                                {% endwith %}
+
+                                              </td>
+
+                                              <!-- IMPORTANT:
+                                                   SIXTH COLUMN -->
+
+                                              <td>
+
+                                                <div class="navigation-icon-split">
+
+                                                  <ul>
+
+                                                    <li data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Delete">
+
+                                                      <form method="post"
+                                                            style="display:inline;">
+
+                                                        {% csrf_token %}
+
+                                                        <input type="hidden"
+                                                               name="action"
+                                                               value="delete_user">
+
+                                                        <input type="hidden"
+                                                               name="user_id"
+                                                               value="{{ user.id }}">
+
+                                                        <button type="submit"
+                                                                class="btn btn-link p-0"
+                                                                title="Delete">
+
+                                                          <i class="bi bi-trash"></i>
+
+                                                        </button>
+
+                                                      </form>
+
+                                                    </li>
+
+                                                  </ul>
+
+                                                </div>
+
+                                              </td>
+
+                                            </tr>
+
+                                          {% empty %}
+
+                                            <tr>
+
+                                              <td colspan="6"
+                                                  class="text-muted">
+
+                                                No users found.
+
+                                              </td>
+
+                                            </tr>
+
+                                          {% endfor %}
+
+                                        </tbody>
+
+                                      </table>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                      <!-- ================================================= -->
+                      <!-- PERMISSIONS -->
+                      <!-- ================================================= -->
+
+                      <div class="tab-pane fade"
+                           id="home-tab-2"
+                           role="tabpanel"
+                           aria-labelledby="job-tab-2"
+                           tabindex="0">
+
+                        <div class="row">
+
+
+                          <!-- ASSIGN -->
+
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                            <div class="card card-box">
+
+                              <div class="card-header border-bottom">
+
+                                <p class="text-medium font-weight-600">
+                                  Permissions
+                                </p>
+
+                                <p class="text-extra-small font-weight-400 text-muted">
+                                  Select the modules you wish to grant access to. Users will have permissions only for the selected areas, ensuring role-specific access to maintain data security and workflow efficiency.
+                                </p>
+
+                              </div>
+
+
+                              <div class="card-body p-4">
+
+                                <form method="post">
+
+                                  {% csrf_token %}
+
+                                  <input type="hidden"
+                                         name="action"
+                                         value="assign_agent">
+
+                                  <div class="row">
+
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                      <div class="alert alert-success mb-0"
+                                           role="alert">
+
+                                        Settings Updated Successfully
+
+                                      </div>
+
+                                    </div>
+
+
+                                    <!-- CANDIDATES -->
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                      <label for="candidate-select"
+                                             class="form-label mb-0">
+
+                                        <sup class="text-danger">*</sup>
+                                        Select Candidate
+
+                                      </label>
+
+                                      <select id="candidate-select"
+                                              class="js-example-basic-multiple form-select d-block"
+                                              name="candidate_ids[]"
+                                              multiple="multiple">
+
+                                        {% for candidate in candidates %}
+
+                                          <option value="{{ candidate.id }}">
+
+                                            SBS-CN-{{ candidate.id }}
+                                            -
+                                            {{ candidate.full_name|default:"Candidate" }}
+                                            -
+                                            {{ candidate.email }}
+
+                                          </option>
+
+                                        {% empty %}
+
+                                          <option value="">
+                                            No candidates found
+                                          </option>
+
+                                        {% endfor %}
+
+                                      </select>
+
+                                    </div>
+
+
+                                    <!-- COMPANY TITLE -->
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                      <div class="bg-light rounded p-2">
+
+                                        <p class="text-tiny text-secondary font-weight-500 mb-0">
+
+                                          &nbsp;&nbsp;Select Company
+
+                                        </p>
+
+                                      </div>
+
+                                    </div>
+
+
+                                    <!-- COMPANY CHECKBOXES -->
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+
+                                      {% for company in companies %}
+
+                                        <div class="form-check form-check-inline">
+
+                                          <input class="form-check-input"
+                                                 type="checkbox"
+                                                 name="company_ids[]"
+                                                 value="{{ company.id }}"
+                                                 id="company-{{ company.id }}">
+
+                                          <label class="form-check-label"
+                                                 for="company-{{ company.id }}">
+
+                                            {{ company.name }}
+
+                                          </label>
+
+                                        </div>
+
+                                      {% empty %}
+
+                                        <div class="form-check form-check-inline">
+
+                                          <input class="form-check-input"
+                                                 type="checkbox"
+                                                 name="companies[]"
+                                                 value="InsiteMy"
+                                                 id="flexCheckInsiteMy">
+
+                                          <label class="form-check-label"
+                                                 for="flexCheckInsiteMy">
+
+                                            InsiteMy
+
+                                          </label>
+
+                                        </div>
+
+
+                                        <div class="form-check form-check-inline">
+
+                                          <input class="form-check-input"
+                                                 type="checkbox"
+                                                 name="companies[]"
+                                                 value="Macro Kiosk"
+                                                 id="flexCheckMacroKiosk">
+
+                                          <label class="form-check-label"
+                                                 for="flexCheckMacroKiosk">
+
+                                            Macro Kiosk
+
+                                          </label>
+
+                                        </div>
+
+                                      {% endfor %}
+
+                                    </div>
+
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                      <div class="d-flex align-items-center justify-content-between">
+
+                                        <div>
+
+                                          <button type="submit"
+                                                  class="brand-button">
+
+                                            Update Changes
+
+                                          </button>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </form>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+
+                          <!-- ASSIGNED PERMISSIONS -->
+
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                            <div class="card card-box">
+
+                              <div class="card-header border-bottom">
+
+                                <p class="text-medium font-weight-600">
+                                  Assigned Permissions
+                                </p>
+
+                                <p class="text-extra-small font-weight-400 text-muted">
+                                  Explore the list of assinged permissions to the candidates.
+                                </p>
+
+                              </div>
+
+
+                              <div class="card-body p-4">
+
+                                <div class="row">
+
+                                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                    <div class="table-responsive-lg">
+
+                                      <table class="table table-borderless table-striped table-hover text-nowrap w-100 align-middle mb-3"
+                                             id="data-table-3">
+
+                                        <thead class="table-dark">
+
+                                          <tr>
+
+                                            <th scope="col">
+                                              Candidate ID
+                                            </th>
+
+                                            <th scope="col">
+                                              Name
+                                            </th>
+
+                                            <th scope="col">
+                                              Email Address
+                                            </th>
+
+                                            <th scope="col">
+                                              Companies Assigned
+                                            </th>
+
+                                            <th scope="col">
+                                              Actions
+                                            </th>
+
+                                          </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                          {% for assignment in assignments %}
+
+                                            <tr>
+
+                                              <td>
+                                                {{ assignment.candidate.id }}
+                                              </td>
+
+                                              <td>
+                                                {{ assignment.candidate.full_name|default:"Candidate" }}
+                                              </td>
+
+                                              <td>
+                                                {{ assignment.candidate.email }}
+                                              </td>
+
+                                              <td>
+
+                                                {{ assignment.agent.get_full_name|default:assignment.agent.email }}
+
+                                              </td>
+
+                                              <td>
+
+                                                <form method="post"
+                                                      style="display:inline;">
+
+                                                  {% csrf_token %}
+
+                                                  <input type="hidden"
+                                                         name="action"
+                                                         value="remove_assignment">
+
+                                                  <input type="hidden"
+                                                         name="assignment_id"
+                                                         value="{{ assignment.id }}">
+
+                                                  <button type="submit"
+                                                          class="btn btn-link p-0"
+                                                          title="Delete">
+
+                                                    <i class="bi bi-trash"></i>
+
+                                                  </button>
+
+                                                </form>
+
+                                              </td>
+
+                                            </tr>
+
+                                          {% empty %}
+
+                                            <tr>
+
+                                              <td></td>
+
+                                              <td class="text-muted">
+                                                No agent assignments found.
+                                              </td>
+
+                                              <td></td>
+
+                                              <td></td>
+
+                                              <td></td>
+
+                                            </tr>
+
+                                          {% endfor %}
+
+                                        </tbody>
+
+                                      </table>
+
+                                    </div>
+
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                      <div class="d-flex align-items-center justify-content-between">
+
+                                        <div>
+
+                                          <button type="button"
+                                                  class="brand-button"
+                                                  onclick="document.getElementById('candidate-select').focus();">
+
+                                            Update Permission
+
+                                          </button>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                      <!-- ================================================= -->
+                      <!-- TERMS -->
+                      <!-- ================================================= -->
+
+                      <div class="tab-pane fade"
+                           id="home-tab-3"
+                           role="tabpanel"
+                           aria-labelledby="job-tab-3"
+                           tabindex="0">
+
+                        <div class="row">
+
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                            <div class="card card-box">
+
+                              <div class="card-header border-bottom">
+
+                                <p class="text-medium font-weight-600">
+                                  Terms and Conditions
+                                </p>
+
+                                <p class="text-extra-small font-weight-400 text-muted">
+                                  By using our staffing services, you agree to comply with our terms and conditions, including the guidelines for data protection, service limitations, and the responsibilities of both employers and job seekers.
+                                </p>
+
+                              </div>
+
+                              <div class="card-body p-4">
+
+                                <form method="post">
+
+                                  {% csrf_token %}
+
+                                  <input type="hidden"
+                                         name="action"
+                                         value="update_terms">
+
+                                  <div class="row">
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                      <div id="editor-container-1"
+                                           style="height:400px;"></div>
+
+                                      <input type="hidden"
+                                             name="terms_content"
+                                             id="terms_content">
+
+                                    </div>
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                      <div>
+
+                                        <button type="submit"
+                                                class="brand-button">
+
+                                          Update
+
+                                        </button>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </form>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                      <!-- ================================================= -->
+                      <!-- PRIVACY -->
+                      <!-- ================================================= -->
+
+                      <div class="tab-pane fade"
+                           id="home-tab-4"
+                           role="tabpanel"
+                           aria-labelledby="job-tab-4"
+                           tabindex="0">
+
+                        <div class="row">
+
+                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                            <div class="card card-box">
+
+                              <div class="card-header border-bottom">
+
+                                <p class="text-medium font-weight-600">
+                                  Privacy Policy
+                                </p>
+
+                                <p class="text-extra-small font-weight-400 text-muted">
+                                  Our privacy policy ensures that all personal information collected is securely processed, stored, and used in compliance with Malaysia's Personal Data Protection Act (PDPA) to protect your privacy and rights.
+                                </p>
+
+                              </div>
+
+                              <div class="card-body p-4">
+
+                                <form method="post">
+
+                                  {% csrf_token %}
+
+                                  <input type="hidden"
+                                         name="action"
+                                         value="update_privacy">
+
+                                  <div class="row">
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                                      <div id="editor-container-2"
+                                           style="height:400px;"></div>
+
+                                      <input type="hidden"
+                                             name="privacy_content"
+                                             id="privacy_content">
+
+                                    </div>
+
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                                      <div>
+
+                                        <button type="submit"
+                                                class="brand-button">
+
+                                          Update
+
+                                        </button>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </form>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- center body -->
+
+
+            <!-- Footer -->
+
+            <footer id="footer"
+                    class="footer">
+
+              <div class="container-fluid px-4">
+
+                <div class="row">
+
+                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+
+                    <div class="d-flex align-items-center justify-content-between">
+
+                      <div>
+
+                        <p class="text-extra-small font-weight-400">
+
+                          &copy;
+                          <span id="current-year"></span>
+                          Stalwart Business Solutions.
+
+                        </p>
+
+                      </div>
+
+                      <div>
+
+                        <p class="text-extra-small font-weight-400 backtotop"
+                           id="toTop">
+
+                          To top
+
+                          <svg xmlns="http://www.w3.org/2000/svg"
+                               width="24"
+                               height="24"
+                               fill="currentColor"
+                               viewBox="0 0 16 16">
+
+                            <path fill-rule="evenodd"
+                                  d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 0 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+
+                          </svg>
+
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </footer>
+
+            <!-- Footer -->
+
+          </section>
+
+        </div>
+
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Main -->
+
+
+<!-- ========================================================= -->
+<!-- LOGOUT -->
+<!-- ========================================================= -->
+
+<div class="custom-modal">
+
+  <div class="modal fade"
+       id="logoutModal"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="logoutModalLabel"
+       aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <h1 class="modal-title fs-5"
+              id="logoutModalLabel">
+
+            Confirm
+
+          </h1>
+
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row">
+
+            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+              <div class="py-3">
+
+                <p class="text-small font-weight-400">
+                  Are you sure you want to log out?
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+          <button type="button"
+                  class="brand-button me-1"
+                  data-bs-dismiss="modal">
+
+            Stay Connected
+
+          </button>
+
+          <form method="post"
+                action="{% url 'logout' %}"
+                style="display:inline;">
+
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="brand-button-alt">
+
+              Logout
+
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- DELETE -->
+<!-- ========================================================= -->
+
+<div class="custom-modal">
+
+  <div class="modal fade"
+       id="deleteModal"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="deleteModalLabel"
+       aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <h1 class="modal-title fs-5"
+              id="deleteModalLabel">
+
+            Confirm
+
+          </h1>
+
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row">
+
+            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+              <div class="py-3">
+
+                <p class="text-small font-weight-400">
+                  Are you sure you want to delete this item?
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+          <button type="button"
+                  class="brand-button me-1"
+                  data-bs-dismiss="modal">
+
+            Close
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- JS -->
+<!-- ========================================================= -->
+
+<script src="{% static 'core/assets/js/bundle.js' %}"
+        type="text/javascript"></script>
+
+<script src="{% static 'core/assets/js/scripts.js' %}"
+        type="text/javascript"></script>
+
+<script src="{% static 'core/assets/js/select2.min.js' %}"
+        type="text/javascript"></script>
+
+<script src="{% static 'core/assets/js/dataTables.js' %}"
+        type="text/javascript"></script>
+
+<script src="{% static 'core/assets/js/dataTables.bootstrap5.js' %}"
+        type="text/javascript"></script>
+
+<script src="{% static 'core/assets/js/quill.min.js' %}"
+        type="text/javascript"></script>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /*
+     * IMPORTANT:
+     * Initialize each DataTable only once.
+     */
+
+    const table1 = document.querySelector("#data-table-1");
+
+    if (table1) {
+        new DataTable("#data-table-1", {
+            columnDefs: [
+                {
+                    targets: 4,
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+    }
+
+
+    const table2 = document.querySelector("#data-table-2");
+
+    if (table2) {
+        new DataTable("#data-table-2", {
+            columnDefs: [
+                {
+                    targets: 5,
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+    }
+
+
+    const table3 = document.querySelector("#data-table-3");
+
+    if (table3) {
+        new DataTable("#data-table-3", {
+            columnDefs: [
+                {
+                    targets: 4,
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+    }
+
+
+    /*
+     * SELECT2
+     */
+
+    if (window.jQuery && $('.js-example-basic-multiple').length) {
+
+        $('.js-example-basic-multiple').select2();
+
+    }
+
+
+    /*
+     * QUILL - TERMS
+     */
+
+    const editor1 = document.querySelector("#editor-container-1");
+
+    let quill1 = null;
+
+    if (editor1 && typeof Quill !== "undefined") {
+
+        quill1 = new Quill("#editor-container-1", {
+            theme: "snow"
+        });
+
+        const termsInput =
+            document.querySelector("#terms_content");
+
+        if (termsInput) {
+
+            quill1.on("text-change", function () {
+
+                termsInput.value =
+                    quill1.root.innerHTML;
+
+            });
+
+        }
+
+    }
+
+
+    /*
+     * QUILL - PRIVACY
+     */
+
+    const editor2 = document.querySelector("#editor-container-2");
+
+    let quill2 = null;
+
+    if (editor2 && typeof Quill !== "undefined") {
+
+        quill2 = new Quill("#editor-container-2", {
+            theme: "snow"
+        });
+
+        const privacyInput =
+            document.querySelector("#privacy_content");
+
+        if (privacyInput) {
+
+            quill2.on("text-change", function () {
+
+                privacyInput.value =
+                    quill2.root.innerHTML;
+
+            });
+
+        }
+
+    }
+
+
+    /*
+     * CURRENT YEAR
+     */
+
+    const yearElement =
+        document.querySelector("#current-year");
+
+    if (yearElement) {
+
+        yearElement.textContent =
+            new Date().getFullYear();
+
+    }
+
+});
+
+</script>
+
+<!-- js -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const role = document.getElementById("user-role");
+  const company = document.getElementById("user-company");
+  if (!role || !company) return;
+  function sync() {
+    const isHr = role.value === "hr";
+    company.required = isHr;
+  }
+  role.addEventListener("change", sync);
+  sync();
+});
+</script>
+</body>
+
+</html>
+
+

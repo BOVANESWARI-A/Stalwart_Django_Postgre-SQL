@@ -1,0 +1,1433 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Stalwart Business Solutions</title>
+<!-- favicons-->
+<link rel="icon" type="image/x-icon" href="{% static 'core/assets/images/favicon.png' %}">
+<!-- favicons-->
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="{% static 'core/assets/css/master.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'core/assets/css/style.css' %}">
+<!-- css -->
+<!--[if lt IE 9]>
+<script src="{% static "core/assets/js/html5shiv.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/css3-mediaqueries.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/respond.min.js" %}" type="text/javascript" defer></script>
+<![endif]-->
+</head>
+<body>{% if messages %}<div class="position-fixed top-0 end-0 p-3" style="z-index:9999">{% for message in messages %}<div class="alert alert-info shadow-sm">{{ message }}</div>{% endfor %}</div>{% endif %}
+<div class="wrapper">
+<!-- Sidebar -->
+{% include "core/sidebar.html" %}
+<!-- Main -->
+<div class="flex-grow-1" id="main-content">
+<!-- Header -->
+<header class="header header-light">
+<div class="container-fluid px-4 py-2">
+<div class="d-flex align-items-center justify-content-between">
+<div> <a class="toggle-sidebar-btn" href="javascript:void(0)" onclick="toggleSidebar()"> <i class="bi bi-list toggle-sidebar-btn"></i> </a> </div>
+<div>
+<nav class="header-nav ms-auto">
+<ul class="d-flex align-items-center">
+<li class="nav-item dropdown"> <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown" href="javascript:void(0)"><img %}"="" alt="Stalwart Business Solutions" assets="" class="rounded-circle" core="" images="" profile.png"="" src="{% static "/> <span class="d-none d-md-block dropdown-toggle ps-2"><span class="firstname">Thiagarajan</span></span> </a>
+<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+<li class="dropdown-header border-bottom">
+<p class="text-extra-small text-dark font-weight-500"><span class="firstname">Thiagarajan</span> <span class="lastname">Parthasarathy</span></p>
+<small>thiaag@gmail.com</small> </li>
+<li class="border-bottom"> <a class="dropdown-item d-flex align-items-center" href="{% url 'myprofile' %}"> <i class="bi bi-person"></i> <span>My Profile</span> </a> </li>
+<li class="border-bottom"> <a class="dropdown-item d-flex align-items-center" href="{% url 'security' %}"> <i class="bi bi-lock"></i> <span>Security</span> </a> </li>
+<li> <a class="dropdown-item d-flex align-items-center" data-bs-target="#logoutModal" data-bs-toggle="modal" href="javascript:void(0)"> <i class="bi bi-box-arrow-right"></i> <span>Sign Out</span> </a> </li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</header>
+<!-- Header -->
+<!-- Content Body -->
+<div class="content-wrapper">
+<div class="container-fluid px-4">
+<div class="py-4">
+<form enctype="multipart/form-data" method="post">
+{% csrf_token %}
+<input id="application-section" name="section" type="hidden" value=""/>
+<section class="page-container">
+<!-- Title -->
+<div class="pagetitle pt-2 mb-3">
+<p class="text-medium font-weight-500">Job Application</p>
+<p class="text-extra-small font-weight-400 text-muted">Complete this application to showcase your skills and experience for the suitable position. Provide details to help us understand your unique fit for our team!</p>
+</div>
+<!-- progress bar -->
+<div class="MyProgress mb-3">
+<div aria-label="Success example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress" role="progressbar">
+<div class="progress-bar bg-green" style="width: 14.5%"></div>
+</div>
+</div>
+<!-- center body -->
+<div class="content-section">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<div class="custom-horizontal-tabs">
+<ul class="nav nav-tabs nav-justified mb-0" id="myTab" role="tablist">
+<li class="nav-item" role="presentation">
+<button aria-controls="home-tab-1" aria-selected="true" class="nav-link active" data-bs-target="#home-tab-1" data-bs-toggle="tab" id="job-tab-1" role="tab" type="button">Personal<br/>
+                      Information</button>
+</li>
+<li class="nav-item" role="presentation">
+<button aria-controls="home-tab-2" aria-selected="false" class="nav-link" data-bs-target="#home-tab-2" data-bs-toggle="tab" id="job-tab-2" role="tab" type="button">IQ<br/>
+                      Test</button>
+</li>
+<li class="nav-item" role="presentation">
+<button aria-controls="home-tab-3" aria-selected="false" class="nav-link" data-bs-target="#home-tab-3" data-bs-toggle="tab" id="job-tab-3" role="tab" type="button">Consent<br/>
+                      Form</button>
+</li>
+<li class="nav-item" role="presentation">
+<button aria-controls="home-tab-4" aria-selected="false" class="nav-link" data-bs-target="#home-tab-4" data-bs-toggle="tab" id="job-tab-4" role="tab" type="button">Document <br/>
+                      Submission</button>
+</li>
+<li class="nav-item" role="presentation">
+<button aria-controls="home-tab-5" aria-selected="false" class="nav-link" data-bs-target="#home-tab-5" data-bs-toggle="tab" id="job-tab-5" role="tab" type="button">Employment<br/>
+                      Expectations</button>
+</li>
+<li class="nav-item" role="presentation">
+<button aria-controls="home-tab-6" aria-selected="false" class="nav-link" data-bs-target="#home-tab-6" data-bs-toggle="tab" id="job-tab-6" role="tab" type="button">Reference <br/>
+                      Details</button>
+</li>
+<li class="nav-item" role="presentation">
+<button aria-controls="home-tab-7" aria-selected="false" class="nav-link" data-bs-target="#home-tab-7" data-bs-toggle="tab" id="job-tab-7" role="tab" type="button">Applicant<br/>
+                      Declaration</button>
+</li>
+</ul>
+<div class="tab-content" id="myTabContent">
+<div aria-labelledby="home-tab-1" class="tab-pane fade show active" id="home-tab-1" role="tabpanel" tabindex="0">
+<div class="card card-box">
+<div class="card-body">
+<p class="text-medium font-weight-600">Personal Details</p>
+<p class="text-extra-small font-weight-400 text-muted">Please provide your personal details, including your full name, contact information, date of birth, and any other relevant information required for the application process.</p>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-500">Position Applied</p>
+</div>
+<div class="card-body">
+                          {% csrf_token %}
+                            <div class="row align-items-center">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div>
+ <img
+    src="{% static 'core/assets/images/profile.png' %}"
+    alt="Stalwart Business Solutions"
+    class="rounded-circle"
+>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="position_1" name="position_applied" type="checkbox" value="Analyst Programmer (Java / .Net)"/>
+<label class="form-check-label" for="flexCheckDefault"> Analyst Programmer (Java / .Net) </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="position_2" name="position_applied" type="checkbox" value="Product / Project Manager"/>
+<label class="form-check-label" for="flexCheckDefault"> Product / Project Manager </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="position_3" name="position_applied" type="checkbox" value="Business Manager / Sales / Marketing"/>
+<label class="form-check-label" for="flexCheckDefault"> Business Manager / Sales / Marketing </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="position_4" name="position_applied" type="checkbox" value="Finance / HR / Admin"/>
+<label class="form-check-label" for="flexCheckDefault">Finance / HR / Admin </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="position_5" name="position_applied" type="checkbox" value="RPA Developer"/>
+<label class="form-check-label" for="flexCheckDefault"> RPA Developer </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="position_6" name="position_applied" type="checkbox" value="Consultant"/>
+<label class="form-check-label" for="flexCheckDefault"> Consultant </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="position_7" name="position_applied" type="checkbox" value="Designer"/>
+<label class="form-check-label" for="flexCheckDefault">Designer </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="position_8" name="position_applied" type="checkbox" value="Others"/>
+<label class="form-check-label" for="flexCheckDefault">Others </label>
+</div>
+<div class="pt-2">
+<input class="form-control" id="others" name="others" placeholder="Others" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-500">Personal Information</p>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" images="" personal-details.png"="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="name"><sup class="text-danger">*</sup>Name</label>
+<input class="form-control" id="name" name="name" placeholder="Name" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="passportnumber"><sup class="text-danger">*</sup>NRIC/Passport No</label>
+<input class="form-control" id="passportnumber" name="passportnumber" placeholder="XXXXXX-XX-XXXX" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="nationality"><sup class="text-danger">*</sup>Nationality </label>
+<input class="form-control" id="nationality" name="nationality" placeholder="Nationality" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="dob"><sup class="text-danger">*</sup>Date of Birth </label>
+<input class="form-control" id="dob" name="dob" placeholder="Date of Birth" type="date"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="age"><sup class="text-danger">*</sup>Age </label>
+<input class="form-control" id="age" name="age" placeholder="Age" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="gender"><sup class="text-danger">*</sup>Gender </label>
+<select aria-label="gender" class="form-select" name="gender">
+<option selected="">Please Select</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div>
+<label class="form-label mb-0" for="marital"><sup class="text-danger">*</sup>Marital Status </label>
+<select aria-label="marital" class="form-select" name="marital_status">
+<option selected="">Please Select</option>
+<option value="Single">Single</option>
+<option value="Married">Married</option>
+<option value="Widow">Widow</option>
+<option value="Divorsed">Divorsed</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-500">Address Information</p>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" address.png"="" alt="Stalwart Business Solutions" assets="" core="" images="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div class="bg-light rounded p-2">
+<p class="text-tiny text-secondary font-weight-500 mb-0">  Residential Address</p>
+</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="address"><sup class="text-danger">*</sup>Address</label>
+<input class="form-control" id="address" name="residential_address" placeholder="Address" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="city"><sup class="text-danger">*</sup>City</label>
+<input class="form-control" id="city" name="residential_city" placeholder="City" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="state"><sup class="text-danger">*</sup>State</label>
+<input class="form-control" id="state" name="residential_state" placeholder="State" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="country"><sup class="text-danger">*</sup>Country</label>
+<input class="form-control" id="country" name="residential_country" placeholder="Country" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="pincode"><sup class="text-danger">*</sup>Pincode</label>
+<input class="form-control" id="pincode" name="residential_pincode" placeholder="Pincode" type="text"/>
+</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div class="bg-light rounded p-2">
+<p class="text-tiny text-secondary font-weight-500 mb-0">  Permanent Address</p>
+</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="same_as_residential" name="same_as_residential" type="checkbox" value="true"/>
+<label class="form-check-label" for="flexCheckDefault">Same as above </label>
+</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="address"><sup class="text-danger">*</sup>Address</label>
+<input class="form-control" id="address" name="permanent_address" placeholder="Address" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="city"><sup class="text-danger">*</sup>City</label>
+<input class="form-control" id="city" name="permanent_city" placeholder="City" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="state"><sup class="text-danger">*</sup>State</label>
+<input class="form-control" id="state" name="permanent_state" placeholder="State" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="country"><sup class="text-danger">*</sup>Country</label>
+<input class="form-control" id="country" name="permanent_country" placeholder="Country" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="pincode"><sup class="text-danger">*</sup>Pincode</label>
+<input class="form-control" id="pincode" name="permanent_pincode" placeholder="Pincode" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-500">Personal Health Metrics</p>
+</div>
+<div class="card-body">
+<div class="row align-items-center">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" images="" personal-health-metrics.png"="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+<div>
+<label class="form-label mb-0" for="height"><sup class="text-danger">*</sup>Height (CMS)</label>
+<input class="form-control" id="height" name="height" placeholder="Height" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+<div>
+<label class="form-label mb-0" for="weight"><sup class="text-danger">*</sup>Weight (KG)</label>
+<input class="form-control" id="weight" name="weight" placeholder="Weight" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+<div>
+<label class="form-label mb-0" for="bms"><sup class="text-danger">*</sup>BMS (Body Mass Index)</label>
+<input class="form-control" id="bms" name="bms" placeholder="BMS (Body Mass Index)" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-500">Contact Information</p>
+</div>
+<div class="card-body">
+<div class="row align-items-center">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" contact-information.png"="" core="" images="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="email"><sup class="text-danger">*</sup>Email Address </label>
+<input class="form-control" id="email" name="email" placeholder="Email Address" type="email"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="phone"><sup class="text-danger">*</sup>Phone Number </label>
+<input class="form-control" id="phone" name="phone" placeholder="Phone Number" type="tel"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-500">Others</p>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" images="" others.png"="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row align-items-center">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="bg-silver p-4 rounded mb-4">
+<label class="form-label mb-0" for="condition"><sup class="text-danger">*</sup>Do you have any special medical condition?</label>
+<div class="mb-2">
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="medical_condition_1" name="medical_condition" type="radio" value="Yes"/>
+<label class="form-check-label" for="inlineCheckbox1">Yes</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="medical_condition_2" name="medical_condition" type="radio" value="No"/>
+<label class="form-check-label" for="inlineCheckbox2">No</label>
+</div>
+</div>
+<div>
+<label class="form-label mb-0" for="medical">If yes, enter your special medical condition</label>
+<input class="form-control" id="medical" name="medical_condition_details" placeholder="If yes, enter your special medical condition" type="text"/>
+</div>
+</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div class="bg-silver p-4 rounded mb-0">
+<label class="form-label mb-0" for="condition"><sup class="text-danger">*</sup>Have you been convicted of a criminal offene (felony or mis-demeanour)?</label>
+<div class="mb-2">
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="criminal_offence_1" name="criminal_offence" type="radio" value="Yes"/>
+<label class="form-check-label" for="inlineCheckbox1">Yes</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="criminal_offence_2" name="criminal_offence" type="radio" value="No"/>
+<label class="form-check-label" for="inlineCheckbox2">No</label>
+</div>
+</div>
+<div>
+<label class="form-label mb-0" for="medical">If yes, please enter about the offence</label>
+<input class="form-control" id="medical" name="criminal_offence_details" placeholder="If yes, please enter about the offence" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="d-flex align-items-center justify-content-between">
+<div>
+<button class="brand-button-alt save-application" name="save_section" type="submit" value="personal_information"><i class="bi bi-floppy"></i>  Save</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div aria-labelledby="home-tab-2" class="tab-pane fade" id="home-tab-2" role="tabpanel" tabindex="0">
+<div class="card card-box">
+<div class="card-body">
+<p class="text-medium font-weight-600">IQ Test</p>
+<p class="text-extra-small font-weight-400 text-muted">Participation in the IQ test is part of our evaluation process to assess cognitive abilities and problem-solving skills relevant to the position.</p>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-600">Part A: IQ Test</p>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" images="" iq-test-1.png"="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="bg-silver p-4 rounded mb-4">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 mb-lg-2">
+<label class="form-label mb-0">1. At a conference, 12 members shook hands with each other before &amp; after the meeting. How many total numbers of handshakes occurred?</label>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q1_1" name="iq_q1" type="radio" value="100"/>
+<label class="form-check-label" for="flexCheckDefault">100 </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q1_2" name="iq_q1" type="radio" value="132"/>
+<label class="form-check-label" for="flexCheckDefault"> 132 </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q1_3" name="iq_q1" type="radio" value="145"/>
+<label class="form-check-label" for="flexCheckDefault"> 145</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q1_4" name="iq_q1" type="radio" value="144"/>
+<label class="form-check-label" for="flexCheckDefault">144 </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q1_5" name="iq_q1" type="radio" value="121"/>
+<label class="form-check-label" for="flexCheckDefault">121 </label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-silver p-4 rounded mb-4">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 mb-lg-2">
+<label class="form-label mb-0">2 (a). A fisherman has 5 fishes (namely A, B, C, D, E) each having a different weight.</label>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q2_1" name="iq_q2" type="radio" value="A weighs twice as much as B."/>
+<label class="form-check-label" for="flexCheckDefault">A weighs twice as much as B. </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q2_2" name="iq_q2" type="radio" value="B weighs four and a half times as much as C."/>
+<label class="form-check-label" for="flexCheckDefault">B weighs four and a half times as much as C. </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q2_3" name="iq_q2" type="radio" value="C weighs half as much as D."/>
+<label class="form-check-label" for="flexCheckDefault">C weighs half as much as D.</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q2_4" name="iq_q2" type="radio" value="D weighs half as much as E."/>
+<label class="form-check-label" for="flexCheckDefault">D weighs half as much as E. </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q2_5" name="iq_q2" type="radio" value="E weighs less than A but more than C."/>
+<label class="form-check-label" for="flexCheckDefault">E weighs less than A but more than C.</label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-silver p-4 rounded mb-4">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 mb-lg-2">
+<label class="form-label mb-0">2 (b). Which of the following is the lightest?</label>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q3_1" name="iq_q3" type="radio" value="Fish A"/>
+<label class="form-check-label" for="flexCheckDefault">Fish A </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q3_2" name="iq_q3" type="radio" value="Fish B"/>
+<label class="form-check-label" for="flexCheckDefault">Fish B </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q3_3" name="iq_q3" type="radio" value="Fish C"/>
+<label class="form-check-label" for="flexCheckDefault">Fish C</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q3_4" name="iq_q3" type="radio" value="Fish D"/>
+<label class="form-check-label" for="flexCheckDefault">Fish D </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q3_5" name="iq_q3" type="radio" value="Fish E"/>
+<label class="form-check-label" for="flexCheckDefault">Fish E</label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-silver p-4 rounded mb-4">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 mb-lg-2">
+<label class="form-label mb-0">3. Which number should come next in the series 1, 3, 6, 10, 15, ......</label>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q4_1" name="iq_q4" type="radio" value="8"/>
+<label class="form-check-label" for="flexCheckDefault">8 </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q4_2" name="iq_q4" type="radio" value="11"/>
+<label class="form-check-label" for="flexCheckDefault">11 </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q4_3" name="iq_q4" type="radio" value="24"/>
+<label class="form-check-label" for="flexCheckDefault">24</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q4_4" name="iq_q4" type="radio" value="21"/>
+<label class="form-check-label" for="flexCheckDefault">21</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q4_5" name="iq_q4" type="radio" value="27"/>
+<label class="form-check-label" for="flexCheckDefault">27</label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-silver p-4 rounded mb-4">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 mb-lg-2">
+<label class="form-label mb-0">4. If 10 people can do a piece of work in 5 days, working 2 hours a day; how long will 2 people take to do the same work, working 5 hours a day?</label>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q5_1" name="iq_q5" type="radio" value="8"/>
+<label class="form-check-label" for="flexCheckDefault">8 </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q5_2" name="iq_q5" type="radio" value="5"/>
+<label class="form-check-label" for="flexCheckDefault">5 </label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q5_3" name="iq_q5" type="radio" value="10"/>
+<label class="form-check-label" for="flexCheckDefault">10</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q5_4" name="iq_q5" type="radio" value="12"/>
+<label class="form-check-label" for="flexCheckDefault">12</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" id="iq_q5_5" name="iq_q5" type="radio" value="15"/>
+<label class="form-check-label" for="flexCheckDefault">15</label>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<label class="form-label mb-2">5. 87 kg of potatoes are distributed in two boxes. One box weighs 11 kg less than the other one. How many kilograms of potatoes does the lighter box contain?</label>
+<textarea class="form-control" id="message" name="iq_response_1" placeholder="Answer:" rows="5"></textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-600">Part B: Programming Test</p>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" images="" iq-test-2.png"="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<label class="form-label mb-2">1. Please write a simple module using "do while…. Loop" to display the following result:<br/>
+                                      i = 100, z = 0<br/>
+                                      i = 90 , z = 3<br/>
+                                      i = 80, z = 6<br/>
+                                      i = 70, z = 9<br/>
+                                      i = 60, z = 12<br/>
+                                      i = 50, z = 15<br/>
+                                      i = 40, z = 18</label>
+<textarea class="form-control" id="message" name="iq_response_2" placeholder="Answer:" rows="5"></textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-header">
+<p class="text-extra-small font-weight-600">Part C: SQL Test</p>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" images="" iq-test-3.png"="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<label class="form-label mb-2">We have the following "Orders" table:</label>
+<div class="table-responsive-lg">
+<table class="table table-borderless table-striped table-hover text-nowrap w-100 mb-0">
+<thead class="table-dark">
+<tr>
+<th scope="col">Order ID</th>
+<th scope="col">Order Date</th>
+<th scope="col">Order Price</th>
+<th scope="col">Title</th>
+<th scope="col">Customer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2009/11/12</td>
+<td>1000</td>
+<td>Mr.</td>
+<td>Hansen</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2008/10/23</td>
+<td>1600</td>
+<td>Dato'</td>
+<td>Nilsen</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2009/09/02</td>
+<td>700</td>
+<td>Mr.</td>
+<td>Hansen</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2010/01/03</td>
+<td>300</td>
+<td>Mr.</td>
+<td>Hansen</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2008/08/30</td>
+<td>2000</td>
+<td>En.</td>
+<td>Jensen</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2008/08/30</td>
+<td>100</td>
+<td>Dato'</td>
+<td>Nilsen</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2008/08/30</td>
+<td>600</td>
+<td>Pn.</td>
+<td>Halimah</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<label class="form-label mb-2">1. Please write the SQL statement to display record with "Title" as "Pn".</label>
+<textarea class="form-control" id="message" name="iq_response_3" placeholder="SQL Statement:" rows="5"></textarea>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<label class="form-label mb-2">2. Please write the SQL statement to display "Customer" name start with "H".</label>
+<textarea class="form-control" id="message" name="iq_response_4" placeholder="SQL Statement:" rows="5"></textarea>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<label class="form-label mb-2">3. Please write the SQL statement to find the sum of all "OrderPrice" fields group individual customer.</label>
+<textarea class="form-control" id="message" name="iq_response_5" placeholder="SQL Statement:" rows="5"></textarea>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<label class="form-label mb-2">4. Please write the SQL statement to display the records for "OrderDate" is belong to year 2009 only.</label>
+<textarea class="form-control" id="message" name="iq_response_6" placeholder="SQL Statement:" rows="5"></textarea>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<label class="form-label mb-2">5. Please write the SQL statement to display "Customer" name only and this query must avoid retrieving duplicate "Customer" name. </label>
+<textarea class="form-control" id="message" name="iq_response_7" placeholder="SQL Statement:" rows="5"></textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="d-flex align-items-center justify-content-between">
+<div>
+<button class="brand-button-alt save-application" name="save_section" type="submit" value="iq_test"><i class="bi bi-floppy"></i>  Save</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div aria-labelledby="home-tab-3" class="tab-pane fade" id="home-tab-3" role="tabpanel" tabindex="0">
+<div class="card card-box">
+<div class="card-body">
+<p class="text-medium font-weight-600">Consent Form</p>
+<p class="text-extra-small font-weight-400 text-muted">By signing this consent form, you authorize the collection, use, and disclosure of your personal information for the purpose of recruitment and employment.</p>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<div class="pt-2 text-center"><img %}"="" alt="Stalwart Business Solutions" assets="" core="" images="" insitemy-consent-logo.png"="" src="{% static " width="500"/></div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<div class="bg-silver p-4 rounded">
+<div class="input-group mb-2"> <span class="input-group-text" id="consentname">I</span>
+<input aria-describedby="consentname" aria-label="consentname" class="form-control" id="consentname" name="consentname" placeholder="Your Name" type="text"/>
+</div>
+<div>
+<label class="form-label mb-0"> hereby authorize Insite MY Systems Sdn Bhd (the "Company") of Unit 17-11, Level 17, Tower A, Vertical Business Suite, Avenue 3 Bangsar South, No 8 Jalan Kerinchi, 59200 Kuala Lumpur. A telephone facsimile (fax) or scan copies of this consent shall be considered as valid as the original consent. </label>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" consent-form.png"="" core="" images="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<ul class="text-extra-small font-weight-400 ps-3 mb-4">
+<li class="mb-2"> I hereby consent to the Company's verification of all the information I have provided on my application form. I also agree to execute as a condition of employment or a condition of continued employment any additional written authorization necessary for the Company to obtain access to and copies of records pertaining to this information. </li>
+<li class="mb-2"> I also hereby authorize the Company's access to any medical histories or records pertaining to me (and any other individuals who due to my employment may be covered by any Company medical or other insurance program). </li>
+<li class="mb-2"> I agree to release my background record, references, character, past employment, consumer reports, education, and any internal disciplinary record information in any state or local file to confirm the information on my qualifications for employment.</li>
+<li class="mb-0"> I hereby consent Human Resource Division to conduct CTOS checks on me on a continuing basis so long as I remain employee(s) of the company.</li>
+</ul>
+<p class="text-extra-small font-weight-400 mb-0">I understand and acknowledge that any false answers or statements, or misrepresentations by omission, made by me on this application or any related document, will be sufficient for rejection of my application or for my immediate discharge should such falsifications or misrepresentations be discovered after I am employed.</p>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="appname"><sup class="text-danger">*</sup>Applicant Name</label>
+<input class="form-control" id="appname" name="appname" placeholder="Applicant  Name" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="nric"><sup class="text-danger">*</sup>Applicant NRIC</label>
+<input class="form-control" id="nric" name="nric" placeholder="Applicant NRIC" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="date"><sup class="text-danger">*</sup>Dated</label>
+<input class="form-control" id="date" name="date" placeholder="Dated" type="date"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="d-flex align-items-center justify-content-between">
+<div>
+<button class="brand-button-alt save-application" name="save_section" type="submit" value="consent"><i class="bi bi-floppy"></i>  Save</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div aria-labelledby="home-tab-4" class="tab-pane fade" id="home-tab-4" role="tabpanel" tabindex="0">
+<div class="card card-box">
+<div class="card-body">
+<p class="text-medium font-weight-600">Documents Submission</p>
+<p class="text-extra-small font-weight-400 text-muted">Please ensure all required documents are submitted with your application, including your resume, cover letter, and any relevant certifications. Please upload a file not exceeding 1 MB in size.</p>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" document-submission.png"="" images="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="mb-3">
+<label class="form-label mb-0" for="payslips"><sup class="text-danger">*</sup>Upload Personality Test Result</label>
+<div class="input-group">
+<input aria-describedby="inputGroupFileAddon04" aria-label="Upload" class="form-control" id="inputGroupFile04" name="personality_test_result" type="file"/>
+<button class="brand-button-alt" data-bs-target="#chooseModal" data-bs-toggle="modal" id="inputGroupFileAddon04" type="button">Upload from Media</button>
+</div>
+</div>
+<div class="mb-3">
+<label class="form-label mb-0" for="resume"><sup class="text-danger">*</sup>Upload Updated Resume</label>
+<div class="input-group">
+<input aria-describedby="inputGroupFileAddon04" aria-label="Upload" class="form-control" id="inputGroupFile04" name="updated_resume" type="file"/>
+<button class="brand-button-alt" data-bs-target="#chooseModal" data-bs-toggle="modal" id="inputGroupFileAddon04" type="button">Upload from Media</button>
+</div>
+</div>
+<div class="mb-3">
+<label class="form-label mb-0" for="payslips"><sup class="text-danger">*</sup>Upload MyKad/NRIC/Passport</label>
+<div class="input-group">
+<input aria-describedby="inputGroupFileAddon04" aria-label="Upload" class="form-control" id="inputGroupFile04" name="identity_document" type="file"/>
+<button class="brand-button-alt" data-bs-target="#chooseModal" data-bs-toggle="modal" id="inputGroupFileAddon04" type="button">Upload from Media</button>
+</div>
+</div>
+<div class="mb-3">
+<div class="mb-3">
+<label class="form-label mb-0" for="payslips"><sup class="text-danger">*</sup>Upload Academic Certificate</label>
+<div class="input-group">
+<input aria-describedby="inputGroupFileAddon04" aria-label="Upload" class="form-control" id="inputGroupFile04" name="academic_certificate" type="file"/>
+<button class="brand-button-alt" data-bs-target="#chooseModal" data-bs-toggle="modal" id="inputGroupFileAddon04" type="button">Upload from Media</button>
+</div>
+</div>
+<div class="text-end">
+<button class="btn btn-sm btn-outline-dark" type="button">Upload More</button>
+</div>
+</div>
+<div class="mb-3">
+<div class="mb-3">
+<label class="form-label mb-0" for="payslips"><sup class="text-danger">*</sup>Last 3 Months Payslips</label>
+<div class="input-group">
+<input aria-describedby="inputGroupFileAddon04" aria-label="Upload" class="form-control" id="inputGroupFile04" name="payslips" type="file"/>
+<button class="brand-button-alt" data-bs-target="#chooseModal" data-bs-toggle="modal" id="inputGroupFileAddon04" type="button">Upload from Media</button>
+</div>
+</div>
+<div class="text-end">
+<button class="btn btn-sm btn-outline-dark" type="button">Upload More</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="d-flex align-items-center justify-content-between">
+<div>
+<button class="brand-button-alt save-application" name="save_section" type="submit" value="documents"><i class="bi bi-floppy"></i>  Save</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div aria-labelledby="home-tab-5" class="tab-pane fade" id="home-tab-5" role="tabpanel" tabindex="0">
+<div class="card card-box">
+<div class="card-body">
+<p class="text-medium font-weight-600">Employment Expectations</p>
+<p class="text-extra-small font-weight-400 text-muted">Please outline your employment expectations, including desired salary, work environment, and potential career growth opportunities.</p>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" employment-expectations.png"="" images="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="travel"><sup class="text-danger">*</sup>Willing to Travel</label>
+<select aria-label="travel" class="form-select" name="willing_to_travel">
+<option selected="">Please Select</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="travel"><sup class="text-danger">*</sup>Willing to Relocates</label>
+<select aria-label="travel" class="form-select" name="willing_to_relocate">
+<option selected="">Please Select</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="travel"><sup class="text-danger">*</sup>Possess Own Transport</label>
+<select aria-label="travel" class="form-select" name="own_transport">
+<option selected="">Please Select</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="lastsalary"><sup class="text-danger">*</sup>Last Drawn Salary (RM)</label>
+<input class="form-control" id="lastsalary" name="lastsalary" placeholder="Last Drawn Salary" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="expectedsalary"><sup class="text-danger">*</sup>Expected Salary (RM)</label>
+<input class="form-control" id="expectedsalary" name="expectedsalary" placeholder="Expected Salary" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="notice"><sup class="text-danger">*</sup>Notice Period / Availability </label>
+<select aria-label="notice" class="form-select" name="notice_period">
+<option selected="">Please Select</option>
+<option value="Immediate">Immediate</option>
+<option value="15 Days">15 Days</option>
+<option value="1 Month">1 Month</option>
+<option value="2 Months">2 Months</option>
+<option value="3 Months">3 Months</option>
+</select>
+</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="notice"><sup class="text-danger">*</sup>If you are refer by an Stalwart Business Solutions staff, please state his/her name:</label>
+<input class="form-control" id="expectedsalary" name="stalwart_referral" placeholder="If you are refer by an Stalwart staff, please state his/her name:" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="d-flex align-items-center justify-content-between">
+<div>
+<button class="brand-button-alt save-application" name="save_section" type="submit" value="employment_expectations"><i class="bi bi-floppy"></i>  Save</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div aria-labelledby="home-tab-6" class="tab-pane fade" id="home-tab-6" role="tabpanel" tabindex="0">
+<div class="card card-box">
+<div class="card-body">
+<p class="text-medium font-weight-600">References Details</p>
+<p class="text-extra-small font-weight-400 text-muted">Please provide the names, contact information, and relationship of at least two professional references who can vouch for your skills and experience.</p>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div><img %}"="" alt="Stalwart Business Solutions" assets="" core="" images="" reference-details.png"="" src="{% static " width="120"/></div>
+</div>
+<div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div class="bg-light rounded p-2">
+<p class="text-tiny text-secondary font-weight-500 mb-0">  Reference 1</p>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1name"><sup class="text-danger">*</sup>Name</label>
+<input class="form-control" id="ref1name" name="ref1name" placeholder="Name" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1pos"><sup class="text-danger">*</sup>Position</label>
+<input class="form-control" id="ref1pos" name="ref1pos" placeholder="Position" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1com"><sup class="text-danger">*</sup>Company</label>
+<input class="form-control" id="ref1com" name="ref1com" placeholder="Company" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1email"><sup class="text-danger">*</sup>Email Address</label>
+<input class="form-control" id="ref1email" name="ref1email" placeholder="Email Address" type="email"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1phn"><sup class="text-danger">*</sup>Phone Number</label>
+<input class="form-control" id="ref1phn" name="ref1phn" placeholder="Phone Number" type="tel"/>
+</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div class="bg-light rounded p-2">
+<p class="text-tiny text-secondary font-weight-500 mb-0">  Reference 2</p>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1name"><sup class="text-danger">*</sup>Name</label>
+<input class="form-control" id="ref1name" name="ref2name" placeholder="Name" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1pos"><sup class="text-danger">*</sup>Position</label>
+<input class="form-control" id="ref1pos" name="ref2pos" placeholder="Position" type="text"/>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1com"><sup class="text-danger">*</sup>Company</label>
+<input class="form-control" id="ref1com" name="ref2com" placeholder="Company" type="text"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1email"><sup class="text-danger">*</sup>Email Address</label>
+<input class="form-control" id="ref1email" name="ref2email" placeholder="Email Address" type="email"/>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+<div>
+<label class="form-label mb-0" for="ref1phn"><sup class="text-danger">*</sup>Phone Number</label>
+<input class="form-control" id="ref1phn" name="ref2phn" placeholder="Phone Number" type="tel"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="d-flex align-items-center justify-content-between">
+<div>
+<button class="brand-button-alt save-application" name="save_section" type="submit" value="reference"><i class="bi bi-floppy"></i>  Save</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div aria-labelledby="home-tab-7" class="tab-pane fade" id="home-tab-7" role="tabpanel" tabindex="0">
+<div class="card card-box">
+<div class="card-body">
+<p class="text-medium font-weight-600">Applicant Declaration</p>
+<p class="text-extra-small font-weight-400 text-muted">An Applicant Declaration is a statement confirming that all information provided by the applicant is accurate, complete, and truthful.</p>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body p-5">
+<div class="row align-items-center">
+<div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="text-center"><img %}"="" alt="Stalwart Business Solutions" assets="" core="" declaration.png"="" images="" src="{% static " width="450"/></div>
+</div>
+<div class="col-xxl-7 col-xl-7 col-lg-7 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<div class="alert alert-success mb-0" role="alert"> Your application has been successfully submitted and is under review. We will contact you if further information is needed or to provide updates on the next steps. Thank you for your interest.</div>
+</div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+<p class="text-extra-small font-weight-400 mb-0">I certify that information contained in this application is true and complete. I understand that false information may be grounds for not hiring me or for immediate termination of the employment at any point in the future if I am hired. I authorize the verification of any of all Information listed above. </p>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+<div class="mb-3">
+<label class="form-label mb-0" for="appname"><sup class="text-danger">*</sup>Applicant's Name</label>
+<input class="form-control" id="appname" name="appname" placeholder="Applicant's Name" type="text"/>
+</div>
+<div>
+<label class="form-label mb-0" for="applicationForm"><sup class="text-danger">*</sup>Applicant's Signatory</label>
+<div class="input-group">
+<input aria-describedby="inputGroupFileAddon04" aria-label="Upload" class="form-control" id="inputGroupFile04" name="applicant_signature" type="file"/>
+<button class="brand-button-alt" data-bs-target="#chooseModal" data-bs-toggle="modal" id="inputGroupFileAddon04" type="button">Upload from Media</button>
+</div>
+</div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="mb-3">
+<label class="form-label mb-0" for="appplace"><sup class="text-danger">*</sup>Applicant's Place</label>
+<input class="form-control" id="appplace" name="appplace" placeholder="Applicant's Place" type="text"/>
+</div>
+<div>
+<label class="form-label mb-0" for="dateapplied"><sup class="text-danger">*</sup>Date Applied</label>
+<input class="form-control" id="dateapplied" name="dateapplied" placeholder="Date Applied" type="date"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card card-box">
+<div class="card-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="d-flex align-items-center justify-content-between">
+<div>
+<button class="brand-button-alt save-application" name="save_section" type="submit" value="declaration"><i class="bi bi-floppy"></i>  Save</button>
+</div>
+<div>
+<button class="brand-button" name="final_submit" save_section="declaration" type="submit" value="true">Submit</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></form></div>
+<!-- center body -->
+<!-- Footer -->
+<footer class="footer" id="footer">
+<div class="container-fluid px-4">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+<div class="d-flex align-items-center justify-content-between">
+<div>
+<p class="text-extra-small font-weight-400"> © <span id="current-year"></span> Stalwart Business Solutions.</p>
+</div>
+<div>
+<p class="text-extra-small font-weight-400 backtotop" id="toTop">To top <svg fill="currentColor" height="24" viewbox="0 0 16 16" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" fill-rule="evenodd"></path>
+</svg> </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<!-- Footer -->
+
+</div>
+</div>
+</div>
+</div>
+
+<!-- Main -->
+<!-- logout -->
+<div class="custom-modal">
+<div aria-hidden="true" aria-labelledby="logoutModalLabel" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="logoutModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h1 class="modal-title fs-5" id="logoutModalLabel">Confirm</h1>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="py-3">
+<p class="text-small font-weight-400">Are you sure you want to log out?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="brand-button me-1" data-bs-dismiss="modal" type="button">Stay Connected</button>
+<button class="brand-button-alt" type="button">Logout</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- logout -->
+<!-- choose file -->
+<div class="custom-modal">
+<div aria-hidden="true" aria-labelledby="chooseModalLabel" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="chooseModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h1 class="modal-title fs-5" id="chooseModalLabel">Choose File</h1>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="table-responsive-lg">
+<table class="table table-borderless table-striped table-hover text-nowrap w-100 align-middle mb-0" id="data-table-1">
+<thead class="table-dark">
+<tr>
+<th scope="col">Doc #</th>
+<th scope="col">Document Name</th>
+<th scope="col">Document Type</th>
+<th scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8948225654</td>
+<td>Curriculam Vitae</td>
+<td>.docx</td>
+<td><div class="form-check">
+<input class="form-check-input" id="flexRadioDefault1" name="flexRadioDefault" type="radio"/>
+<label class="form-check-label" for="flexRadioDefault1"> Mark </label>
+</div></td>
+</tr>
+<tr>
+<td>8872427322</td>
+<td>Passport</td>
+<td>.pdf</td>
+<td><div class="form-check">
+<input class="form-check-input" id="flexRadioDefault1" name="flexRadioDefault" type="radio"/>
+<label class="form-check-label" for="flexRadioDefault1"> Mark </label>
+</div></td>
+</tr>
+<tr>
+<td>9656886319</td>
+<td>Jan Salary Slip</td>
+<td>.jpg</td>
+<td><div class="form-check">
+<input class="form-check-input" id="flexRadioDefault1" name="flexRadioDefault" type="radio"/>
+<label class="form-check-label" for="flexRadioDefault1"> Mark </label>
+</div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="brand-button me-1" data-bs-dismiss="modal" type="button">Close</button>
+<button class="brand-button-alt" type="button">Confirm </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- choose file -->
+<!-- js -->
+<script %}"="" assets="" bundle.js"="" core="" js="" src="{% static " type="text/javascript"></script>
+<script %}"="" assets="" core="" js="" scripts.js"="" src="{% static " type="text/javascript"></script>
+<!-- js -->
+{{ saved_data|json_script:"saved-application-data" }}
+<script>
+(function () {
+  const node = document.getElementById("saved-application-data");
+
+  function restoreInPane(pane, data) {
+    Object.keys(data || {}).forEach(function (name) {
+      pane.querySelectorAll('[name="' + CSS.escape(name) + '"]').forEach(function (field) {
+        const value = data[name];
+        const list = Array.isArray(value) ? value.map(String) : [String(value ?? "")];
+        if (field.type === "file") return;
+        if (field.type === "radio" || field.type === "checkbox") {
+          field.checked = list.includes(String(field.value)) || (value === true && field.value === "true");
+        } else {
+          field.value = Array.isArray(value) ? (value[0] ?? "") : (value ?? "");
+        }
+      });
+    });
+  }
+
+  if (node) {
+    try {
+      const saved = JSON.parse(node.textContent || "{}");
+      const sectionMap = {
+        personal_information: "home-tab-1",
+        iq_test: "home-tab-2",
+        consent: "home-tab-3",
+        documents: "home-tab-4",
+        employment_expectations: "home-tab-5",
+        reference: "home-tab-6",
+        declaration: "home-tab-7",
+        macro_section_1: "home-tab-1",
+        macro_section_2: "home-tab-2",
+        macro_section_3: "home-tab-3",
+        macro_section_4: "home-tab-4",
+        macro_section_5: "home-tab-5",
+        macro_section_6: "home-tab-6",
+        macro_section_7: "home-tab-7"
+      };
+      Object.keys(saved || {}).forEach(function (section) {
+        const paneId = sectionMap[section];
+        if (!paneId || !saved[section] || typeof saved[section] !== "object") return;
+        const pane = document.getElementById(paneId);
+        if (pane) restoreInPane(pane, saved[section]);
+      });
+    } catch (error) {
+      console.warn("Could not restore saved application data", error);
+    }
+  }
+
+  const same = document.querySelector('[name="same_as_residential"]');
+  if (same) {
+    same.addEventListener("change", function () {
+      if (!this.checked) return;
+      ["address", "city", "state", "country", "pincode"].forEach(function (key) {
+        const source = document.querySelector('[name="residential_' + key + '"]');
+        const target = document.querySelector('[name="permanent_' + key + '"]');
+        if (source && target) target.value = source.value;
+      });
+    });
+  }
+
+  const sectionMap = {
+    personal_information: "home-tab-1",
+    iq_test: "home-tab-2",
+    consent: "home-tab-3",
+    documents: "home-tab-4",
+    employment_expectations: "home-tab-5",
+    reference: "home-tab-6",
+    declaration: "home-tab-7",
+    macro_section_1: "home-tab-1",
+    macro_section_2: "home-tab-2",
+    macro_section_3: "home-tab-3",
+    macro_section_4: "home-tab-4",
+    macro_section_5: "home-tab-5",
+    macro_section_6: "home-tab-6",
+    macro_section_7: "home-tab-7"
+  };
+  const params = new URLSearchParams(window.location.search);
+  const section = params.get("section");
+  const tabId = sectionMap[section];
+  if (tabId) {
+    const trigger = document.querySelector('[data-bs-target="#' + tabId + '"]');
+    if (trigger && window.bootstrap) new bootstrap.Tab(trigger).show();
+  }
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const hiddenSection = document.getElementById("application-section");
+  document.querySelectorAll('button[name="save_section"]').forEach(function (button) {
+    button.addEventListener("click", function () {
+      if (hiddenSection) hiddenSection.value = button.value || "";
+    });
+  });
+  document.querySelectorAll('button[name="final_submit"]').forEach(function (button) {
+    button.addEventListener("click", function () {
+      if (hiddenSection) hiddenSection.value = "declaration";
+    });
+  });
+});
+</script>
+</form></body>
+</html>

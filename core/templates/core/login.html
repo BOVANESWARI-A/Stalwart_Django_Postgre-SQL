@@ -1,0 +1,251 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stalwart Business Solutions</title>
+
+<!-- favicons-->
+<link rel="icon" href="{% static "core/assets/images/favicon.png" %}" type="image/x-icon">
+<!-- favicons-->
+
+<!-- css -->
+<link type="text/css" href="{% static "core/assets/css/master.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "core/assets/css/style.css" %}" rel="stylesheet">
+<!-- css -->
+
+<!--[if lt IE 9]>
+<script src="{% static "core/assets/js/html5shiv.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/css3-mediaqueries.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/respond.min.js" %}" type="text/javascript" defer></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+<main>
+  <div class="container">
+
+    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
+
+      <div class="container">
+
+        <div class="row justify-content-center">
+
+          <div class="col-xxl-5 col-lg-5 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+            <div class="d-flex justify-content-center py-4">
+              <a href="javascript:void(0)" class="text-center">
+                <img src="{% static "core/assets/images/logo.png" %}"
+                     alt="Stalwart Business Solutions"
+                     width="200">
+              </a>
+            </div>
+
+            <div class="card card-box">
+
+              <div class="card-body p-5">
+
+                <div class="mb-4">
+                  <p class="text-large font-weight-700 text-center mb-1">
+                    Login Console
+                  </p>
+
+                  <p class="text-extra-small font-weight-400 text-center text-muted">
+                    Enter your email address & password to login.
+                  </p>
+                </div>
+
+
+                <!-- LOGIN FORM -->
+                <form method="post" action="{% url 'login' %}">
+
+                  {% csrf_token %}
+
+
+                  <input type="hidden"
+       name="next"
+       value="{{ next }}">
+                  <div class="row">
+
+
+                    <!-- ERROR MESSAGE -->
+                    {% if messages %}
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                      {% for message in messages %}
+                      <div class="alert alert-danger mb-0" role="alert">
+                        {{ message }}
+                      </div>
+                      {% endfor %}
+
+                    </div>
+                    {% endif %}
+                    <!-- ERROR MESSAGE -->
+
+
+                    <!-- EMAIL -->
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                      <label for="email" class="form-label mb-0">
+                        <sup class="text-danger">*</sup>Email Address
+                      </label>
+
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="Email Address"
+                        required
+                        autocomplete="email"
+                      >
+
+                    </div>
+                    <!-- EMAIL -->
+
+
+                    <!-- PASSWORD -->
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                      <label for="pass" class="form-label mb-0">
+                        <sup class="text-danger">*</sup>Password
+                      </label>
+
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="pass"
+                        name="password"
+                        placeholder="Password"
+                        required
+                        autocomplete="current-password"
+                      >
+
+                    </div>
+                    <!-- PASSWORD -->
+
+
+                    <!-- REMEMBER -->
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                      <div class="form-check mb-0">
+
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="remember"
+                          value="true"
+                          id="rememberMe"
+                        >
+
+                        <label class="form-check-label" for="rememberMe">
+                          Remember
+                        </label>
+
+                      </div>
+
+                    </div>
+                    <!-- REMEMBER -->
+
+
+                    <!-- FORGOT PASSWORD -->
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                      <div class="text-end">
+
+                        <p class="text-extra-small font-weight-500 mb-0 lh-1">
+                          <a href="{% url 'reset_password' %}">
+                            Forgot Password?
+                          </a>
+                        </p>
+
+                      </div>
+
+                    </div>
+                    <!-- FORGOT PASSWORD -->
+
+
+                    <!-- LOGIN BUTTON -->
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+
+                      <button
+                        class="brand-button w-100"
+                        type="submit"
+                      >
+                        Login
+                      </button>
+
+                    </div>
+                    <!-- LOGIN BUTTON -->
+
+
+                    <!-- SIGNUP -->
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+
+                      <div class="text-center">
+
+                        <p class="text-small font-weight-600 mb-0 lh-1">
+                          Don't have account?
+                          <a href="{% url 'signup' %}">
+                            Create an One
+                          </a>
+                        </p>
+
+                      </div>
+
+                    </div>
+                    <!-- SIGNUP -->
+
+
+                  </div>
+
+                </form>
+                <!-- LOGIN FORM -->
+
+              </div>
+
+            </div>
+
+
+            <div class="auth-footer">
+
+              <p class="text-extra-small font-weight-400 text-dark-90">
+                &copy;
+                <span id="current-year"></span>
+                Stalwart Business Solutions.
+              </p>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+</main>
+
+
+<!-- js -->
+
+<script
+  src="{% static "core/assets/js/bundle.js" %}"
+  type="text/javascript">
+</script>
+
+<script
+  src="{% static "core/assets/js/scripts.js" %}"
+  type="text/javascript">
+</script>
+
+<!-- js -->
+
+</body>
+</html>

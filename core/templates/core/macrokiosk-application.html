@@ -1,0 +1,2508 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stalwart Business Solutions</title>
+<!-- favicons-->
+<link rel="icon" href="{% static "core/assets/images/favicon.png" %}" type="image/x-icon">
+<!-- favicons-->
+<!-- css -->
+<link type="text/css" href="{% static "core/assets/css/master.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "core/assets/css/style.css" %}" rel="stylesheet">
+<!-- css -->
+<!--[if lt IE 9]>
+<script src="{% static "core/assets/js/html5shiv.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/css3-mediaqueries.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/respond.min.js" %}" type="text/javascript" defer></script>
+<![endif]-->
+</head>
+<body>
+<div class="wrapper"> 
+  <!-- Sidebar -->
+  {% include "core/sidebar.html" %} 
+  <!-- Main -->
+  <div id="main-content" class="flex-grow-1"> 
+    <!-- Header -->
+    <header class="header header-light">
+      <div class="container-fluid px-4 py-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <div> <a href="javascript:void(0)" class="toggle-sidebar-btn" onClick="toggleSidebar()"> <i class="bi bi-list toggle-sidebar-btn"></i> </a> </div>
+          <!-- PROFILE -->
+
+                    <div>
+
+                        <nav class="header-nav ms-auto">
+
+                            <ul class="d-flex align-items-center">
+
+                                <li class="nav-item dropdown">
+
+
+                                    <a class="nav-link nav-profile d-flex align-items-center pe-0"
+                                       href="javascript:void(0)"
+                                       data-bs-toggle="dropdown">
+
+
+                                        <img
+                                            src="{% static 'core/assets/images/profile.png' %}"
+                                            alt="Profile"
+                                            class="rounded-circle" width="40" height="40" style="width:40px;height:40px;object-fit:cover;">
+
+
+                                        <span class="d-none d-md-block dropdown-toggle ps-2">
+
+                                            {{ request.user.first_name|default:request.user.username }}
+
+                                        </span>
+
+
+                                    </a>
+
+
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+
+                                        <li class="dropdown-header border-bottom">
+
+                                            <p class="text-extra-small text-dark font-weight-500">
+
+                                                {{ request.user.get_full_name|default:request.user.username }}
+
+                                            </p>
+
+                                            <small>
+
+                                                {{ request.user.email }}
+
+                                            </small>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'myprofile' %}">
+
+                                                <i class="bi bi-person"></i>
+
+                                                <span>My Profile</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'security' %}">
+
+                                                <i class="bi bi-lock"></i>
+
+                                                <span>Security</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li>
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'logout' %}">
+
+                                                <i class="bi bi-box-arrow-right"></i>
+
+                                                <span>Sign Out</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+
+                        </nav>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+    <!-- Header --> 
+    <!-- Content Body -->
+    <div class="content-wrapper">
+      <div class="container-fluid px-4">
+        <div class="py-4">
+          <section class="page-container"> 
+            <!-- Title -->
+            {% if role == "hr" or role == "administration" %}
+<div class="card border-0 shadow-sm mb-3">
+  <div class="card-body py-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <div>
+        <div class="fw-semibold">Application Status</div>
+        <small class="text-muted">Update the candidate's application stage from the server.</small>
+      </div>
+      <form method="post" action="{% url 'update_application_status' application.id %}" class="d-flex align-items-center gap-2">
+        {% csrf_token %}
+        <select name="status" class="form-select form-select-sm" style="min-width:170px;">
+          <option value="submitted" {% if application.status == "submitted" %}selected{% endif %}>Submitted</option>
+          <option value="reviewed" {% if application.status == "reviewed" %}selected{% endif %}>Reviewed</option>
+          <option value="shortlisted" {% if application.status == "shortlisted" %}selected{% endif %}>Shortlisted</option>
+          <option value="rejected" {% if application.status == "rejected" %}selected{% endif %}>Rejected</option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="pagetitle pt-2 mb-3">
+              <p class="text-medium font-weight-500">View Application</p>
+            </div>
+            <!-- center body -->
+            <div class="content-section">
+              <div class="row">
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-medium font-weight-600"><span>MAK-001</span> - <span>.Net Developer</span></p>
+                          <p class="text-extra-small font-weight-400 text-muted">{{ application.candidate.full_name|default:"Candidate" }}</p>
+                        </div>
+                        <div><a href="{% url 'application_detail' application.id %}?download=pdf" class="brand-button-alt btn-sm" target="_blank" rel="noopener"><i class="bi bi-download"></i>&nbsp;&nbsp;PDF</a> </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Personal Particulars</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/personal-details.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3"> <img src="{% static "core/assets/images/profile.png" %}" alt="Stalwart Business Solutions" class="rounded-circle" width="100"> </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">{{ application.candidate.full_name|default:"Candidate" }}</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Permanent Home Address</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Level 28, G Tower, #199 Jalan Tun Razak, Kaula Lampur, Selangor, Malaysia, 5000 </p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Current Home Address</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Level 28, G Tower, #199 Jalan Tun Razak, Kaula Lampur, Selangor, Malaysia, 5000 </p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date of Birth</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">10/10/1995</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Age</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">29</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Gender</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Male</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Place of Birth</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Kaula Lampur</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Email Address</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">easwar@yahoo.com</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Identity Card No.</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">ABC1234</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Marital Status</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Single</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Nationality</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Malaysian</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">+603 2725 9216</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">+603 2725 0011</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Family Information (Parents, Brothers. Sisters, Spouse, Children)</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/family.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Father</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Suresh, Govt. Retired</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Mother</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Sara, Housewife</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Spouse</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Children</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brothers</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Sisters</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">How do you stay?</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">With Parents</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Employment History</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/experience.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/01/2023</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/01/2024</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">TCS</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Kuala Ketil</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">3000RM</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">3100RM</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Due to distance not able to travel 50 kms daily</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Here am a full stack developer of web design and web development</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/01/2023</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/01/2024</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">TCS</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Kuala Ketil</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">3000RM</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">3100RM</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Due to distance not able to travel 50 kms daily</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Here am a full stack developer of web design and web development</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Education</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/college.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">National University of Malaysia</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Kelantan</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">2020</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">2023</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Bachelor of Commerce</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">University of Selangor</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Selangor</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">2018</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">2020</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Higher Secondary</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Continuing education you are currently attending (If any)</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/education.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">National University of Malaysia</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Universiti Kebangsaan </p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year start</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/05/2024</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year End</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/05/2026</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Diploma</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Membership</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row align-items-center">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/membership.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div class="bg-silver p-4 rounded mb-0">
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Membership (Professional Bodies, Social, Sport etc)</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Courses</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row align-items-center">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/certificate.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div class="bg-silver p-4 rounded mb-0">
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Major Training Courses Attended (with date)</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Language / Dialect</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/language.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <table class="table table-borderless table-hover table-striped mb-0">
+                                    <thead class="table-dark">
+                                      <tr>
+                                        <th scope="col">Language / Dialect</th>
+                                        <th scope="col">Speak</th>
+                                        <th scope="col">Read</th>
+                                        <th scope="col">Write</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">English</th>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Malay</th>
+                                        <td>Slight</td>
+                                        <td>Slight</td>
+                                        <td>Slight</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Chinese</th>
+                                        <td>Slight</td>
+                                        <td>Slight</td>
+                                        <td>Slight</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Tamil</th>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Telugu</th>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Activities / Interest / Hobbies</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row align-items-center">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/hobbies.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Activities / Interest / Hobbies</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Football Player, Listening Music,  Watching Movies</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">General Information</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div><img src="{% static "core/assets/images/others.png" %}" alt="Stalwart Business Solutions" width="100"></div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div class="row">
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Do you have any physical impairment?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you had any serious or contagious illness prior to this application?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been in the service of this Company or its subsidiaries?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Are you related to anyone working in this Company or its subsidiaries?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been dismissed or suspended from any position?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been convicted of criminal offences in the Court of Law?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been declared bankrupt?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Are you currently engaged in any private businesses?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been involved with the use of any illegal drugs?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Do you have a valid driving licence? What class?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">Availability</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/interview.png" %}" alt="Stalwart Business Solutions" width="100"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">By which date would you be available to take up this new appointment?</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">15/11/2024</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Expected Salary</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">5000RM</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Expected Benefits</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <label for="lastsalary" class="form-label mb-0">Note: Applicant may be required to show his latest payslip</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">References Details</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div><img src="{% static "core/assets/images/reference-details.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div class="bg-light rounded p-2">
+                                <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Reference 1</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Referee</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Suresh</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Occupation</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Company</p>
+                                <p class="text-extra-small font-weight-600 text-muted">TCS</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Email Address</p>
+                                <p class="text-extra-small font-weight-600 text-muted">suresh@tcs.com</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                <p class="text-extra-small font-weight-600 text-muted">+91 98800 98844</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div class="bg-light rounded p-2">
+                                <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Reference 2</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Referee</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Occupation</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Developer</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Company</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Cognizant</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Email Address</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Prakash@cts.com</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                <p class="text-extra-small font-weight-600 text-muted">+91 944000 88444</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">Applicant Declaration</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row align-items-center">
+                          <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="text-center"><img src="{% static "core/assets/images/declaration.png" %}" alt="Stalwart Business Solutions" width="450"></div>
+                          </div>
+                          <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+                                <p class="text-small font-weight-600 mb-2">Declaration</p>
+                                <p class="text-extra-small font-weight-400 mb-0">The particulars which I have stated are true and correct to the best of my knowledge and made on my own behalf. Any false or inaccurate information given will render any subsequent employment contract null and void.</p>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                <div>
+                                  <label for="appname" class="form-label mb-0"><sup class="text-danger">*</sup>Signature of Applicant</label>
+                                  <input type="text" class="form-control" id="appname" name="appname" placeholder="Signature of Applicant" value="{{ application.candidate.full_name|default:"Candidate" }}" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <div>
+                                  <label for="dateapplied" class="form-label mb-0"><sup class="text-danger">*</sup>Date</label>
+                                  <input type="date" class="form-control" id="dateapplied" name="dateapplied" placeholder="Date" disabled>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">MACROKIOSK Personal Data Consent for Job Applicants</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/backgroundcheck.png" %}" alt="Stalwart Business Solutions" width="100"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <div class="mb-3">
+                                    <div class="input-group"><span class="input-group-text" id="yourname">I</span>
+                                      <input type="text" class="form-control" placeholder="Your Name" aria-label="yourname" aria-describedby="yourname" value="{{ application.candidate.full_name|default:"Candidate" }}" disabled>
+                                      <span class="input-group-text" id="yourname">,</span></div>
+                                  </div>
+                                  <div class="mb-3">
+                                    <div class="input-group"><span class="input-group-text" id="nric">I</span>
+                                      <input type="text" class="form-control" placeholder="NRIC / Passport No." aria-label="nric" aria-describedby="nric" value="ABC1234" disabled>
+                                    </div>
+                                  </div>
+                                  <p class="text-extra-small font-weight-400 mb-3"> hereby grant consent to <span class="font-weight-600">VENOVOX SDN BHD (858858–M)</span>, an employment screening company to conduct the following for background screening as part of the recruitment process of Venovox's client with whom I am seeking employment opportunities with. I hereby consent VENOVOX SDN BHD to release the Report, which consists the screening results to the Client.<br>
+                                    <br>
+                                    All information provided by me in support of my application for employment is true and correct to the best of my knowledge. I understand that misrepresentation or omission will constitute sufficient ground for rejection or for subsequent dismissal if I am hired.<br>
+                                    <br>
+                                    I hereby consent and authorize any former employer, school, person, firm, corporation, consumer or credit reporting agency, or government agency to answer any and all questions and to release or provide any information within their knowledge or record, and I agree to hold any or all of them blameless and free of any liability for releasing any truthful information that is within their knowledge or records. I also agree to hold the Company blameless and free of any liability for using any information received from such parties in making an employment decision regarding me. <br>
+                                    <br>
+                                    The company is hereby authorized to release to any other firm or person with whom I may seek employment, any and all information concerning my employment or application and I agree to hold the company blameless and free of any liability for releasing any such information.</p>
+                                  <p class="text-extra-small font-weight-400 mb-0"><span class="font-weight-600 text-decoration-underline">Acknowledgement and Release</span><br>
+                                    <br>
+                                    I acknowledge receipt of this letter. I release your company and its employees and agents from all liability relating to your obtaining and use of such information solely and only for the purpose of being evaluated for a recruitment position. I authorize all companies, schools, organizations and other persons to provide such information to you and your agents and release them from all liability for doing do so.</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div class="mb-3">
+                                  <label for="name" class="form-label mb-0"><sup class="text-danger">*</sup>Candidate's Signature</label>
+                                  <button type="button" class="brand-button w-100"><i class="bi bi-download"></i>&nbsp;&nbsp;Download Signature</button>
+                                </div>
+                                <div>
+                                  <label for="name" class="form-label mb-0"><sup class="text-danger">*</sup>Candidate's Name</label>
+                                  <input type="text" class="form-control" id="name" name="name" placeholder="Candidate's Name" value="{{ application.candidate.full_name|default:"Candidate" }}" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div class="mb-3">
+                                  <label for="date" class="form-label mb-0"><sup class="text-danger">*</sup>Date</label>
+                                  <input type="date" class="form-control" id="date" name="date" placeholder="Date" disabled>
+                                </div>
+                                <div>
+                                  <label for="nric" class="form-label mb-0"><sup class="text-danger">*</sup> NRIC/Passport No.</label>
+                                  <input type="text" class="form-control" id="nric" name="nric" placeholder="NRIC/Passport No." value="ABC1234" disabled>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">General Assignment</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div><img src="{% static "core/assets/images/writing.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                              <div>
+                                <p class="text-extra-small font-weight-600 mb-1">If you are selected for the applied position, Please share with us on what you can contribute to MACROKIOSK.</p>
+                                <p class="text-extra-small font-weight-400">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">HR PDPA Consent Form</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/contract.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-extra-small font-weight-400"> The information you provide in your curriculum vitae and such other information, whether verbal or otherwise, provided by you to MACROKIOSK, will be used and processed by or on behalf of MACROKIOSK for purposes related to your registration of interest in current or future employment with MACROKIOSK and for the processing of your application for employment.<br>
+                                    <br>
+                                    We will collect and use the personal data that you have supplied to facilitate the processing of your application for employment purposes. We will use personal information such as telephone number and or email address to contact you on job opportunities. Please note that the information you provide may be used by a third party to enable us to process your application. These third parties are to carry out some of the processing and administrative functions for MACROKIOSK and would take care to maintain the appropriate levels or security and confidentiality and only use the information as instructed by MACROKIOSK.<br>
+                                    <br>
+                                    The personal data held by MACROKIOSK relating to the applicants will be kept strictly confidential. MACROKIOSK may collect information through other sources for processing and evaluating your application for employment. If your application is successful, the information will be used in the administration of your employment. <br>
+                                    <br>
+                                    As part of assessing your suitability to work with MACROKIOSK, we may use your information to conduct reference checks in accordance with MACROKIOSK HR Policy. If necessary, MACROKIOSK may provide your personal data to Ministries, public agencies, statutory boards or other similar organisations for evaluating your application. <br>
+                                    <br>
+                                    If your application is unsuccessful, MACROKIOSK may retain and use the information which you provided for 2 years (or such longer period as required by law) from the receipt of your curriculum vitae to deal with any matter which may arise in connection with your application, for purposes of contacting you in connection with ongoing recruitment opportunities, as well as for data analysis and business purposes.<br>
+                                    <br>
+                                    By giving your consent, you agree to your data being used in conjunction with the recruitment and employment purposes. If you have any enquiries, please email to <span class="font-weight-600 text-decoration-underline">hr@macrokiosk.com</span>. <br>
+                                    <br>
+                                    I have read and consent to the above. </p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <label for="name" class="form-label mb-0"><sup class="text-danger">*</sup>Name</label>
+                                  <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ application.candidate.full_name|default:"Candidate" }}" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <label for="nric" class="form-label mb-0"><sup class="text-danger">*</sup> NRIC/ID No.</label>
+                                  <input type="text" class="form-control" id="nric" name="nric" placeholder="NRIC/ID No." value="ABC1234" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <label for="date" class="form-label mb-0"><sup class="text-danger">*</sup>Date</label>
+                                  <input type="date" class="form-control" id="date" name="date" placeholder="Date" disabled>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- center body --> 
+            <div class="card card-box mt-4">
+  <div class="card-header"><p class="text-extra-small font-weight-500 mb-0">Uploaded Documents / Images</p></div>
+  <div class="card-body">
+    {% if uploaded_files %}
+      <div class="list-group">
+        {% for uploaded in uploaded_files %}
+          <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{{ uploaded.file.url }}" target="_blank" rel="noopener">
+            <span><i class="bi bi-paperclip me-2"></i>{{ uploaded.field_name|default:"Document" }} — {{ uploaded.file.name|cut:"applications/" }}</span>
+            <span class="text-muted small">{{ uploaded.uploaded_at|date:"d M Y H:i" }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted mb-0">No files uploaded for this application.</p>
+    {% endif %}
+  </div>
+</div>
+<!-- Footer -->
+            <footer id="footer" class="footer">
+              <div class="container-fluid px-4">
+                <div class="row">
+                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div>
+                        <p class="text-extra-small font-weight-400"> &copy; <span id="current-year"></span> Stalwart Business Solutions.</p>
+                      </div>
+                      <div>
+                        <p class="text-extra-small font-weight-400 backtotop" id="toTop">To top
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                          </svg>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- Footer --> 
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Main --> 
+<!-- logout -->
+<div class="custom-modal">
+  <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="logoutModalLabel">Confirm</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+              <div class="py-3">
+                <p class="text-small font-weight-400">Are you sure you want to log out?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="brand-button me-1" data-bs-dismiss="modal">Stay Connected</button>
+          <form method="post" action="{% url 'logout' %}" style="display:inline;">{% csrf_token %}<button type="submit" class="brand-button-alt">Logout</button></form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- logout --> 
+<!-- js --> 
+<script src="{% static "core/assets/js/bundle.js" %}" type="text/javascript"></script> 
+<script src="{% static "core/assets/js/scripts.js" %}" type="text/javascript"></script> 
+<!-- js -->
+static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stalwart Business Solutions</title>
+<!-- favicons-->
+<link rel="icon" href="{% static "core/assets/images/favicon.png" %}" type="image/x-icon">
+<!-- favicons-->
+<!-- css -->
+<link type="text/css" href="{% static "core/assets/css/master.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "core/assets/css/style.css" %}" rel="stylesheet">
+<!-- css -->
+<!--[if lt IE 9]>
+<script src="{% static "core/assets/js/html5shiv.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/css3-mediaqueries.js" %}" type="text/javascript" defer></script>
+<script src="{% static "core/assets/js/respond.min.js" %}" type="text/javascript" defer></script>
+<![endif]-->
+</head>
+<body>
+<div class="wrapper"> 
+  <!-- Sidebar -->
+  {% include "core/sidebar.html" %} 
+  <!-- Main -->
+  <div id="main-content" class="flex-grow-1"> 
+    <!-- Header -->
+    <header class="header header-light">
+      <div class="container-fluid px-4 py-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <div> <a href="javascript:void(0)" class="toggle-sidebar-btn" onClick="toggleSidebar()"> <i class="bi bi-list toggle-sidebar-btn"></i> </a> </div>
+          <!-- PROFILE -->
+
+                    <div>
+
+                        <nav class="header-nav ms-auto">
+
+                            <ul class="d-flex align-items-center">
+
+                                <li class="nav-item dropdown">
+
+
+                                    <a class="nav-link nav-profile d-flex align-items-center pe-0"
+                                       href="javascript:void(0)"
+                                       data-bs-toggle="dropdown">
+
+
+                                        <img
+                                            src="{% static 'core/assets/images/profile.png' %}"
+                                            alt="Profile"
+                                            class="rounded-circle" width="40" height="40" style="width:40px;height:40px;object-fit:cover;">
+
+
+                                        <span class="d-none d-md-block dropdown-toggle ps-2">
+
+                                            {{ request.user.first_name|default:request.user.username }}
+
+                                        </span>
+
+
+                                    </a>
+
+
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+
+                                        <li class="dropdown-header border-bottom">
+
+                                            <p class="text-extra-small text-dark font-weight-500">
+
+                                                {{ request.user.get_full_name|default:request.user.username }}
+
+                                            </p>
+
+                                            <small>
+
+                                                {{ request.user.email }}
+
+                                            </small>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'myprofile' %}">
+
+                                                <i class="bi bi-person"></i>
+
+                                                <span>My Profile</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li class="border-bottom">
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'security' %}">
+
+                                                <i class="bi bi-lock"></i>
+
+                                                <span>Security</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li>
+
+                                            <a class="dropdown-item d-flex align-items-center"
+                                               href="{% url 'logout' %}">
+
+                                                <i class="bi bi-box-arrow-right"></i>
+
+                                                <span>Sign Out</span>
+
+                                            </a>
+
+                                        </li>
+
+
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+
+                        </nav>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+    <!-- Header --> 
+    <!-- Content Body -->
+    <div class="content-wrapper">
+      <div class="container-fluid px-4">
+        <div class="py-4">
+          <section class="page-container"> 
+            <!-- Title -->
+            {% if role == "hr" or role == "administration" %}
+<div class="card border-0 shadow-sm mb-3">
+  <div class="card-body py-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <div>
+        <div class="fw-semibold">Application Status</div>
+        <small class="text-muted">Update the candidate's application stage from the server.</small>
+      </div>
+      <form method="post" action="{% url 'update_application_status' application.id %}" class="d-flex align-items-center gap-2">
+        {% csrf_token %}
+        <select name="status" class="form-select form-select-sm" style="min-width:170px;">
+          <option value="submitted" {% if application.status == "submitted" %}selected{% endif %}>Submitted</option>
+          <option value="reviewed" {% if application.status == "reviewed" %}selected{% endif %}>Reviewed</option>
+          <option value="shortlisted" {% if application.status == "shortlisted" %}selected{% endif %}>Shortlisted</option>
+          <option value="rejected" {% if application.status == "rejected" %}selected{% endif %}>Rejected</option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="pagetitle pt-2 mb-3">
+              <p class="text-medium font-weight-500">View Application</p>
+            </div>
+            <!-- center body -->
+            <div class="content-section">
+              <div class="row">
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                  <div class="card card-box">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <p class="text-medium font-weight-600"><span>MAK-001</span> - <span>.Net Developer</span></p>
+                          <p class="text-extra-small font-weight-400 text-muted">{{ application.candidate.full_name|default:"Candidate" }}</p>
+                        </div>
+                        <div><a href="{% url 'application_detail' application.id %}?download=pdf" class="brand-button-alt btn-sm" target="_blank" rel="noopener"><i class="bi bi-download"></i>&nbsp;&nbsp;PDF</a> </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Personal Particulars</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/personal-details.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3"> <img src="{% static "core/assets/images/profile.png" %}" alt="Stalwart Business Solutions" class="rounded-circle" width="100"> </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">{{ application.candidate.full_name|default:"Candidate" }}</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Permanent Home Address</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Level 28, G Tower, #199 Jalan Tun Razak, Kaula Lampur, Selangor, Malaysia, 5000 </p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Current Home Address</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Level 28, G Tower, #199 Jalan Tun Razak, Kaula Lampur, Selangor, Malaysia, 5000 </p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date of Birth</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">10/10/1995</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Age</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">29</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Gender</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Male</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Place of Birth</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Kaula Lampur</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Email Address</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">easwar@yahoo.com</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Identity Card No.</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">ABC1234</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Marital Status</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Single</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Nationality</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Malaysian</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">+603 2725 9216</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">+603 2725 0011</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Family Information (Parents, Brothers. Sisters, Spouse, Children)</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/family.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Father</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Suresh, Govt. Retired</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Mother</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Sara, Housewife</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Spouse</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Children</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brothers</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Sisters</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">How do you stay?</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">With Parents</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Employment History</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/experience.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/01/2023</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/01/2024</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">TCS</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Kuala Ketil</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">3000RM</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">3100RM</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Due to distance not able to travel 50 kms daily</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Here am a full stack developer of web design and web development</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/01/2023</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/01/2024</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">TCS</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Kuala Ketil</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">3000RM</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">3100RM</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Due to distance not able to travel 50 kms daily</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Here am a full stack developer of web design and web development</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Education</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/college.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">National University of Malaysia</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Kelantan</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">2020</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">2023</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Bachelor of Commerce</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">University of Selangor</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Selangor</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">2018</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">2020</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Higher Secondary</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Continuing education you are currently attending (If any)</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/education.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="bg-silver p-4 rounded mb-3">
+                              <div class="row">
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">National University of Malaysia</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Universiti Kebangsaan </p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year start</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/05/2024</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year End</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">10/05/2026</p>
+                                  </div>
+                                </div>
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                  <div>
+                                    <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
+                                    <p class="text-extra-small font-weight-600 text-muted">Diploma</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Membership</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row align-items-center">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/membership.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div class="bg-silver p-4 rounded mb-0">
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Membership (Professional Bodies, Social, Sport etc)</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Courses</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row align-items-center">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/certificate.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div class="bg-silver p-4 rounded mb-0">
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Major Training Courses Attended (with date)</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Nil</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Language / Dialect</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/language.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <table class="table table-borderless table-hover table-striped mb-0">
+                                    <thead class="table-dark">
+                                      <tr>
+                                        <th scope="col">Language / Dialect</th>
+                                        <th scope="col">Speak</th>
+                                        <th scope="col">Read</th>
+                                        <th scope="col">Write</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">English</th>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Malay</th>
+                                        <td>Slight</td>
+                                        <td>Slight</td>
+                                        <td>Slight</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Chinese</th>
+                                        <td>Slight</td>
+                                        <td>Slight</td>
+                                        <td>Slight</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Tamil</th>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Telugu</th>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                        <td>Fair</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">Activities / Interest / Hobbies</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row align-items-center">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/hobbies.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Activities / Interest / Hobbies</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Football Player, Listening Music,  Watching Movies</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-500">General Information</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div><img src="{% static "core/assets/images/others.png" %}" alt="Stalwart Business Solutions" width="100"></div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div class="row">
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Do you have any physical impairment?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you had any serious or contagious illness prior to this application?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been in the service of this Company or its subsidiaries?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Are you related to anyone working in this Company or its subsidiaries?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been dismissed or suspended from any position?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been convicted of criminal offences in the Court of Law?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been declared bankrupt?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Are you currently engaged in any private businesses?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Have you ever been involved with the use of any illegal drugs?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Do you have a valid driving licence? What class?</p>
+                                <p class="text-extra-small font-weight-600 text-muted">No</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">Availability</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/interview.png" %}" alt="Stalwart Business Solutions" width="100"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">By which date would you be available to take up this new appointment?</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">15/11/2024</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Expected Salary</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">5000RM</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Expected Benefits</p>
+                                  <p class="text-extra-small font-weight-600 text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <label for="lastsalary" class="form-label mb-0">Note: Applicant may be required to show his latest payslip</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">References Details</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div><img src="{% static "core/assets/images/reference-details.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div class="bg-light rounded p-2">
+                                <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Reference 1</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Referee</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Suresh</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Occupation</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Company</p>
+                                <p class="text-extra-small font-weight-600 text-muted">TCS</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Email Address</p>
+                                <p class="text-extra-small font-weight-600 text-muted">suresh@tcs.com</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                <p class="text-extra-small font-weight-600 text-muted">+91 98800 98844</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div class="bg-light rounded p-2">
+                                <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Reference 2</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Referee</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Occupation</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Developer</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Company</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Cognizant</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Email Address</p>
+                                <p class="text-extra-small font-weight-600 text-muted">Prakash@cts.com</p>
+                              </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                              <div>
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Phone Number</p>
+                                <p class="text-extra-small font-weight-600 text-muted">+91 944000 88444</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">Applicant Declaration</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row align-items-center">
+                          <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="text-center"><img src="{% static "core/assets/images/declaration.png" %}" alt="Stalwart Business Solutions" width="450"></div>
+                          </div>
+                          <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-4">
+                                <p class="text-small font-weight-600 mb-2">Declaration</p>
+                                <p class="text-extra-small font-weight-400 mb-0">The particulars which I have stated are true and correct to the best of my knowledge and made on my own behalf. Any false or inaccurate information given will render any subsequent employment contract null and void.</p>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
+                                <div>
+                                  <label for="appname" class="form-label mb-0"><sup class="text-danger">*</sup>Signature of Applicant</label>
+                                  <input type="text" class="form-control" id="appname" name="appname" placeholder="Signature of Applicant" value="{{ application.candidate.full_name|default:"Candidate" }}" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                                <div>
+                                  <label for="dateapplied" class="form-label mb-0"><sup class="text-danger">*</sup>Date</label>
+                                  <input type="date" class="form-control" id="dateapplied" name="dateapplied" placeholder="Date" disabled>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">MACROKIOSK Personal Data Consent for Job Applicants</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/backgroundcheck.png" %}" alt="Stalwart Business Solutions" width="100"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <div class="mb-3">
+                                    <div class="input-group"><span class="input-group-text" id="yourname">I</span>
+                                      <input type="text" class="form-control" placeholder="Your Name" aria-label="yourname" aria-describedby="yourname" value="{{ application.candidate.full_name|default:"Candidate" }}" disabled>
+                                      <span class="input-group-text" id="yourname">,</span></div>
+                                  </div>
+                                  <div class="mb-3">
+                                    <div class="input-group"><span class="input-group-text" id="nric">I</span>
+                                      <input type="text" class="form-control" placeholder="NRIC / Passport No." aria-label="nric" aria-describedby="nric" value="ABC1234" disabled>
+                                    </div>
+                                  </div>
+                                  <p class="text-extra-small font-weight-400 mb-3"> hereby grant consent to <span class="font-weight-600">VENOVOX SDN BHD (858858–M)</span>, an employment screening company to conduct the following for background screening as part of the recruitment process of Venovox's client with whom I am seeking employment opportunities with. I hereby consent VENOVOX SDN BHD to release the Report, which consists the screening results to the Client.<br>
+                                    <br>
+                                    All information provided by me in support of my application for employment is true and correct to the best of my knowledge. I understand that misrepresentation or omission will constitute sufficient ground for rejection or for subsequent dismissal if I am hired.<br>
+                                    <br>
+                                    I hereby consent and authorize any former employer, school, person, firm, corporation, consumer or credit reporting agency, or government agency to answer any and all questions and to release or provide any information within their knowledge or record, and I agree to hold any or all of them blameless and free of any liability for releasing any truthful information that is within their knowledge or records. I also agree to hold the Company blameless and free of any liability for using any information received from such parties in making an employment decision regarding me. <br>
+                                    <br>
+                                    The company is hereby authorized to release to any other firm or person with whom I may seek employment, any and all information concerning my employment or application and I agree to hold the company blameless and free of any liability for releasing any such information.</p>
+                                  <p class="text-extra-small font-weight-400 mb-0"><span class="font-weight-600 text-decoration-underline">Acknowledgement and Release</span><br>
+                                    <br>
+                                    I acknowledge receipt of this letter. I release your company and its employees and agents from all liability relating to your obtaining and use of such information solely and only for the purpose of being evaluated for a recruitment position. I authorize all companies, schools, organizations and other persons to provide such information to you and your agents and release them from all liability for doing do so.</p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div class="mb-3">
+                                  <label for="name" class="form-label mb-0"><sup class="text-danger">*</sup>Candidate's Signature</label>
+                                  <button type="button" class="brand-button w-100"><i class="bi bi-download"></i>&nbsp;&nbsp;Download Signature</button>
+                                </div>
+                                <div>
+                                  <label for="name" class="form-label mb-0"><sup class="text-danger">*</sup>Candidate's Name</label>
+                                  <input type="text" class="form-control" id="name" name="name" placeholder="Candidate's Name" value="{{ application.candidate.full_name|default:"Candidate" }}" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div class="mb-3">
+                                  <label for="date" class="form-label mb-0"><sup class="text-danger">*</sup>Date</label>
+                                  <input type="date" class="form-control" id="date" name="date" placeholder="Date" disabled>
+                                </div>
+                                <div>
+                                  <label for="nric" class="form-label mb-0"><sup class="text-danger">*</sup> NRIC/Passport No.</label>
+                                  <input type="text" class="form-control" id="nric" name="nric" placeholder="NRIC/Passport No." value="ABC1234" disabled>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">General Assignment</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div><img src="{% static "core/assets/images/writing.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                          <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+                              <div>
+                                <p class="text-extra-small font-weight-600 mb-1">If you are selected for the applied position, Please share with us on what you can contribute to MACROKIOSK.</p>
+                                <p class="text-extra-small font-weight-400">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-box">
+                    <div class="card-header">
+                      <p class="text-extra-small font-weight-600">HR PDPA Consent Form</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div><img src="{% static "core/assets/images/contract.png" %}" alt="Stalwart Business Solutions" width="120"></div>
+                          </div>
+                          <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12 col-xs-12 mb-4 mb-lg-0">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <p class="text-extra-small font-weight-400"> The information you provide in your curriculum vitae and such other information, whether verbal or otherwise, provided by you to MACROKIOSK, will be used and processed by or on behalf of MACROKIOSK for purposes related to your registration of interest in current or future employment with MACROKIOSK and for the processing of your application for employment.<br>
+                                    <br>
+                                    We will collect and use the personal data that you have supplied to facilitate the processing of your application for employment purposes. We will use personal information such as telephone number and or email address to contact you on job opportunities. Please note that the information you provide may be used by a third party to enable us to process your application. These third parties are to carry out some of the processing and administrative functions for MACROKIOSK and would take care to maintain the appropriate levels or security and confidentiality and only use the information as instructed by MACROKIOSK.<br>
+                                    <br>
+                                    The personal data held by MACROKIOSK relating to the applicants will be kept strictly confidential. MACROKIOSK may collect information through other sources for processing and evaluating your application for employment. If your application is successful, the information will be used in the administration of your employment. <br>
+                                    <br>
+                                    As part of assessing your suitability to work with MACROKIOSK, we may use your information to conduct reference checks in accordance with MACROKIOSK HR Policy. If necessary, MACROKIOSK may provide your personal data to Ministries, public agencies, statutory boards or other similar organisations for evaluating your application. <br>
+                                    <br>
+                                    If your application is unsuccessful, MACROKIOSK may retain and use the information which you provided for 2 years (or such longer period as required by law) from the receipt of your curriculum vitae to deal with any matter which may arise in connection with your application, for purposes of contacting you in connection with ongoing recruitment opportunities, as well as for data analysis and business purposes.<br>
+                                    <br>
+                                    By giving your consent, you agree to your data being used in conjunction with the recruitment and employment purposes. If you have any enquiries, please email to <span class="font-weight-600 text-decoration-underline">hr@macrokiosk.com</span>. <br>
+                                    <br>
+                                    I have read and consent to the above. </p>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <label for="name" class="form-label mb-0"><sup class="text-danger">*</sup>Name</label>
+                                  <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ application.candidate.full_name|default:"Candidate" }}" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <label for="nric" class="form-label mb-0"><sup class="text-danger">*</sup> NRIC/ID No.</label>
+                                  <input type="text" class="form-control" id="nric" name="nric" placeholder="NRIC/ID No." value="ABC1234" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                                <div>
+                                  <label for="date" class="form-label mb-0"><sup class="text-danger">*</sup>Date</label>
+                                  <input type="date" class="form-control" id="date" name="date" placeholder="Date" disabled>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- center body --> 
+            <div class="card card-box mt-4">
+  <div class="card-header"><p class="text-extra-small font-weight-500 mb-0">Uploaded Documents / Images</p></div>
+  <div class="card-body">
+    {% if uploaded_files %}
+      <div class="list-group">
+        {% for uploaded in uploaded_files %}
+          <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{{ uploaded.file.url }}" target="_blank" rel="noopener">
+            <span><i class="bi bi-paperclip me-2"></i>{{ uploaded.field_name|default:"Document" }} — {{ uploaded.file.name|cut:"applications/" }}</span>
+            <span class="text-muted small">{{ uploaded.uploaded_at|date:"d M Y H:i" }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted mb-0">No files uploaded for this application.</p>
+    {% endif %}
+  </div>
+</div>
+<!-- Footer -->
+            <footer id="footer" class="footer">
+              <div class="container-fluid px-4">
+                <div class="row">
+                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div>
+                        <p class="text-extra-small font-weight-400"> &copy; <span id="current-year"></span> Stalwart Business Solutions.</p>
+                      </div>
+                      <div>
+                        <p class="text-extra-small font-weight-400 backtotop" id="toTop">To top
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+                          </svg>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- Footer --> 
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Main --> 
+<!-- logout -->
+<div class="custom-modal">
+  <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="logoutModalLabel">Confirm</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+              <div class="py-3">
+                <p class="text-small font-weight-400">Are you sure you want to log out?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="brand-button me-1" data-bs-dismiss="modal">Stay Connected</button>
+          <form method="post" action="{% url 'logout' %}" style="display:inline;">{% csrf_token %}<button type="submit" class="brand-button-alt">Logout</button></form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- logout --> 
+<!-- js --> 
+<script src="{% static "core/assets/js/bundle.js" %}" type="text/javascript"></script> 
+<script src="{% static "core/assets/js/scripts.js" %}" type="text/javascript"></script> 
+<!-- js -->
+{{ application.data|json_script:"application-detail-data" }}
+<script>
+(function () {
+  const node = document.getElementById("application-detail-data");
+  if (!node) return;
+  try {
+    const saved = JSON.parse(node.textContent || "{}");
+    function flatten(obj, out) {
+      Object.keys(obj || {}).forEach(function (key) {
+        const value = obj[key];
+        if (value && typeof value === "object" && !Array.isArray(value)) flatten(value, out);
+        else out[key] = value;
+      });
+      return out;
+    }
+    const values = flatten(saved, {});
+    Object.keys(values).forEach(function (name) {
+      document.querySelectorAll('[name="' + CSS.escape(name) + '"]').forEach(function (field) {
+        if (field.type === "file") return;
+        const value = values[name];
+        if (field.type === "radio" || field.type === "checkbox") {
+          field.checked = String(value) === String(field.value);
+        } else {
+          field.value = Array.isArray(value) ? (value[0] || "") : (value || "");
+        }
+      });
+    });
+  } catch (e) { console.warn("Could not restore application detail", e); }
+})();
+</script>
+{{ application.data|json_script:"application-detail-data" }}
+<script>
+(function(){
+  const node=document.getElementById('application-detail-data');
+  if(!node)return;
+  let saved={};
+  try{saved=JSON.parse(node.textContent||'{}');}catch(e){return;}
+  function flat(o,out){Object.keys(o||{}).forEach(k=>{const v=o[k];if(v&&typeof v==='object'&&!Array.isArray(v))flat(v,out);else out[k]=v;});return out;}
+  const values=flat(saved,{}), counts={};
+  const map={
+    'Name':['name'], 'Permanent Home Address':['address'], 'Current Home Address':['address_2'],
+    'Date of Birth':['dob'], 'Age':['age'], 'Gender':['gender'], 'Place of Birth':['dob_2'],
+    'Email Address':['email','ref1email','ref1email_2'], 'Identity Card No.':['passportnumber'],
+    'Marital Status':['marital'], 'Nationality':['nationality'],
+    'Phone Number':['nationality_2','nationality_3','nationality_4','ref1phn','ref1phn_2'],
+    'Father':['father'],'Mother':['mother'],'Spouse':['spouse'],'Children':['children'],'Brothers':['brothers'],'Sisters':['sisters'],'How do you stay?':['others'],
+    'Date From':['datefrom','datefrom'],'Date To':['dateto','dateto'],'Name of Employer':['height','height'],'Location':['location','location','location'],'Name of Immediate Superior':['superior','superior'],'Position':['position','position'],'Start Salary':['ssalary','ssalary'],'End Salary':['esalary','esalary'],'Reasons For Leaving':['reasons','reasons'],'Brief Job Description':['macro_2_text_1','macro_2_text_1'],
+    'College / University':['height','height_2','height_3'],'Year From':['yearfrom','yearfrom_2'],'Year To':['yearto','yearto_2'],'Qualification':['qualification','qualification_2'],
+    'Year start':['yearfrom_3'],'Year End':['yearto_3'],'Membership (Professional Bodies, Social, Sport etc)':['others'],'Major Training Courses Attended (with date)':['others_2'],'Activities / Interest / Hobbies':['others'],
+    'Do you have any physical impairment?':['macro_4_checkbox_1'],'Have you had any serious or contagious illness prior to this application?':['macro_4_checkbox_2'],'Have you ever been in the service of this Company or its subsidiaries?':['macro_4_checkbox_3'],'Are you related to anyone working in this Company or its subsidiaries?':['macro_4_checkbox_4'],'Have you ever been dismissed or suspended from any position?':['macro_4_checkbox_5'],'Have you ever been convicted of criminal offences in the Court of Law?':['macro_4_checkbox_6'],'Have you ever been declared bankrupt?':['macro_4_checkbox_7'],'Are you currently engaged in any private businesses?':['macro_4_checkbox_8'],'Have you ever been involved with the use of any illegal drugs?':['macro_4_checkbox_9'],'Do you have a valid driving licence? What class?':['macro_4_checkbox_10'],
+    'By which date would you be available to take up this new appointment?':['lastsalary'],'Expected Salary':['expectedsalary'],'Expected Benefits':['macro_6_text_1'],
+    'Name of Referee':['ref1name','ref1name_2'],'Occupation':['ref1pos','ref1pos_2'],'Name of Company':['ref1com','ref1com_2']
+  };
+  document.querySelectorAll('p.text-tiny.text-uppercase').forEach(function(label){
+    const text=label.textContent.trim(), arr=map[text]; if(!arr)return;
+    const i=counts[text]||0; counts[text]=i+1; const key=arr[i]||arr[arr.length-1];
+    const raw=values[key]; let v=Array.isArray(raw)?(raw[i]!==undefined?raw[i]:raw[0]):raw;
+    if(v===undefined||v===null)v=''; if(v===true)v='Yes'; if(v===false)v='No';
+    const valueEl=label.nextElementSibling; if(valueEl&&valueEl.tagName==='P')valueEl.textContent=String(v);
+  });
+  document.querySelectorAll('input[data-detail-field]').forEach(function(el){const v=values[el.dataset.detailField];if(v!==undefined)el.value=Array.isArray(v)?(v[0]||''):v;});
+  document.querySelectorAll('input[placeholder="NRIC / Passport No."], input[placeholder="NRIC/Passport No."], input[placeholder="NRIC/ID No."]').forEach(function(el){el.value=values.passportnumber||'';});
+  document.querySelectorAll('input[placeholder="Candidate\'s Name"]').forEach(function(el){el.value=values.name||'';});
+  const assignment=document.querySelector('[data-assignment-answer]'); if(assignment)assignment.textContent=values.macro_6_text_1||'';
+})();
+</script>
+</body>
+</html>

@@ -75,7 +75,7 @@
                         <div>
                           <p class="text-extra-small font-weight-500">Your Information</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-1" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-1" data-profile-modal-target="#modify-1" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
@@ -138,53 +138,17 @@
                         <div>
                           <p class="text-extra-small font-weight-500">Applying for the position</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-2" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-2" data-profile-modal-target="#modify-2" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
-                        <div class="row">
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
-                            <div>
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_1">
-                                <label class="form-check-label" for="flexCheckDefault"> Analyst Programmer (Java / .Net) </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_2">
-                                <label class="form-check-label" for="flexCheckDefault"> Product / Project Manager </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_3">
-                                <label class="form-check-label" for="flexCheckDefault"> Business Manager / Sales / Marketing </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_4">
-                                <label class="form-check-label" for="flexCheckDefault">Finance / HR / Admin </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_5">
-                                <label class="form-check-label" for="flexCheckDefault"> RPA Developer </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_6">
-                                <label class="form-check-label" for="flexCheckDefault"> Consultant </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_7">
-                                <label class="form-check-label" for="flexCheckDefault">Designer </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_8">
-                                <label class="form-check-label" for="flexCheckDefault">Others </label>
-                              </div>
-                              <div class="pt-2">
-                                <input type="text" class="form-control" id="others" name="others" placeholder="Others">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
+                      <div class="bg-silver p-4 rounded">
+                        <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-1">Selected Position</p>
+                        <p class="text-extra-small font-weight-600 text-muted mb-0">
+                          {% if profile_data.position_selected %}{{ profile_data.position_selected }}{% elif profile_data.profile_option_14 %}Analyst Programmer (Java / .Net){% elif profile_data.profile_option_15 %}Product / Project Manager{% elif profile_data.profile_option_16 %}Business Manager / Sales / Marketing{% elif profile_data.profile_option_17 %}Finance / HR / Admin{% elif profile_data.profile_option_18 %}RPA Developer{% elif profile_data.profile_option_19 %}Consultant{% elif profile_data.profile_option_20 %}Designer{% elif profile_data.profile_option_21 %}{{ profile_data.position_others|default:"Others" }}{% else %}No position selected yet. Click Modify to choose a position.{% endif %}
+                        </p>
+                      </div>
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -195,11 +159,11 @@
                         <div>
                           <p class="text-extra-small font-weight-500">Personal Information</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-3" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-3" data-profile-modal-target="#modify-3" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form class="profile-display-form">
                         <div class="row">
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
@@ -259,11 +223,11 @@
                         <div>
                           <p class="text-extra-small font-weight-500">Family Information</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-4" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-4" data-profile-modal-target="#modify-4" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form class="profile-display-form">
                         <div class="row">
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
@@ -313,110 +277,88 @@
                         <div>
                           <p class="text-extra-small font-weight-500">Address Information</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-5" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-5" data-profile-modal-target="#modify-5" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form class="profile-display-form">
                         <div class="row">
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                          <div class="col-12 mb-3">
                             <div>
                               <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_9">
-                                <label class="form-check-label" for="flexCheckDefault"> I live in my own house </label>
+                                <input class="form-check-input" type="checkbox" value="1" id="display_profile_option_9" name="profile_option_9">
+                                <label class="form-check-label" for="display_profile_option_9">I live in my own house</label>
                               </div>
                               <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_10">
-                                <label class="form-check-label" for="flexCheckDefault"> With Parents</label>
+                                <input class="form-check-input" type="checkbox" value="1" id="display_profile_option_10" name="profile_option_10">
+                                <label class="form-check-label" for="display_profile_option_10">With Parents</label>
                               </div>
                               <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_11">
-                                <label class="form-check-label" for="flexCheckDefault"> Rented Home</label>
+                                <input class="form-check-input" type="checkbox" value="1" id="display_profile_option_11" name="profile_option_11">
+                                <label class="form-check-label" for="display_profile_option_11">Rented Home</label>
                               </div>
                               <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_12">
-                                <label class="form-check-label" for="flexCheckDefault">Others </label>
+                                <input class="form-check-input" type="checkbox" value="1" id="display_profile_option_12" name="profile_option_12">
+                                <label class="form-check-label" for="display_profile_option_12">Others</label>
                               </div>
                               <div class="pt-2">
-                                <input type="text" class="form-control" id="others" name="others" placeholder="Others">
+                                <input type="text" class="form-control" id="address_others_display" name="address_others" placeholder="Others">
                               </div>
                             </div>
                           </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div class="bg-light rounded p-2">
-                              <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Residential Address</p>
-                            </div>
+
+                          <div class="col-12 mb-3">
+                            <div class="bg-light rounded p-2"><p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Residential Address</p></div>
                           </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="address" class="form-label mb-0"><sup class="text-danger">*</sup>Address</label>
-                              <input type="text" class="form-control" id="address" name="address" placeholder="Address">
-                            </div>
+                          <div class="col-12 mb-3">
+                            <label for="residential_address_display" class="form-label mb-0">Address</label>
+                            <input type="text" class="form-control" id="residential_address_display" name="residential_address" placeholder="Address">
                           </div>
-                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="city" class="form-label mb-0"><sup class="text-danger">*</sup>City</label>
-                              <input type="text" class="form-control" id="city" name="city" placeholder="City">
-                            </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <label for="residential_city_display" class="form-label mb-0">City</label>
+                            <input type="text" class="form-control" id="residential_city_display" name="residential_city" placeholder="City">
                           </div>
-                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="state" class="form-label mb-0"><sup class="text-danger">*</sup>State</label>
-                              <input type="text" class="form-control" id="state" name="state" placeholder="State">
-                            </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <label for="residential_state_display" class="form-label mb-0">State</label>
+                            <input type="text" class="form-control" id="residential_state_display" name="residential_state" placeholder="State">
                           </div>
-                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="country" class="form-label mb-0"><sup class="text-danger">*</sup>Country</label>
-                              <input type="text" class="form-control" id="country" name="country" placeholder="Country">
-                            </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <label for="residential_country_display" class="form-label mb-0">Country</label>
+                            <input type="text" class="form-control" id="residential_country_display" name="residential_country" placeholder="Country">
                           </div>
-                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="pincode" class="form-label mb-0"><sup class="text-danger">*</sup>Pincode</label>
-                              <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode">
-                            </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <label for="residential_pincode_display" class="form-label mb-0">Pincode</label>
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="residential_pincode_display" name="residential_pincode" placeholder="Pincode">
                           </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div class="bg-light rounded p-2">
-                              <p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Permanent Address</p>
-                            </div>
+
+                          <div class="col-12 mb-3">
+                            <div class="bg-light rounded p-2"><p class="text-tiny text-secondary font-weight-500 mb-0">&nbsp;&nbsp;Permanent Address</p></div>
                           </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
+                          <div class="col-12 mb-3">
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="profile_option_13">
-                              <label class="form-check-label" for="flexCheckDefault">Same as above </label>
+                              <input class="form-check-input" type="checkbox" value="1" id="display_same_address" name="permanent_same_as_residential">
+                              <label class="form-check-label" for="display_same_address">Same as above</label>
                             </div>
                           </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="address" class="form-label mb-0"><sup class="text-danger">*</sup>Address</label>
-                              <input type="text" class="form-control" id="address" name="address" placeholder="Address">
-                            </div>
+                          <div class="col-12 mb-3">
+                            <label for="permanent_address_display" class="form-label mb-0">Address</label>
+                            <input type="text" class="form-control" id="permanent_address_display" name="permanent_address" placeholder="Address">
                           </div>
-                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="city" class="form-label mb-0"><sup class="text-danger">*</sup>City</label>
-                              <input type="text" class="form-control" id="city" name="city" placeholder="City">
-                            </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <label for="permanent_city_display" class="form-label mb-0">City</label>
+                            <input type="text" class="form-control" id="permanent_city_display" name="permanent_city" placeholder="City">
                           </div>
-                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="state" class="form-label mb-0"><sup class="text-danger">*</sup>State</label>
-                              <input type="text" class="form-control" id="state" name="state" placeholder="State">
-                            </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <label for="permanent_state_display" class="form-label mb-0">State</label>
+                            <input type="text" class="form-control" id="permanent_state_display" name="permanent_state" placeholder="State">
                           </div>
-                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="country" class="form-label mb-0"><sup class="text-danger">*</sup>Country</label>
-                              <input type="text" class="form-control" id="country" name="country" placeholder="Country">
-                            </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <label for="permanent_country_display" class="form-label mb-0">Country</label>
+                            <input type="text" class="form-control" id="permanent_country_display" name="permanent_country" placeholder="Country">
                           </div>
-                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <label for="pincode" class="form-label mb-0"><sup class="text-danger">*</sup>Pincode</label>
-                              <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode">
-                            </div>
+                          <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <label for="permanent_pincode_display" class="form-label mb-0">Pincode</label>
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="permanent_pincode_display" name="permanent_pincode" placeholder="Pincode">
                           </div>
                         </div>
                       </form>
@@ -430,11 +372,11 @@
                         <div>
                           <p class="text-extra-small font-weight-500">Personal Health Metrics</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-6" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-6" data-profile-modal-target="#modify-6" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form class="profile-display-form">
                         <div class="row">
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
@@ -466,16 +408,16 @@
                         <div>
                           <p class="text-extra-small font-weight-500">Employment Expectations</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-7" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-7" data-profile-modal-target="#modify-7" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form class="profile-display-form">
                         <div class="row">
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="travel" class="form-label mb-0"><sup class="text-danger">*</sup>Willing to Travel</label>
-                              <select class="form-select" aria-label="travel" name="travel">
+                              <select class="form-select" aria-label="travel" name="willing_to_travel">
                                 <option selected>Please Select</option>
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
@@ -485,7 +427,7 @@
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="travel" class="form-label mb-0"><sup class="text-danger">*</sup>Willing to Relocates</label>
-                              <select class="form-select" aria-label="travel" name="travel">
+                              <select class="form-select" aria-label="travel" name="willing_to_relocate">
                                 <option selected>Please Select</option>
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
@@ -495,7 +437,7 @@
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="travel" class="form-label mb-0"><sup class="text-danger">*</sup>Possess Own Transport</label>
-                              <select class="form-select" aria-label="travel" name="travel">
+                              <select class="form-select" aria-label="travel" name="own_transport">
                                 <option selected>Please Select</option>
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
@@ -536,153 +478,114 @@
                   <div class="card card-box">
                     <div class="card-header">
                       <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                          <p class="text-extra-small font-weight-500">Employment History</p>
-                        </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-8" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Add Employment</a></div>
+                        <p class="text-extra-small font-weight-500 mb-0">Employment History</p>
+                        <a href="javascript:void(0)"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modify-8"
+                           data-profile-modal-target="#modify-8"
+                           data-employment-id=""
+                           role="button"
+                           class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">
+                          Add Employment
+                        </a>
                       </div>
                     </div>
                     <div class="card-body">
-                      <div class="bg-silver p-4 rounded mb-3">
-                        <div class="row">
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
-                              <p class="text-extra-small font-weight-600 text-muted">10/01/2023</p>
+                      {% if employment_records %}
+                        {% for employment in employment_records %}
+                          <div class="bg-silver p-4 rounded mb-3">
+                            <div class="row">
+                              <div class="col-md-6 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">
+                                  {% if employment.date_from %}{{ employment.date_from|date:"d/m/Y" }}{% else %}—{% endif %}
+                                </p>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">
+                                  {% if employment.date_to %}{{ employment.date_to|date:"d/m/Y" }}{% else %}Present{% endif %}
+                                </p>
+                              </div>
+                              <div class="col-md-8 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">{{ employment.employer_name|default:"—" }}</p>
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">{{ employment.location|default:"—" }}</p>
+                              </div>
+                              <div class="col-md-8 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">{{ employment.immediate_superior|default:"—" }}</p>
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">{{ employment.position|default:"—" }}</p>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">{% if employment.start_salary %}{{ employment.start_salary }}{% else %}—{% endif %}</p>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">{% if employment.end_salary %}{{ employment.end_salary }}{% else %}—{% endif %}</p>
+                              </div>
+                              <div class="col-12 mb-3">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">{{ employment.reason_for_leaving|default:"—" }}</p>
+                              </div>
+                              <div class="col-12">
+                                <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
+                                <p class="text-extra-small font-weight-600 text-muted mb-0">{{ employment.job_description|default:"—" }}</p>
+                              </div>
                             </div>
                           </div>
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
-                              <p class="text-extra-small font-weight-600 text-muted">10/01/2024</p>
-                            </div>
+
+                          <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0)"
+                               data-bs-toggle="modal"
+                               data-bs-target="#deleteModal"
+                               role="button"
+                               class="text-extra-small font-weight-600 text-decoration-underline text-danger">
+                              Delete
+                            </a>
+
+                            <a href="javascript:void(0)"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modify-8"
+                               data-profile-modal-target="#modify-8"
+                               data-employment-id="{{ employment.id }}"
+                               data-date-from="{% if employment.date_from %}{{ employment.date_from|date:'Y-m-d' }}{% endif %}"
+                               data-date-to="{% if employment.date_to %}{{ employment.date_to|date:'Y-m-d' }}{% endif %}"
+                               data-employer-name="{{ employment.employer_name|default:''|escape }}"
+                               data-location="{{ employment.location|default:''|escape }}"
+                               data-superior="{{ employment.immediate_superior|default:''|escape }}"
+                               data-position="{{ employment.position|default:''|escape }}"
+                               data-start-salary="{{ employment.start_salary|default:'' }}"
+                               data-end-salary="{{ employment.end_salary|default:'' }}"
+                               data-reasons="{{ employment.reason_for_leaving|default:''|escape }}"
+                               data-job-description="{{ employment.job_description|default:''|escape }}"
+                               role="button"
+                               class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">
+                              Modify
+                            </a>
                           </div>
-                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
-                              <p class="text-extra-small font-weight-600 text-muted">TCS</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Kuala Ketil</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
-                              <p class="text-extra-small font-weight-600 text-muted">3000RM</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
-                              <p class="text-extra-small font-weight-600 text-muted">3100RM</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Due to distance not able to travel 50 kms daily</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Here am a full stack developer of web design and web development</p>
-                            </div>
-                          </div>
+                        {% endfor %}
+                      {% else %}
+                        <div class="text-center py-4">
+                          <p class="text-extra-small text-muted mb-2">No employment history added yet.</p>
+                          <a href="javascript:void(0)"
+                             data-bs-toggle="modal"
+                             data-bs-target="#modify-8"
+                             data-profile-modal-target="#modify-8"
+                             data-employment-id=""
+                             role="button"
+                             class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">
+                            Add your first employment
+                          </a>
                         </div>
-                      </div>
-                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button" class="text-extra-small font-weight-600 text-decoration-underline text-danger" id="deleteBtn">Delete</a></div>
-                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-8" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
-                        </div>
-                      </div>
-                      <div class="bg-silver p-4 rounded mb-3">
-                        <div class="row">
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date From</p>
-                              <p class="text-extra-small font-weight-600 text-muted">10/01/2023</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Date To</p>
-                              <p class="text-extra-small font-weight-600 text-muted">10/01/2024</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Employer</p>
-                              <p class="text-extra-small font-weight-600 text-muted">TCS</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Kuala Ketil</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Name of Immediate Superior</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Prakash</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Position</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Team Lead</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Start Salary</p>
-                              <p class="text-extra-small font-weight-600 text-muted">3000RM</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">End Salary</p>
-                              <p class="text-extra-small font-weight-600 text-muted">3100RM</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Reasons For Leaving</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Due to distance not able to travel 50 kms daily</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Brief Job Description</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Here am a full stack developer of web design and web development</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button" class="text-extra-small font-weight-600 text-decoration-underline text-danger" id="deleteBtn">Delete</a></div>
-                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-8" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
-                        </div>
-                      </div>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -690,103 +593,37 @@
                   <div class="card card-box">
                     <div class="card-header">
                       <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                          <p class="text-extra-small font-weight-500">Education History</p>
-                        </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-9" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Add Education</a></div>
+                        <p class="text-extra-small font-weight-500 mb-0">Education History</p>
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-9" role="button" class="text-extra-small font-weight-600 text-decoration-underline">{% if profile_data.institution or profile_data.qualification %}Modify{% else %}Add Education History{% endif %}</a>
                       </div>
                     </div>
                     <div class="card-body">
+                      {% if profile_data.institution or profile_data.education_location or profile_data.yearfrom or profile_data.yearto or profile_data.qualification %}
                       <div class="bg-silver p-4 rounded mb-3">
                         <div class="row">
-                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
-                              <p class="text-extra-small font-weight-600 text-muted">National University of Malaysia</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Kelantan</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p>
-                              <p class="text-extra-small font-weight-600 text-muted">2020</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p>
-                              <p class="text-extra-small font-weight-600 text-muted">2023</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Bachelor of Commerce</p>
-                            </div>
-                          </div>
+                          <div class="col-md-8 mb-3"><p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p><p class="text-extra-small font-weight-600 text-muted mb-0">{{ profile_data.institution|default:"—" }}</p></div>
+                          <div class="col-md-4 mb-3"><p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p><p class="text-extra-small font-weight-600 text-muted mb-0">{{ profile_data.education_location|default:"—" }}</p></div>
+                          <div class="col-md-4"><p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p><p class="text-extra-small font-weight-600 text-muted mb-0">{{ profile_data.yearfrom|default:"—" }}</p></div>
+                          <div class="col-md-4"><p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p><p class="text-extra-small font-weight-600 text-muted mb-0">{{ profile_data.yearto|default:"—" }}</p></div>
+                          <div class="col-md-4"><p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p><p class="text-extra-small font-weight-600 text-muted mb-0">{{ profile_data.qualification|default:"—" }}</p></div>
                         </div>
                       </div>
-                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button" class="text-extra-small font-weight-600 text-decoration-underline text-danger" id="deleteBtn">Delete</a></div>
-                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-9" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
-                        </div>
-                      </div>
-                      <div class="bg-silver p-4 rounded mb-3">
-                        <div class="row">
-                          <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">College / University</p>
-                              <p class="text-extra-small font-weight-600 text-muted">National University of Malaysia</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Location</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Kelantan</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year From</p>
-                              <p class="text-extra-small font-weight-600 text-muted">2020</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Year To</p>
-                              <p class="text-extra-small font-weight-600 text-muted">2023</p>
-                            </div>
-                          </div>
-                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-0">
-                            <div>
-                              <p class="text-tiny theme-color-1 font-weight-500 text-uppercase mb-0">Qualification</p>
-                              <p class="text-extra-small font-weight-600 text-muted">Bachelor of Commerce</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button" class="text-extra-small font-weight-600 text-decoration-underline text-danger" id="deleteBtn">Delete</a></div>
-                          <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-9" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
-                        </div>
-                      </div>
+                      <div class="text-end"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-9" role="button" class="text-extra-small font-weight-600 text-decoration-underline">Modify</a></div>
+                      {% else %}
+                      <div class="bg-silver p-4 rounded"><p class="text-extra-small text-muted mb-0">No education history added yet. Click Add Education History.</p></div>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
-                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
                   <div class="card card-box">
                     <div class="card-header">
                       <p class="text-extra-small font-weight-500">Language / Dialect</p>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form class="profile-display-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_section" value="language">
                         <div class="row">
                           <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
@@ -802,19 +639,19 @@
                                 <tbody>
                                   <tr>
                                     <th scope="row">English</th>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="english_speak">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="english_read">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="english_write">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
@@ -823,19 +660,19 @@
                                   </tr>
                                   <tr>
                                     <th scope="row">Malay</th>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="malay_speak">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="malay_read">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="malay_write">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
@@ -844,19 +681,19 @@
                                   </tr>
                                   <tr>
                                     <th scope="row">Mandarin</th>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="mandarin_speak">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="mandarin_read">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="mandarin_write">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
@@ -865,40 +702,19 @@
                                   </tr>
                                   <tr>
                                     <th scope="row">Tamil</th>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="tamil_speak">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="tamil_read">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
-                                        <option selected>Please Select</option>
-                                        <option value="Slight">Slight</option>
-                                        <option value="Fair">Fair</option>
-                                        <option value="Write">Write</option>
-                                      </select></td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row"> <input type="text" class="form-control form-control-sm" id="others" name="others" placeholder="Others"></th>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
-                                        <option selected>Please Select</option>
-                                        <option value="Slight">Slight</option>
-                                        <option value="Fair">Fair</option>
-                                        <option value="Write">Write</option>
-                                      </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
-                                        <option selected>Please Select</option>
-                                        <option value="Slight">Slight</option>
-                                        <option value="Fair">Fair</option>
-                                        <option value="Write">Write</option>
-                                      </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="tamil_write">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
@@ -906,20 +722,41 @@
                                       </select></td>
                                   </tr>
                                   <tr>
-                                    <th scope="row"> <input type="text" class="form-control form-control-sm" id="others" name="others" placeholder="Others"></th>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <th scope="row"> <input type="text" class="form-control form-control-sm" id="others_1" name="others_1" placeholder="Others"></th>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="other1_speak">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="other1_read">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
                                         <option value="Write">Write</option>
                                       </select></td>
-                                    <td><select class="form-select form-select-sm" aria-label="lang" name="lang">
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="other1_write">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row"> <input type="text" class="form-control form-control-sm" id="others_2" name="others_2" placeholder="Others"></th>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="other2_speak">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="other2_read">
+                                        <option selected>Please Select</option>
+                                        <option value="Slight">Slight</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Write">Write</option>
+                                      </select></td>
+                                    <td><select class="form-select form-select-sm" aria-label="lang" name="other2_write">
                                         <option selected>Please Select</option>
                                         <option value="Slight">Slight</option>
                                         <option value="Fair">Fair</option>
@@ -932,7 +769,7 @@
                           </div>
                           <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 mb-lg-0">
                             <div>
-                              <button type="button" class="brand-button" id="editBtn">Update</button>
+                              <button type="submit" class="brand-button">Update</button>
                             </div>
                           </div>
                         </div>
@@ -947,16 +784,16 @@
                         <div>
                           <p class="text-extra-small font-weight-500">Activities / Interest / Hobbies</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-10" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-10" data-profile-modal-target="#modify-10" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form class="profile-display-form">
                         <div class="row">
                           <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="height" class="form-label mb-0"><sup class="text-danger">*</sup>Activities / Interest / Hobbies</label>
-                              <input type="text" class="form-control" id="height" name="height" placeholder="Activities / Interest / Hobbies">
+                              <input type="text" class="form-control" id="activities_display" name="activities" placeholder="Activities / Interest / Hobbies">
                             </div>
                           </div>
                         </div>
@@ -971,11 +808,11 @@
                         <div>
                           <p class="text-extra-small font-weight-500">References Details</p>
                         </div>
-                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-11" role="button" class="text-extra-small font-weight-600 text-decoration-underline" id="modifyBtn">Modify</a></div>
+                        <div><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modify-11" data-profile-modal-target="#modify-11" role="button" class="text-extra-small font-weight-600 text-decoration-underline profile-modify-btn">Modify</a></div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form class="profile-display-form">
                         <div class="row">
                           <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div class="bg-light rounded p-2">
@@ -1020,31 +857,31 @@
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="ref1name" class="form-label mb-0"><sup class="text-danger">*</sup>Name</label>
-                              <input type="text" class="form-control" id="ref1name" name="ref1name" placeholder="Name">
+                              <input type="text" class="form-control" id="ref2name_display" name="ref2name" placeholder="Name">
                             </div>
                           </div>
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="ref1pos" class="form-label mb-0"><sup class="text-danger">*</sup>Position</label>
-                              <input type="text" class="form-control" id="ref1pos" name="ref1pos" placeholder="Position">
+                              <input type="text" class="form-control" id="ref2pos_display" name="ref2pos" placeholder="Position">
                             </div>
                           </div>
                           <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="ref1com" class="form-label mb-0"><sup class="text-danger">*</sup>Company</label>
-                              <input type="text" class="form-control" id="ref1com" name="ref1com" placeholder="Company">
+                              <input type="text" class="form-control" id="ref2com_display" name="ref2com" placeholder="Company">
                             </div>
                           </div>
                           <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="ref1email" class="form-label mb-0"><sup class="text-danger">*</sup>Email Address</label>
-                              <input type="email" class="form-control" id="ref1email" name="ref1email" placeholder="Email Address">
+                              <input type="email" class="form-control" id="ref2email_display" name="ref2email" placeholder="Email Address">
                             </div>
                           </div>
                           <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-3 mb-lg-3">
                             <div>
                               <label for="ref1phn" class="form-label mb-0"><sup class="text-danger">*</sup>Phone Number</label>
-                              <input type="tel" class="form-control" id="ref1phn" name="ref1phn" placeholder="Phone Number">
+                              <input type="tel" class="form-control" id="ref2phn_display" name="ref2phn" placeholder="Phone Number">
                             </div>
                           </div>
                         </div>
@@ -1102,6 +939,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="account">
+                <input type="hidden" name="profile_section" value="account">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -1151,7 +990,7 @@
                                            id="mname"
                                            name="mname"
                                            placeholder="Middle Name"
-                                           value="{{ candidate.profile_data.mname|default:'' }}">
+                                           value="{{ profile.middle_name|default:'' }}">
                                 </div>
                             </div>
 
@@ -1202,7 +1041,7 @@
                                            id="phone"
                                            name="phone"
                                            placeholder="Phone Number"
-                                           value="{{ candidate.phone|default:'' }}">
+                                           value="{{ display_phone|default:'' }}">
                                 </div>
                             </div>
 
@@ -1248,6 +1087,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="position">
+                <input type="hidden" name="profile_section" value="position">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -1276,7 +1117,7 @@
                                            value="Analyst Programmer (Java / .Net)"
                                            id="profile_option_14"
                                            name="profile_option_14"
-                                           {% if candidate.profile_data.profile_option_14 %}
+                                           {% if profile_data.profile_option_14 %}
                                                checked
                                            {% endif %}>
 
@@ -1292,7 +1133,7 @@
                                            value="Product / Project Manager"
                                            id="profile_option_15"
                                            name="profile_option_15"
-                                           {% if candidate.profile_data.profile_option_15 %}
+                                           {% if profile_data.profile_option_15 %}
                                                checked
                                            {% endif %}>
 
@@ -1308,7 +1149,7 @@
                                            value="Business Manager / Sales / Marketing"
                                            id="profile_option_16"
                                            name="profile_option_16"
-                                           {% if candidate.profile_data.profile_option_16 %}
+                                           {% if profile_data.profile_option_16 %}
                                                checked
                                            {% endif %}>
 
@@ -1324,7 +1165,7 @@
                                            value="Finance / HR / Admin"
                                            id="profile_option_17"
                                            name="profile_option_17"
-                                           {% if candidate.profile_data.profile_option_17 %}
+                                           {% if profile_data.profile_option_17 %}
                                                checked
                                            {% endif %}>
 
@@ -1340,7 +1181,7 @@
                                            value="RPA Developer"
                                            id="profile_option_18"
                                            name="profile_option_18"
-                                           {% if candidate.profile_data.profile_option_18 %}
+                                           {% if profile_data.profile_option_18 %}
                                                checked
                                            {% endif %}>
 
@@ -1356,7 +1197,7 @@
                                            value="Consultant"
                                            id="profile_option_19"
                                            name="profile_option_19"
-                                           {% if candidate.profile_data.profile_option_19 %}
+                                           {% if profile_data.profile_option_19 %}
                                                checked
                                            {% endif %}>
 
@@ -1372,7 +1213,7 @@
                                            value="Designer"
                                            id="profile_option_20"
                                            name="profile_option_20"
-                                           {% if candidate.profile_data.profile_option_20 %}
+                                           {% if profile_data.profile_option_20 %}
                                                checked
                                            {% endif %}>
 
@@ -1388,7 +1229,7 @@
                                            value="Others"
                                            id="profile_option_21"
                                            name="profile_option_21"
-                                           {% if candidate.profile_data.profile_option_21 %}
+                                           {% if profile_data.profile_option_21 %}
                                                checked
                                            {% endif %}>
 
@@ -1404,7 +1245,7 @@
                                            id="position_others"
                                            name="position_others"
                                            placeholder="Others"
-                                           value="{{ candidate.profile_data.position_others|default:'' }}">
+                                           value="{{ profile_data.position_others|default:'' }}">
                                 </div>
 
                             </div>
@@ -1451,6 +1292,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="personal">
+                <input type="hidden" name="profile_section" value="personal">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -1483,7 +1326,7 @@
                                        id="passportnumber"
                                        name="passportnumber"
                                        placeholder="XXXXXX-XX-XXXX"
-                                       value="{{ candidate.profile_data.passportnumber|default:'' }}">
+                                       value="{{ profile_data.passportnumber|default:'' }}">
                             </div>
 
                             <!-- Nationality -->
@@ -1498,7 +1341,7 @@
                                        id="nationality"
                                        name="nationality"
                                        placeholder="Nationality"
-                                       value="{{ candidate.profile_data.nationality|default:'' }}">
+                                       value="{{ profile_data.nationality|default:'' }}">
                             </div>
 
                             <!-- DOB -->
@@ -1512,7 +1355,7 @@
                                        class="form-control"
                                        id="dob"
                                        name="dob"
-                                       value="{{ candidate.profile_data.dob|default:'' }}">
+                                       value="{{ profile_data.dob|default:'' }}">
                             </div>
 
                             <!-- Age -->
@@ -1527,7 +1370,7 @@
                                        id="age"
                                        name="age"
                                        placeholder="Age"
-                                       value="{{ candidate.profile_data.age|default:'' }}">
+                                       value="{{ profile_data.age|default:'' }}">
                             </div>
 
                             <!-- Gender -->
@@ -1544,12 +1387,12 @@
                                     <option value="">Please Select</option>
 
                                     <option value="Male"
-                                        {% if candidate.profile_data.gender == "Male" %}selected{% endif %}>
+                                        {% if profile_data.gender == "Male" %}selected{% endif %}>
                                         Male
                                     </option>
 
                                     <option value="Female"
-                                        {% if candidate.profile_data.gender == "Female" %}selected{% endif %}>
+                                        {% if profile_data.gender == "Female" %}selected{% endif %}>
                                         Female
                                     </option>
 
@@ -1570,22 +1413,22 @@
                                     <option value="">Please Select</option>
 
                                     <option value="Single"
-                                        {% if candidate.profile_data.marital == "Single" %}selected{% endif %}>
+                                        {% if profile_data.marital == "Single" %}selected{% endif %}>
                                         Single
                                     </option>
 
                                     <option value="Married"
-                                        {% if candidate.profile_data.marital == "Married" %}selected{% endif %}>
+                                        {% if profile_data.marital == "Married" %}selected{% endif %}>
                                         Married
                                     </option>
 
                                     <option value="Widow"
-                                        {% if candidate.profile_data.marital == "Widow" %}selected{% endif %}>
+                                        {% if profile_data.marital == "Widow" %}selected{% endif %}>
                                         Widow
                                     </option>
 
                                     <option value="Divorsed"
-                                        {% if candidate.profile_data.marital == "Divorsed" %}selected{% endif %}>
+                                        {% if profile_data.marital == "Divorsed" %}selected{% endif %}>
                                         Divorsed
                                     </option>
 
@@ -1634,6 +1477,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="family">
+                <input type="hidden" name="profile_section" value="family">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -1665,7 +1510,7 @@
                                        id="father"
                                        name="father"
                                        placeholder="Father"
-                                       value="{{ candidate.profile_data.father|default:'' }}">
+                                       value="{{ profile_data.father|default:'' }}">
                             </div>
 
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -1679,7 +1524,7 @@
                                        id="mother"
                                        name="mother"
                                        placeholder="Mother"
-                                       value="{{ candidate.profile_data.mother|default:'' }}">
+                                       value="{{ profile_data.mother|default:'' }}">
                             </div>
 
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -1692,7 +1537,7 @@
                                        id="spouse"
                                        name="spouse"
                                        placeholder="Spouse"
-                                       value="{{ candidate.profile_data.spouse|default:'' }}">
+                                       value="{{ profile_data.spouse|default:'' }}">
                             </div>
 
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -1705,7 +1550,7 @@
                                        id="children"
                                        name="children"
                                        placeholder="Children"
-                                       value="{{ candidate.profile_data.children|default:'' }}">
+                                       value="{{ profile_data.children|default:'' }}">
                             </div>
 
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -1718,7 +1563,7 @@
                                        id="brothers"
                                        name="brothers"
                                        placeholder="Brothers"
-                                       value="{{ candidate.profile_data.brothers|default:'' }}">
+                                       value="{{ profile_data.brothers|default:'' }}">
                             </div>
 
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -1731,7 +1576,7 @@
                                        id="sisters"
                                        name="sisters"
                                        placeholder="Sisters"
-                                       value="{{ candidate.profile_data.sisters|default:'' }}">
+                                       value="{{ profile_data.sisters|default:'' }}">
                             </div>
 
                         </div>
@@ -1776,6 +1621,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="address">
+                <input type="hidden" name="profile_section" value="address">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -1863,7 +1710,7 @@
                                            id="address_others"
                                            name="address_others"
                                            placeholder="Others"
-                                           value="{{ candidate.profile_data.address_others|default:'' }}">
+                                           value="{{ profile_data.address_others|default:'' }}">
 
                                 </div>
 
@@ -1894,7 +1741,7 @@
                                        id="residential_address"
                                        name="residential_address"
                                        placeholder="Address"
-                                       value="{{ candidate.profile_data.residential_address|default:'' }}">
+                                       value="{{ profile_data.residential_address|default:'' }}">
 
                             </div>
 
@@ -1910,7 +1757,7 @@
                                        id="residential_city"
                                        name="residential_city"
                                        placeholder="City"
-                                       value="{{ candidate.profile_data.residential_city|default:'' }}">
+                                       value="{{ profile_data.residential_city|default:'' }}">
 
                             </div>
 
@@ -1926,7 +1773,7 @@
                                        id="residential_state"
                                        name="residential_state"
                                        placeholder="State"
-                                       value="{{ candidate.profile_data.residential_state|default:'' }}">
+                                       value="{{ profile_data.residential_state|default:'' }}">
 
                             </div>
 
@@ -1942,7 +1789,7 @@
                                        id="residential_country"
                                        name="residential_country"
                                        placeholder="Country"
-                                       value="{{ candidate.profile_data.residential_country|default:'' }}">
+                                       value="{{ profile_data.residential_country|default:'' }}">
 
                             </div>
 
@@ -1958,7 +1805,7 @@
                                        id="residential_pincode"
                                        name="residential_pincode"
                                        placeholder="Pincode"
-                                       value="{{ candidate.profile_data.residential_pincode|default:'' }}">
+                                       value="{{ profile_data.residential_pincode|default:'' }}">
 
                             </div>
 
@@ -1985,7 +1832,8 @@
                                            type="checkbox"
                                            value="Same as above"
                                            id="same_address"
-                                           name="permanent_same_as_residential">
+                                           name="permanent_same_as_residential"
+                                           {% if profile_data.permanent_same_as_residential %}checked{% endif %}>
 
                                     <label class="form-check-label"
                                            for="same_address">
@@ -2010,7 +1858,7 @@
                                        id="permanent_address"
                                        name="permanent_address"
                                        placeholder="Address"
-                                       value="{{ candidate.profile_data.permanent_address|default:'' }}">
+                                       value="{{ profile_data.permanent_address|default:'' }}">
 
                             </div>
 
@@ -2026,7 +1874,7 @@
                                        id="permanent_city"
                                        name="permanent_city"
                                        placeholder="City"
-                                       value="{{ candidate.profile_data.permanent_city|default:'' }}">
+                                       value="{{ profile_data.permanent_city|default:'' }}">
 
                             </div>
 
@@ -2042,7 +1890,7 @@
                                        id="permanent_state"
                                        name="permanent_state"
                                        placeholder="State"
-                                       value="{{ candidate.profile_data.permanent_state|default:'' }}">
+                                       value="{{ profile_data.permanent_state|default:'' }}">
 
                             </div>
 
@@ -2058,7 +1906,7 @@
                                        id="permanent_country"
                                        name="permanent_country"
                                        placeholder="Country"
-                                       value="{{ candidate.profile_data.permanent_country|default:'' }}">
+                                       value="{{ profile_data.permanent_country|default:'' }}">
 
                             </div>
 
@@ -2074,7 +1922,7 @@
                                        id="permanent_pincode"
                                        name="permanent_pincode"
                                        placeholder="Pincode"
-                                       value="{{ candidate.profile_data.permanent_pincode|default:'' }}">
+                                       value="{{ profile_data.permanent_pincode|default:'' }}">
 
                             </div>
 
@@ -2120,6 +1968,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="health">
+                <input type="hidden" name="profile_section" value="health">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -2155,7 +2005,7 @@
                                        id="height"
                                        name="height"
                                        placeholder="Height"
-                                       value="{{ candidate.profile_data.height|default:'' }}">
+                                       value="{{ profile_data.height|default:'' }}">
 
                             </div>
 
@@ -2171,7 +2021,7 @@
                                        id="weight"
                                        name="weight"
                                        placeholder="Weight"
-                                       value="{{ candidate.profile_data.weight|default:'' }}">
+                                       value="{{ profile_data.weight|default:'' }}">
 
                             </div>
 
@@ -2187,7 +2037,7 @@
                                        id="bms"
                                        name="bms"
                                        placeholder="BMS (Body Mass Index)"
-                                       value="{{ candidate.profile_data.bms|default:'' }}">
+                                       value="{{ profile_data.bms|default:'' }}">
 
                             </div>
 
@@ -2233,6 +2083,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="expectations">
+                <input type="hidden" name="profile_section" value="expectations">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -2271,12 +2123,12 @@
                                     <option value="">Please Select</option>
 
                                     <option value="Yes"
-                                        {% if candidate.profile_data.willing_to_travel == "Yes" %}selected{% endif %}>
+                                        {% if profile_data.willing_to_travel == "Yes" %}selected{% endif %}>
                                         Yes
                                     </option>
 
                                     <option value="No"
-                                        {% if candidate.profile_data.willing_to_travel == "No" %}selected{% endif %}>
+                                        {% if profile_data.willing_to_travel == "No" %}selected{% endif %}>
                                         No
                                     </option>
 
@@ -2299,12 +2151,12 @@
                                     <option value="">Please Select</option>
 
                                     <option value="Yes"
-                                        {% if candidate.profile_data.willing_to_relocate == "Yes" %}selected{% endif %}>
+                                        {% if profile_data.willing_to_relocate == "Yes" %}selected{% endif %}>
                                         Yes
                                     </option>
 
                                     <option value="No"
-                                        {% if candidate.profile_data.willing_to_relocate == "No" %}selected{% endif %}>
+                                        {% if profile_data.willing_to_relocate == "No" %}selected{% endif %}>
                                         No
                                     </option>
 
@@ -2327,12 +2179,12 @@
                                     <option value="">Please Select</option>
 
                                     <option value="Yes"
-                                        {% if candidate.profile_data.own_transport == "Yes" %}selected{% endif %}>
+                                        {% if profile_data.own_transport == "Yes" %}selected{% endif %}>
                                         Yes
                                     </option>
 
                                     <option value="No"
-                                        {% if candidate.profile_data.own_transport == "No" %}selected{% endif %}>
+                                        {% if profile_data.own_transport == "No" %}selected{% endif %}>
                                         No
                                     </option>
 
@@ -2353,7 +2205,7 @@
                                        id="lastsalary"
                                        name="lastsalary"
                                        placeholder="Last Drawn Salary"
-                                       value="{{ candidate.profile_data.lastsalary|default:'' }}">
+                                       value="{{ profile_data.lastsalary|default:'' }}">
 
                             </div>
 
@@ -2370,7 +2222,7 @@
                                        id="expectedsalary"
                                        name="expectedsalary"
                                        placeholder="Expected Salary"
-                                       value="{{ candidate.profile_data.expectedsalary|default:'' }}">
+                                       value="{{ profile_data.expectedsalary|default:'' }}">
 
                             </div>
 
@@ -2389,27 +2241,27 @@
                                     <option value="">Please Select</option>
 
                                     <option value="Immediate"
-                                        {% if candidate.profile_data.notice == "Immediate" %}selected{% endif %}>
+                                        {% if profile_data.notice == "Immediate" %}selected{% endif %}>
                                         Immediate
                                     </option>
 
                                     <option value="15 Days"
-                                        {% if candidate.profile_data.notice == "15 Days" %}selected{% endif %}>
+                                        {% if profile_data.notice == "15 Days" %}selected{% endif %}>
                                         15 Days
                                     </option>
 
                                     <option value="1 Month"
-                                        {% if candidate.profile_data.notice == "1 Month" %}selected{% endif %}>
+                                        {% if profile_data.notice == "1 Month" %}selected{% endif %}>
                                         1 Month
                                     </option>
 
                                     <option value="2 Months"
-                                        {% if candidate.profile_data.notice == "2 Months" %}selected{% endif %}>
+                                        {% if profile_data.notice == "2 Months" %}selected{% endif %}>
                                         2 Months
                                     </option>
 
                                     <option value="3 Months"
-                                        {% if candidate.profile_data.notice == "3 Months" %}selected{% endif %}>
+                                        {% if profile_data.notice == "3 Months" %}selected{% endif %}>
                                         3 Months
                                     </option>
 
@@ -2465,6 +2317,9 @@
             <form class="w-100"
                   method="post"
                   action="{% url 'myprofile' %}">
+                <input type="hidden" name="profile_section" value="employment">
+                <input type="hidden" name="profile_section" value="employment">
+                <input type="hidden" name="employment_id" id="employment_id" value="">
 
                 {% csrf_token %}
 
@@ -2711,6 +2566,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="education">
+                <input type="hidden" name="profile_section" value="education">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -2746,7 +2603,7 @@
                                        id="institution"
                                        name="institution"
                                        placeholder="School / College / University"
-                                       value="{{ candidate.profile_data.institution|default:'' }}">
+                                       value="{{ profile_data.institution|default:'' }}">
 
                             </div>
 
@@ -2762,7 +2619,7 @@
                                        id="education_location"
                                        name="education_location"
                                        placeholder="Location"
-                                       value="{{ candidate.profile_data.education_location|default:'' }}">
+                                       value="{{ profile_data.education_location|default:'' }}">
 
                             </div>
 
@@ -2777,7 +2634,7 @@
                                        class="form-control"
                                        id="yearfrom"
                                        name="yearfrom"
-                                       value="{{ candidate.profile_data.yearfrom|default:'' }}">
+                                       value="{{ profile_data.yearfrom|default:'' }}">
 
                             </div>
 
@@ -2792,7 +2649,7 @@
                                        class="form-control"
                                        id="yearto"
                                        name="yearto"
-                                       value="{{ candidate.profile_data.yearto|default:'' }}">
+                                       value="{{ profile_data.yearto|default:'' }}">
 
                             </div>
 
@@ -2808,7 +2665,7 @@
                                        id="qualification"
                                        name="qualification"
                                        placeholder="Qualification"
-                                       value="{{ candidate.profile_data.qualification|default:'' }}">
+                                       value="{{ profile_data.qualification|default:'' }}">
 
                             </div>
 
@@ -2854,6 +2711,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="activities">
+                <input type="hidden" name="profile_section" value="activities">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -2889,7 +2748,7 @@
                                        id="activities"
                                        name="activities"
                                        placeholder="Activities / Interest / Hobbies"
-                                       value="{{ candidate.profile_data.activities|default:'' }}">
+                                       value="{{ profile_data.activities|default:'' }}">
 
                             </div>
 
@@ -2935,6 +2794,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
 
             <form class="w-100" method="post">
+                <input type="hidden" name="profile_section" value="references">
+                <input type="hidden" name="profile_section" value="references">
                 {% csrf_token %}
 
                 <div class="modal-content">
@@ -2983,7 +2844,7 @@
                                        id="ref1name"
                                        name="ref1name"
                                        placeholder="Name"
-                                       value="{{ candidate.profile_data.ref1name|default:'' }}">
+                                       value="{{ profile_data.ref1name|default:'' }}">
 
                             </div>
 
@@ -2999,7 +2860,7 @@
                                        id="ref1pos"
                                        name="ref1pos"
                                        placeholder="Position"
-                                       value="{{ candidate.profile_data.ref1pos|default:'' }}">
+                                       value="{{ profile_data.ref1pos|default:'' }}">
 
                             </div>
 
@@ -3015,7 +2876,7 @@
                                        id="ref1com"
                                        name="ref1com"
                                        placeholder="Company"
-                                       value="{{ candidate.profile_data.ref1com|default:'' }}">
+                                       value="{{ profile_data.ref1com|default:'' }}">
 
                             </div>
 
@@ -3031,7 +2892,7 @@
                                        id="ref1email"
                                        name="ref1email"
                                        placeholder="Email Address"
-                                       value="{{ candidate.profile_data.ref1email|default:'' }}">
+                                       value="{{ profile_data.ref1email|default:'' }}">
 
                             </div>
 
@@ -3047,7 +2908,7 @@
                                        id="ref1phn"
                                        name="ref1phn"
                                        placeholder="Phone Number"
-                                       value="{{ candidate.profile_data.ref1phn|default:'' }}">
+                                       value="{{ profile_data.ref1phn|default:'' }}">
 
                             </div>
 
@@ -3077,7 +2938,7 @@
                                        id="ref2name"
                                        name="ref2name"
                                        placeholder="Name"
-                                       value="{{ candidate.profile_data.ref2name|default:'' }}">
+                                       value="{{ profile_data.ref2name|default:'' }}">
 
                             </div>
 
@@ -3093,7 +2954,7 @@
                                        id="ref2pos"
                                        name="ref2pos"
                                        placeholder="Position"
-                                       value="{{ candidate.profile_data.ref2pos|default:'' }}">
+                                       value="{{ profile_data.ref2pos|default:'' }}">
 
                             </div>
 
@@ -3109,7 +2970,7 @@
                                        id="ref2com"
                                        name="ref2com"
                                        placeholder="Company"
-                                       value="{{ candidate.profile_data.ref2com|default:'' }}">
+                                       value="{{ profile_data.ref2com|default:'' }}">
 
                             </div>
 
@@ -3125,7 +2986,7 @@
                                        id="ref2email"
                                        name="ref2email"
                                        placeholder="Email Address"
-                                       value="{{ candidate.profile_data.ref2email|default:'' }}">
+                                       value="{{ profile_data.ref2email|default:'' }}">
 
                             </div>
 
@@ -3141,7 +3002,7 @@
                                        id="ref2phn"
                                        name="ref2phn"
                                        placeholder="Phone Number"
-                                       value="{{ candidate.profile_data.ref2phn|default:'' }}">
+                                       value="{{ profile_data.ref2phn|default:'' }}">
 
                             </div>
 
@@ -3333,6 +3194,203 @@
 
 
 <!-- ============================================================
+     Profile display data
+============================================================ -->
+{{ profile_data|json_script:"profile-data-json" }}
+<script>
+(function () {
+    "use strict";
+    var node = document.getElementById("profile-data-json");
+    if (!node) return;
+
+    var data = {};
+    try { data = JSON.parse(node.textContent || "{}"); } catch (e) { return; }
+
+    // Fill the read-only profile cards from the same data saved by the update modals.
+    document.querySelectorAll(".profile-display-form").forEach(function (form) {
+        var counters = {};
+        form.querySelectorAll("[name]").forEach(function (field) {
+            var key = field.getAttribute("name");
+            if (!key || !(key in data)) return;
+
+            var value = data[key];
+            var values = Array.isArray(value) ? value : [value];
+            var index = counters[key] || 0;
+            var current = values[index] !== undefined ? values[index] : "";
+            counters[key] = index + 1;
+
+            // Some older saved profiles may contain a single language value instead
+            // of the expected list. Reuse it safely for the first field.
+            if (key === "lang" && current === "" && typeof value === "string") {
+                current = value;
+            }
+
+            if (field.type === "checkbox") {
+                field.checked = !!current;
+            } else if (field.tagName === "SELECT") {
+                field.value = current;
+            } else {
+                field.value = current == null ? "" : current;
+            }
+        });
+    });
+})();
+</script>
+
+<!-- ============================================================
+     Language / Dialect legacy-value display fix ONLY
+============================================================ -->
+<script>
+(function () {
+    function restoreLanguageFromLegacyData() {
+        var node = document.getElementById("profile-data-json");
+        if (!node) return;
+
+        var data;
+        try { data = JSON.parse(node.textContent || "{}"); } catch (e) { return; }
+        if (!Array.isArray(data.lang)) return;
+
+        var names = [
+            "english_speak", "english_read", "english_write",
+            "malay_speak", "malay_read", "malay_write",
+            "mandarin_speak", "mandarin_read", "mandarin_write",
+            "tamil_speak", "tamil_read", "tamil_write",
+            "other1_speak", "other1_read", "other1_write",
+            "other2_speak", "other2_read", "other2_write"
+        ];
+
+        names.forEach(function (name, index) {
+            var field = document.querySelector('.profile-display-form [name="' + name + '"]');
+            if (!field) return;
+            if (data[name] === undefined || data[name] === null || data[name] === "") {
+                var value = data.lang[index];
+                if (value !== undefined && value !== null && value !== "") {
+                    field.value = value;
+                }
+            }
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", restoreLanguageFromLegacyData);
+    } else {
+        restoreLanguageFromLegacyData();
+    }
+})();
+</script>
+
+<!-- ============================================================
+     My Profile modal fallback + update helpers
+============================================================ -->
+<script>
+(function () {
+    "use strict";
+
+    function openProfileModal(target) {
+        var modal = document.querySelector(target);
+        if (!modal) return;
+
+        // Prefer Bootstrap when its JS is available.
+        if (window.bootstrap && window.bootstrap.Modal) {
+            window.bootstrap.Modal.getOrCreateInstance(modal).show();
+            return;
+        }
+
+        // Fallback keeps Modify working even when bundle.js does not expose
+        // Bootstrap's Modal component.
+        modal.classList.add("show");
+        modal.style.display = "block";
+        modal.removeAttribute("aria-hidden");
+        modal.setAttribute("aria-modal", "true");
+        document.body.classList.add("modal-open");
+        document.body.style.overflow = "hidden";
+
+        var backdrop = document.createElement("div");
+        backdrop.className = "modal-backdrop fade show profile-modal-backdrop";
+        backdrop.addEventListener("click", function () { closeProfileModal(modal); });
+        document.body.appendChild(backdrop);
+        modal._profileBackdrop = backdrop;
+
+        modal.querySelectorAll('[data-bs-dismiss="modal"]').forEach(function (button) {
+            if (!button._profileCloseBound) {
+                button.addEventListener("click", function () { closeProfileModal(modal); });
+                button._profileCloseBound = true;
+            }
+        });
+    }
+
+    function closeProfileModal(modal) {
+        if (!modal) return;
+        if (window.bootstrap && window.bootstrap.Modal) {
+            window.bootstrap.Modal.getOrCreateInstance(modal).hide();
+            return;
+        }
+        modal.classList.remove("show");
+        modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+        modal.removeAttribute("aria-modal");
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        if (modal._profileBackdrop) {
+            modal._profileBackdrop.remove();
+            modal._profileBackdrop = null;
+        }
+    }
+
+    document.addEventListener("click", function (event) {
+        var trigger = event.target.closest("[data-profile-modal-target]");
+        if (!trigger) return;
+
+        var target = trigger.getAttribute("data-profile-modal-target");
+        var modal = document.querySelector(target);
+        if (!modal) return;
+
+        // Let Bootstrap handle it when available. Otherwise use our fallback.
+        if (!(window.bootstrap && window.bootstrap.Modal)) {
+            event.preventDefault();
+            openProfileModal(target);
+        }
+    });
+
+    // Populate the shared Employment History modal from the clicked database row.
+    // Add Employment has an empty data-employment-id and therefore opens blank.
+    document.addEventListener("click", function (event) {
+        var trigger = event.target.closest('[data-profile-modal-target="#modify-8"]');
+        if (!trigger) return;
+
+        var fields = {
+            "employment_id": "data-employment-id",
+            "employment_date_from": "data-date-from",
+            "employment_date_to": "data-date-to",
+            "employer_name": "data-employer-name",
+            "employment_location": "data-location",
+            "superior": "data-superior",
+            "position": "data-position",
+            "ssalary": "data-start-salary",
+            "esalary": "data-end-salary",
+            "reasons": "data-reasons",
+            "job_description": "data-job-description"
+        };
+
+        Object.keys(fields).forEach(function (id) {
+            var element = document.getElementById(id);
+            if (!element) return;
+            var value = trigger.getAttribute(fields[id]) || "";
+            element.value = value;
+        });
+    });
+})();
+</script>
+
+<style>
+/* Fallback modal styling; Bootstrap styling is used automatically when loaded. */
+body.modal-open { padding-right: 0 !important; }
+.profile-modal-backdrop { z-index: 1050; }
+.modal { z-index: 1060; }
+.profile-modify-btn { cursor: pointer; }
+</style>
+
+<!-- ============================================================
      JS
 ============================================================ -->
 <script src="{% static 'core/assets/js/bundle.js' %}"
@@ -3341,4 +3399,90 @@
 
 <script src="{% static 'core/assets/js/scripts.js' %}"
         type="text/javascript">
+</script>
+<script>
+(function () {
+    "use strict";
+
+    function get(id) { return document.getElementById(id); }
+
+    function copyAddress() {
+        var same = get("same_address");
+        if (!same) return;
+
+        var pairs = [
+            ["residential_address", "permanent_address"],
+            ["residential_city", "permanent_city"],
+            ["residential_state", "permanent_state"],
+            ["residential_country", "permanent_country"],
+            ["residential_pincode", "permanent_pincode"]
+        ];
+
+        pairs.forEach(function (pair) {
+            var source = get(pair[0]);
+            var target = get(pair[1]);
+            if (!source || !target) return;
+
+            if (same.checked) {
+                target.value = source.value;
+                target.readOnly = true;
+            } else {
+                target.readOnly = false;
+            }
+        });
+    }
+
+    document.addEventListener("change", function (event) {
+        var target = event.target;
+
+        // Only one position option can be selected.
+        if (target.matches('#modify-2 input[type="checkbox"][name^="profile_option_"]')) {
+            if (target.checked) {
+                document.querySelectorAll('#modify-2 input[type="checkbox"][name^="profile_option_"]').forEach(function (box) {
+                    if (box !== target) box.checked = false;
+                });
+            }
+        }
+
+        if (target.id === "same_address") {
+            copyAddress();
+        }
+    });
+
+    ["residential_address", "residential_city", "residential_state", "residential_country", "residential_pincode"].forEach(function (id) {
+        var source = get(id);
+        if (source) source.addEventListener("input", function () {
+            var same = get("same_address");
+            if (same && same.checked) copyAddress();
+        });
+    });
+
+    // Bootstrap modal event.
+    document.addEventListener("shown.bs.modal", function (event) {
+        if (event.target && event.target.id === "modify-5") {
+            copyAddress();
+        }
+    });
+
+    // Also handle the Modify click directly, so it works with the fallback modal.
+    document.addEventListener("click", function (event) {
+        var trigger = event.target.closest('[data-profile-modal-target="#modify-5"]');
+        if (!trigger) return;
+        window.setTimeout(copyAddress, 50);
+    });
+
+    // Restore the saved Same as above state immediately on page load.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", copyAddress);
+    } else {
+        copyAddress();
+    }
+
+    // Phone numbers and pincodes must contain digits only.
+    document.addEventListener("input", function (event) {
+        var el = event.target;
+        if (!el || !el.matches('input[type="tel"], input[name$="pincode"], input[name="pincode"]')) return;
+        el.value = el.value.replace(/\D/g, "");
+    });
+})();
 </script>

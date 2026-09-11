@@ -607,7 +607,7 @@
                                             <tr>
 
                                               <td>
-                                                {{ company.id }}
+                                                {{ forloop.counter }}
                                               </td>
 
                                               <td>
@@ -1075,7 +1075,7 @@
                                             <tr>
 
                                               <td>
-                                                {{ user.id }}
+                                                {{ forloop.counter }}
                                               </td>
 
                                               <td>
@@ -2090,11 +2090,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (termsInput) {
 
+            const existingTerms = "{{ settings_map.terms_content|default:''|escapejs }}";
+
+            if (existingTerms.trim()) {
+                quill1.root.innerHTML = existingTerms;
+                termsInput.value = existingTerms;
+            }
+
             quill1.on("text-change", function () {
-
-                termsInput.value =
-                    quill1.root.innerHTML;
-
+                termsInput.value = quill1.root.innerHTML;
             });
 
         }
@@ -2121,11 +2125,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (privacyInput) {
 
+            const existingPrivacy = "{{ settings_map.privacy_content|default:''|escapejs }}";
+
+            if (existingPrivacy.trim()) {
+                quill2.root.innerHTML = existingPrivacy;
+                privacyInput.value = existingPrivacy;
+            }
+
             quill2.on("text-change", function () {
-
-                privacyInput.value =
-                    quill2.root.innerHTML;
-
+                privacyInput.value = quill2.root.innerHTML;
             });
 
         }

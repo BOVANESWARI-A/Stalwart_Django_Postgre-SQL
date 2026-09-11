@@ -1,6 +1,8 @@
 from functools import wraps
 from pathlib import Path
 import re
+import ast
+import json
 
 
 
@@ -72,14 +74,38 @@ ALLOWED_UPLOAD_EXTENSIONS = {
 MAX_UPLOAD_SIZE = 1 * 1024 * 1024
 
 
+def normalize_person_name(value):
+    """Return one clean candidate name, including for legacy list strings."""
+    if value is None:
+        return ""
+    if isinstance(value, (list, tuple, set)):
+        values = []
+        for item in value:
+            item = normalize_person_name(item)
+            if item and item not in values:
+                values.append(item)
+        return " ".join(values).strip()
+    text = str(value).strip()
+    if not text:
+        return ""
+    if text.startswith("[") and text.endswith("]"):
+        try:
+            parsed = ast.literal_eval(text)
+            if isinstance(parsed, (list, tuple, set)):
+                return normalize_person_name(parsed)
+        except (ValueError, SyntaxError):
+            pass
+    return " ".join(text.split())
+
+
 def get_role(user):
     if not user or not user.is_authenticated:
         return None
     if user.is_superuser:
         return "administration"
     groups = set(user.groups.values_list("name", flat=True))
-    for role, names in ROLE_GROUPS.items():
-        if groups.intersection(names):
+    for role in ("administration", "hr", "agent", "candidate"):
+        if groups.intersection(ROLE_GROUPS[role]):
             return role
     if user.is_staff:
         return "hr"
@@ -814,7 +840,16 @@ def _collect_post_data(request):
         key = key.strip()
         if not key:
             continue
-        data[key] = values[0] if len(values) == 1 else values
+        # ``name`` appears in a few consent/signature blocks in the legacy
+        # Macro Kiosk HTML. They all used the same POST name, so Django receives
+        # a list such as ["Buvana", "Buvana", "Buvana"]. The candidate's
+        # identity is the first non-empty value; do not store the duplicate
+        # consent-field values as the candidate name.
+        if key == "name":
+            first_value = next((v for v in values if str(v).strip()), "")
+            data[key] = normalize_person_name(first_value)
+        else:
+            data[key] = values[0] if len(values) == 1 else values
     return data
 
 
@@ -884,9 +919,9 @@ def _section_field_names(section, request):
                 "expectedsalary","ref1name","ref1pos","ref1com","ref1email","ref1phn",
                 "ref1name_2","ref1pos_2","ref1com_2","ref1email_2","ref1phn_2","appname","dateapplied"
             },
-            "macro_section_5": {"macro_5_yourname","macro_5_nric","macro_doc_5_1","name","date","nric"},
+            "macro_section_5": {"macro_5_yourname","macro_5_nric","macro_5_name","macro_5_date","macro_doc_5_1","name","date","nric","macro_5_consent"},
             "macro_section_6": {"macro_6_text_1"},
-            "macro_section_7": {"name","nric","date"},
+            "macro_section_7": {"macro_7_name","macro_7_nric","macro_7_date","name","nric","date","macro_7_consent"},
         }
         exact, prefixes = macro_fields.get(section, set()), ()
     else:
@@ -925,7 +960,7 @@ def _candidate_defaults(app):
     personal = saved.get("personal_information", {})
     if not isinstance(personal, dict):
         personal = {}
-    personal.setdefault("name", candidate.full_name or "")
+    personal.setdefault("name", normalize_person_name(candidate.full_name))
     personal.setdefault("email", candidate.email or "")
     personal.setdefault("phone", candidate.phone or "")
     saved["personal_information"] = personal
@@ -933,14 +968,172 @@ def _candidate_defaults(app):
     macro = saved.get("macro_section_1", {})
     if not isinstance(macro, dict):
         macro = {}
-    macro.setdefault("name", candidate.full_name or "")
+    macro.setdefault("name", normalize_person_name(candidate.full_name))
     macro.setdefault("email", candidate.email or "")
     saved["macro_section_1"] = macro
     return saved
 
 
-def _validate_final_application(app, data):
+# Macro Kiosk section validation is intentionally server-side as well as
+# client-side. Browser validation alone is not enough because a candidate can
+# submit POST data without JavaScript and because uploaded files disappear from
+# the browser after a refresh.
+MACRO_REQUIRED_FIELDS = {
+    "macro_section_1": (
+        "name", "address", "address_2", "dob", "age", "gender", "dob_2",
+        "email", "passportnumber", "marital", "nationality", "nationality_4",
+        "father", "mother", "spouse", "children", "brothers", "sisters",
+    ),
+    "macro_section_2": (
+        "datefrom", "dateto", "height", "location", "superior", "position",
+        "ssalary", "esalary", "reasons",
+    ),
+    "macro_section_3": ("yearfrom", "yearto", "qualification"),
+    "macro_section_4": (
+        "lastsalary_2", "expectedsalary", "ref1name", "ref1pos", "ref1com",
+        "ref1email", "ref1phn", "ref1name_2", "ref1pos_2", "ref1com_2",
+        "ref1email_2", "ref1phn_2", "appname", "dateapplied",
+    ),
+    "macro_section_5": ("macro_5_yourname", "macro_5_nric", "macro_5_name", "macro_5_date", "nric", "macro_5_consent"),
+    "macro_section_6": ("macro_6_text_1",),
+    "macro_section_7": ("macro_7_name", "macro_7_nric", "macro_7_date", "macro_7_consent"),
+}
+
+MACRO_NUMERIC_FIELDS = {
+    "age", "nationality_2", "nationality_3", "nationality_4",
+    "ssalary", "esalary", "lastsalary_2", "expectedsalary",
+    "ref1phn", "ref1phn_2",
+}
+
+
+def _normalise_nric(value):
+    """Compare NRIC/ID values consistently (ignore spaces/hyphens/case)."""
+    return re.sub(r"[^A-Z0-9]", "", str(value or "").upper())
+
+
+def _macro_section_validation(app, section, section_data, request=None, data_context=None):
+    """Return validation errors for a single Macro Kiosk section."""
     errors = []
+    required = MACRO_REQUIRED_FIELDS.get(section, ())
+
+    for field_name in required:
+        value = section_data.get(field_name, "")
+        if isinstance(value, (list, tuple)):
+            value = next((str(v).strip() for v in value if str(v).strip()), "")
+        if not str(value or "").strip():
+            errors.append(f"{field_name.replace('_', ' ').title()} is required.")
+
+    if section == "macro_section_1":
+        # Passport photo is required only until one has already been saved for
+        # this application. This is what makes refresh/re-edit work correctly.
+        has_photo = app.files.filter(field_name="macro_doc_1_1").exists()
+        new_photo = bool(request and request.FILES.get("macro_doc_1_1"))
+        if not has_photo and not new_photo:
+            errors.append("Passport size photo is required.")
+
+        occupations = {
+            key for key in (
+                "macro_1_checkbox_1", "macro_1_checkbox_2", "macro_1_checkbox_3",
+                "macro_1_checkbox_4", "macro_1_checkbox_5", "macro_1_checkbox_6",
+                "macro_1_checkbox_7", "macro_1_checkbox_8",
+            ) if section_data.get(key)
+        }
+        if len(occupations) != 1:
+            errors.append("Please select exactly one position applied for.")
+
+        age = str(section_data.get("age", "")).strip()
+        if age and (not age.isdigit() or not 18 <= int(age) <= 100):
+            errors.append("Age must be a whole number between 18 and 100.")
+
+        for field_name in ("nationality_2", "nationality_3", "nationality_4"):
+            value = str(section_data.get(field_name, "")).strip()
+            if value and not value.isdigit():
+                label = {"nationality_2": "House Phone No.", "nationality_3": "Office Phone No.", "nationality_4": "Handphone No."}[field_name]
+                errors.append(f"{label} must contain numbers only.")
+
+        email = str(section_data.get("email", "")).strip()
+        if email and not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email):
+            errors.append("Please enter a valid email address.")
+
+        # One candidate may apply to multiple companies/applications with the
+        # same NRIC. A different candidate may not reuse that NRIC.
+        nric = _normalise_nric(section_data.get("passportnumber"))
+        if nric:
+            for other in JobApplication.objects.exclude(pk=app.pk).exclude(candidate_id=app.candidate_id).only("id", "candidate_id", "data"):
+                other_data = other.data if isinstance(other.data, dict) else {}
+                other_macro = other_data.get("macro_section_1", {})
+                if isinstance(other_macro, dict) and _normalise_nric(other_macro.get("passportnumber")) == nric:
+                    errors.append("This NRIC/ID number is already registered to another candidate.")
+                    break
+
+    elif section == "macro_section_2":
+        for field_name in ("ssalary", "esalary"):
+            value = str(section_data.get(field_name, "")).strip()
+            if value and not value.isdigit():
+                errors.append("Salary fields must contain numbers only.")
+        start = str(section_data.get("datefrom", "")).strip()
+        end = str(section_data.get("dateto", "")).strip()
+        if start and end and start > end:
+            errors.append("Date To must be on or after Date From.")
+
+    elif section == "macro_section_3":
+        start = str(section_data.get("yearfrom", "")).strip()
+        end = str(section_data.get("yearto", "")).strip()
+        if start and end and start > end:
+            errors.append("End date must be on or after start date.")
+
+    elif section == "macro_section_4":
+        for field_name in ("lastsalary_2", "expectedsalary", "ref1phn", "ref1phn_2"):
+            value = str(section_data.get(field_name, "")).strip()
+            if value and not value.isdigit():
+                errors.append(f"{field_name.replace('_', ' ').title()} must contain numbers only.")
+        for field_name in ("ref1email", "ref1email_2"):
+            value = str(section_data.get(field_name, "")).strip()
+            if value and not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", value):
+                errors.append("Please enter a valid reference email address.")
+
+    elif section == "macro_section_5":
+        has_signature = app.files.filter(field_name="macro_doc_5_1").exists()
+        new_signature = bool(request and request.FILES.get("macro_doc_5_1"))
+        if not has_signature and not new_signature:
+            errors.append("Candidate signature file is required.")
+
+        section_nric = _normalise_nric(section_data.get("macro_5_nric"))
+        declared = _normalise_nric(section_data.get("nric"))
+        source_data = data_context if isinstance(data_context, dict) else (app.data if isinstance(app.data, dict) else {})
+        personal = source_data.get("macro_section_1", {})
+        personal_nric = _normalise_nric(personal.get("passportnumber") if isinstance(personal, dict) else "")
+
+        # Personal Information is the single source of truth for the candidate ID.
+        # Background Check and HR PDPA must contain exactly the same normalized NRIC/ID.
+        if personal_nric:
+            if section_nric != personal_nric:
+                errors.append("NRIC/Passport No. must match the NRIC/ID used in Personal Information.")
+            if declared != personal_nric:
+                errors.append("NRIC/Passport No. must match the NRIC/ID used in Personal Information.")
+
+    elif section == "macro_section_7":
+        section_nric = _normalise_nric(section_data.get("macro_7_nric"))
+        source_data = data_context if isinstance(data_context, dict) else (app.data if isinstance(app.data, dict) else {})
+        personal = source_data.get("macro_section_1", {})
+        personal_nric = _normalise_nric(personal.get("passportnumber") if isinstance(personal, dict) else "")
+        if personal_nric and section_nric != personal_nric:
+            errors.append("NRIC/ID No. must match the NRIC/ID used in Personal Information.")
+
+    return list(dict.fromkeys(errors))
+
+
+def _validate_final_application(app, data, request=None):
+    errors = []
+    if is_macro_kiosk_application(app):
+        for macro_section in (
+            "macro_section_1", "macro_section_2", "macro_section_3",
+            "macro_section_4", "macro_section_5", "macro_section_6",
+            "macro_section_7",
+        ):
+            section_data = data.get(macro_section, {}) if isinstance(data.get(macro_section), dict) else {}
+            errors.extend(_macro_section_validation(app, macro_section, section_data, request=request, data_context=data))
+        return list(dict.fromkeys(errors))
     personal = data.get("personal_information", {}) if isinstance(data.get("personal_information"), dict) else {}
     consent = data.get("consent", {}) if isinstance(data.get("consent"), dict) else {}
     declaration = data.get("declaration", {}) if isinstance(data.get("declaration"), dict) else {}
@@ -1248,6 +1441,19 @@ def candidate_application(request, token):
                         ] = value
 
         # ========================================================
+        # SERVER-SIDE SECTION VALIDATION
+        # ========================================================
+        if is_macro_kiosk_application(app):
+            section_errors = _macro_section_validation(
+                app, section, section_data, request=request
+            )
+            if section_errors:
+                for error in section_errors:
+                    messages.error(request, error)
+                target = reverse("candidate_application", kwargs={"token": invitation.token})
+                return redirect(f"{target}?section={section}")
+
+        # ========================================================
         # SAVE APPLICATION
         # ========================================================
 
@@ -1375,6 +1581,7 @@ def candidate_application(request, token):
                 errors = _validate_final_application(
                     app,
                     saved_data,
+                    request=request,
                 )
 
                 if errors:
@@ -1549,6 +1756,13 @@ def candidate_application(request, token):
                 .all()
                 .order_by("-uploaded_at")
             ),
+            "macro_photo": app.files.filter(field_name="macro_doc_1_1").order_by("-uploaded_at").first(),
+            "macro_signature": app.files.filter(field_name="macro_doc_5_1").order_by("-uploaded_at").first(),
+            "application_id": app.pk,
+            "macro_saved_files": [
+                {"field": f.field_name, "url": f.file.url, "name": f.file.name}
+                for f in app.files.all().order_by("-uploaded_at")
+            ],
         },
     )
 @login_required(login_url="/login/")
@@ -1558,7 +1772,14 @@ def submitted_applications(request):
 
     apps = (
         JobApplication.objects
-        .filter(status__in={"submitted", "reviewed", "shortlisted", "rejected"})
+        .filter(
+            status__in={
+                "submitted",
+                "reviewed",
+                "shortlisted",
+                "rejected",
+            }
+        )
         .select_related(
             "candidate",
             "company",
@@ -1568,18 +1789,11 @@ def submitted_applications(request):
 
     if role == "candidate":
 
-        candidate = candidate_for_user(
-            request.user
-        )
+        candidate = candidate_for_user(request.user)
 
         if candidate:
-
-            apps = apps.filter(
-                candidate=candidate
-            )
-
+            apps = apps.filter(candidate=candidate)
         else:
-
             apps = apps.none()
 
     elif role == "agent":
@@ -1592,8 +1806,48 @@ def submitted_applications(request):
         "hr",
         "administration",
     }:
-
         return redirect("dashboard")
+
+    # ---------------------------------------------------------
+    # CLEAN APPLICANT NAME FOR DISPLAY
+    # ---------------------------------------------------------
+
+    for app in apps:
+
+        if not app.candidate:
+            app.display_name = "Candidate"
+            continue
+
+        display_name = ""
+
+        # First preference:
+        # saved application personal information
+        if isinstance(app.data, dict):
+
+            personal = app.data.get(
+                "personal_information",
+                {}
+            )
+
+            if isinstance(personal, dict):
+
+                display_name = (
+                    personal.get("name")
+                    or personal.get("full_name")
+                    or ""
+                )
+
+        # Fallback to Candidate model
+        if not display_name:
+            display_name = app.candidate.full_name
+
+        # Clean duplicate / legacy values
+        display_name = normalize_person_name(display_name)
+
+        if not display_name:
+            display_name = "Candidate"
+
+        app.display_name = display_name
 
     return render(
         request,
@@ -1617,6 +1871,11 @@ def received_applications(request):
         .prefetch_related("files")
         .order_by("-submitted_at")
     )
+
+    for app in apps:
+        if app.candidate:
+            # Clean old records without changing the database value.
+            app.candidate.full_name = normalize_person_name(app.candidate.full_name)
 
     return render(
         request,
@@ -1652,7 +1911,7 @@ def _application_pdf_response(app):
     normal = styles['BodyText']
     story = [Paragraph('Stalwart Business Solutions', title),
              Paragraph(f'{app.company.name} - Job Application', styles['Heading1']),
-             Paragraph(f'Application ID: {app.id} &nbsp;&nbsp; Candidate: {app.candidate.full_name or "Candidate"}', normal),
+             Paragraph(f'Application ID: {app.id} &nbsp;&nbsp; Candidate: {normalize_person_name(app.candidate.full_name) or "Candidate"}', normal),
              Paragraph(f'Email: {app.candidate.email or ""} &nbsp;&nbsp; Status: {app.get_status_display()}', normal), Spacer(1, 8)]
 
     data = app.data if isinstance(app.data, dict) else {}
@@ -1718,6 +1977,9 @@ def application_detail(request, pk):
 
         if not candidate or app.candidate_id != candidate.pk:
             raise Http404
+
+    if app.candidate:
+        app.candidate.full_name = normalize_person_name(app.candidate.full_name)
 
     if request.GET.get("download", "").lower() == "pdf":
         return _application_pdf_response(app)
@@ -1845,6 +2107,14 @@ def settings_view(request):
     if request.method == "POST":
 
         action = request.POST.get("action", "").strip()
+
+        admin_actions = {
+            "company", "create_user", "delete_user", "delete_company",
+            "assign_agent", "remove_assignment", "update_terms", "update_privacy",
+        }
+        if action in admin_actions and get_role(request.user) != "administration":
+            messages.error(request, "Administrator access is required for this action.")
+            return redirect("settings")
 
         # ============================================================
         # CURRENT USER ACCOUNT SETTINGS
@@ -2124,22 +2394,21 @@ def settings_view(request):
                     pk=user_id
                 )
 
-                # Do not delete currently logged-in admin
                 if user.pk == request.user.pk:
-
-                    messages.error(
-                        request,
-                        "You cannot delete your own logged-in account."
-                    )
-
+                    messages.error(request, "You cannot delete your own logged-in account.")
+                elif get_role(user) == "administration":
+                    active_admins = [
+                        admin for admin in User.objects.filter(is_active=True)
+                        if get_role(admin) == "administration"
+                    ]
+                    if len(active_admins) <= 1:
+                        messages.error(request, "The last administrator account cannot be deleted.")
+                    else:
+                        user.delete()
+                        messages.success(request, "User deleted successfully.")
                 else:
-
                     user.delete()
-
-                    messages.success(
-                        request,
-                        "User deleted successfully."
-                    )
+                    messages.success(request, "User deleted successfully.")
 
             except User.DoesNotExist:
 
@@ -2459,31 +2728,53 @@ def settings_view(request):
 
 @login_required
 def myprofile(request):
-    """Persist the existing My Profile UI without changing its design."""
-    candidate = Candidate.objects.filter(user=request.user).first()
+    """Display and update the authenticated user's My Profile data."""
+    candidate = candidate_for_user(request.user)
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
 
-    employment_history = None
-    if candidate:
-        employment_history = EmploymentHistory.objects.filter(
-            candidate=candidate
-        ).order_by("-id").first()
+    employment_records = (
+        EmploymentHistory.objects.filter(candidate=candidate).order_by("-id")
+        if candidate else EmploymentHistory.objects.none()
+    )
+    employment_history = employment_records.first()
 
     if request.method == "POST":
+        section = request.POST.get("profile_section", "").strip().lower()
+        if not section:
+            if any(k in request.POST for k in ["profile_option_14","profile_option_15","profile_option_16","profile_option_17","profile_option_18","profile_option_19","profile_option_20","profile_option_21","position_others"]):
+                section = "position"
+            elif any(k in request.POST for k in ["residential_address","residential_city","residential_state","residential_country","residential_pincode","permanent_address","permanent_city","permanent_state","permanent_country","permanent_pincode","permanent_same_as_residential"]):
+                section = "address"
+            elif any(k in request.POST for k in ["institution","education_location","yearfrom","yearto","qualification"]):
+                section = "education"
+            elif "lang" in request.POST:
+                section = "language"
+
+        # --------------------------------------------------------
+        # PROFILE PHOTO
+        # --------------------------------------------------------
         uploaded_photo = request.FILES.get("profile_photo") or request.FILES.get("file")
         if uploaded_photo:
             if uploaded_photo.size > 5 * 1024 * 1024:
                 messages.error(request, "Profile image must be 5 MB or smaller.")
                 return redirect("myprofile")
+
             if Path(uploaded_photo.name).suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp"}:
                 messages.error(request, "Profile image must be JPG, JPEG, PNG or WEBP.")
                 return redirect("myprofile")
+
             profile.profile_photo = uploaded_photo
 
-        # The existing page contains several independent modal forms.  They
-        # all POST back to this endpoint, so determine the modal by its field
-        # names instead of requiring a new hidden action field in the UI.
-        if "employer_name" in request.POST:
+        # --------------------------------------------------------
+        # EMPLOYMENT HISTORY
+        # --------------------------------------------------------
+        employment_fields = {
+            "employer_name", "employment_location", "superior", "position",
+            "ssalary", "esalary", "reasons", "job_description",
+            "employment_date_from", "employment_date_to",
+        }
+
+        if section == "employment" or employment_fields.intersection(request.POST.keys()):
             if not candidate:
                 messages.error(request, "Candidate profile was not found.")
                 return redirect("myprofile")
@@ -2492,36 +2783,56 @@ def myprofile(request):
             from decimal import Decimal, InvalidOperation
 
             def parse_date(value):
+                value = (value or "").strip()
+                if not value:
+                    return None
                 try:
-                    return date.fromisoformat(value) if value else None
-                except ValueError:
+                    return date.fromisoformat(value)
+                except (TypeError, ValueError):
                     return None
 
             def parse_decimal(value):
+                value = (value or "").strip()
+                if not value:
+                    return None
                 try:
-                    return Decimal(value) if value else None
-                except (InvalidOperation, ValueError):
+                    return Decimal(value)
+                except (InvalidOperation, ValueError, TypeError):
                     return None
 
-            EmploymentHistory.objects.update_or_create(
-                candidate=candidate,
-                defaults={
-                    "date_from": parse_date(request.POST.get("employment_date_from", "").strip()),
-                    "date_to": parse_date(request.POST.get("employment_date_to", "").strip()),
-                    "employer_name": request.POST.get("employer_name", "").strip(),
-                    "location": request.POST.get("employment_location", "").strip(),
-                    "immediate_superior": request.POST.get("superior", "").strip(),
-                    "position": request.POST.get("position", "").strip(),
-                    "start_salary": parse_decimal(request.POST.get("ssalary", "").strip()),
-                    "end_salary": parse_decimal(request.POST.get("esalary", "").strip()),
-                    "reason_for_leaving": request.POST.get("reasons", "").strip(),
-                    "job_description": request.POST.get("job_description", "").strip(),
-                },
-            )
-            messages.success(request, "Employment history has been updated successfully.")
+            employment_id = request.POST.get("employment_id", "").strip()
+
+            if employment_id:
+                try:
+                    employment = EmploymentHistory.objects.get(
+                        pk=int(employment_id),
+                        candidate=candidate,
+                    )
+                except (EmploymentHistory.DoesNotExist, ValueError, TypeError):
+                    messages.error(request, "The selected employment record was not found.")
+                    return redirect("myprofile")
+            else:
+                employment = EmploymentHistory(candidate=candidate)
+
+            employment.date_from = parse_date(request.POST.get("employment_date_from"))
+            employment.date_to = parse_date(request.POST.get("employment_date_to"))
+            employment.employer_name = request.POST.get("employer_name", "").strip()
+            employment.location = request.POST.get("employment_location", "").strip()
+            employment.immediate_superior = request.POST.get("superior", "").strip()
+            employment.position = request.POST.get("position", "").strip()
+            employment.start_salary = parse_decimal(request.POST.get("ssalary"))
+            employment.end_salary = parse_decimal(request.POST.get("esalary"))
+            employment.reason_for_leaving = request.POST.get("reasons", "").strip()
+            employment.job_description = request.POST.get("job_description", "").strip()
+            employment.save()
+
+            profile.save()
+            messages.success(request, "Employment history updated successfully.")
             return redirect("myprofile")
 
-        # Always persist the account identity fields when present.
+        # --------------------------------------------------------
+        # YOUR INFORMATION / ACCOUNT
+        # --------------------------------------------------------
         first_name = request.POST.get("fname")
         middle_name = request.POST.get("mname")
         last_name = request.POST.get("lname")
@@ -2533,71 +2844,126 @@ def myprofile(request):
             if not email:
                 messages.error(request, "Email address is required.")
                 return redirect("myprofile")
+
             if User.objects.exclude(pk=request.user.pk).filter(email__iexact=email).exists():
                 messages.error(request, "That email address is already in use.")
                 return redirect("myprofile")
+
             request.user.email = email
             request.user.username = email
 
         if first_name is not None:
             request.user.first_name = first_name.strip()
+
         if last_name is not None:
             request.user.last_name = last_name.strip()
-        request.user.save(update_fields=["first_name", "last_name", "email", "username"])
+
+        request.user.save()
 
         if middle_name is not None:
             profile.middle_name = middle_name.strip()
+
         if phone is not None:
             profile.phone = phone.strip()
 
-        # Persist every other field from the current modal. This keeps the
-        # existing HTML field names/content intact and makes the values survive
-        # refresh/login instead of being only front-end values.
-        ignored = {"csrfmiddlewaretoken", "fname", "mname", "lname", "email", "phone"}
-        posted_profile = dict(profile.profile_data or {})
+        # --------------------------------------------------------
+        # OTHER PROFILE MODALS -> JSON
+        # --------------------------------------------------------
+        profile_data = dict(profile.profile_data or {})
+
+        section_keys = {
+            "position": [f"profile_option_{i}" for i in range(1, 22)] + ["position_others"],
+            "personal": ["passportnumber", "nationality", "dob", "age", "gender", "marital"],
+            "family": ["father", "mother", "spouse", "children", "brothers", "sisters"],
+            "address": [
+                "address_option_house", "address_option_parents", "address_option_rented",
+                "address_option_other", "address_others", "residential_address",
+                "residential_city", "residential_state", "residential_country",
+                "residential_pincode", "permanent_same_as_residential", "permanent_address",
+                "permanent_city", "permanent_state", "permanent_country", "permanent_pincode",
+            ],
+            "health": ["height", "weight", "bms"],
+            "expectations": ["willing_to_travel", "willing_to_relocate", "own_transport", "lastsalary", "expectedsalary", "notice"],
+            "education": ["institution", "education_location", "yearfrom", "yearto", "qualification"],
+            "language": ["lang"],
+            "activities": ["activities"],
+            "references": ["ref1name", "ref1pos", "ref1com", "ref1email", "ref1phn", "ref2name", "ref2pos", "ref2com", "ref2email", "ref2phn"],
+        }
+
+        for key in section_keys.get(section, []):
+            profile_data.pop(key, None)
+
+        ignored = {
+            "csrfmiddlewaretoken", "profile_section", "fname", "mname", "lname",
+            "email", "phone", "employment_id", "save_section", "save_profile",
+        } | employment_fields
+
         for key, values in request.POST.lists():
             if key in ignored or key.startswith("save_"):
                 continue
-            if key in {"employer_name", "employment_location", "superior", "position", "ssalary", "esalary", "reasons", "job_description", "employment_date_from", "employment_date_to"}:
-                continue
-            posted_profile[key] = values[0] if len(values) == 1 else values
+            profile_data[key] = values[0] if len(values) == 1 else values
 
-        profile.profile_data = posted_profile
+        if section == "position":
+            labels = {
+                "profile_option_14": "Analyst Programmer (Java / .Net)",
+                "profile_option_15": "Product / Project Manager",
+                "profile_option_16": "Business Manager / Sales / Marketing",
+                "profile_option_17": "Finance / HR / Admin",
+                "profile_option_18": "RPA Developer",
+                "profile_option_19": "Consultant",
+                "profile_option_20": "Designer",
+                "profile_option_21": "Others",
+            }
+            selected = next((k for k in labels if profile_data.get(k)), None)
+            profile_data["position_selected"] = (
+                (profile_data.get("position_others") or "").strip() if selected == "profile_option_21"
+                else labels[selected]
+            ) if selected else ""
+
+        if section == "address" and request.POST.get("permanent_same_as_residential"):
+            profile_data["permanent_address"] = profile_data.get("residential_address", "")
+            profile_data["permanent_city"] = profile_data.get("residential_city", "")
+            profile_data["permanent_state"] = profile_data.get("residential_state", "")
+            profile_data["permanent_country"] = profile_data.get("residential_country", "")
+            profile_data["permanent_pincode"] = profile_data.get("residential_pincode", "")
+
+        profile.profile_data = profile_data
         profile.save()
 
         if candidate:
             if first_name is not None or last_name is not None:
                 candidate.full_name = " ".join(
-                    part for part in [request.user.first_name, request.user.last_name]
-                    if part
+                    value for value in [request.user.first_name, request.user.last_name] if value
                 ).strip()
             if email is not None:
                 candidate.email = email
             if phone is not None:
                 candidate.phone = phone.strip()
-            candidate.profile_data = {
-                **(candidate.profile_data or {}),
-                **posted_profile,
-            }
+
+            candidate.profile_data = profile_data
             candidate.save()
 
         messages.success(request, "Your profile has been updated successfully.")
         return redirect("myprofile")
 
-    # The template historically reads candidate.profile_data. Provide the
-    # same shape for non-candidate accounts through a lightweight fallback.
-    if candidate:
-        profile_data = candidate.profile_data or {}
-    else:
-        profile_data = profile.profile_data or {}
+    # Profile JSON from both sources. UserProfile values take precedence.
+    profile_data = dict(candidate.profile_data or {}) if candidate else {}
+    profile_data.update(profile.profile_data or {})
+    if not profile_data.get("position_selected"):
+        labels = {"profile_option_14":"Analyst Programmer (Java / .Net)","profile_option_15":"Product / Project Manager","profile_option_16":"Business Manager / Sales / Marketing","profile_option_17":"Finance / HR / Admin","profile_option_18":"RPA Developer","profile_option_19":"Consultant","profile_option_20":"Designer","profile_option_21":"Others"}
+        selected = next((k for k in labels if profile_data.get(k)), None)
+        if selected:
+            profile_data["position_selected"] = profile_data.get("position_others") or labels[selected] if selected == "profile_option_21" else labels[selected]
 
-    context = {
+    return render(request, "core/myprofile.html", {
         "candidate": candidate,
         "profile": profile,
         "employment_history": employment_history,
+        "employment_records": employment_records,
         "profile_data": profile_data,
-    }
-    return render(request, "core/myprofile.html", context)
+        "display_phone": profile.phone,
+    })
+
 
 @role_required("administration", "hr", "agent", "candidate")
 def security(request):
@@ -2679,6 +3045,3 @@ def simple_page(request, page):
             messages.success(request, "Feedback submitted successfully.")
             return redirect("feedback")
     return render(request, "core/" + allowed[page], {"role": get_role(request.user)})
-
-
-

@@ -52,7 +52,7 @@
           </li>
           {% endif %}
 
-          {% if app_role == "candidate" or app_role == "agent" or app_role == "hr" or app_role == "administration" %}
+          {% if app_role == "candidate" or app_role == "agent" or app_role == "administration" %}
           <li class="list-group-item bg-transparent">
             <a href="{% url 'submitted_applications' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'submitted_applications' %}active{% endif %}">
               <span class="pe-1"><i class="bi bi-journal-check"></i></span><span>Submitted Applications</span>
@@ -74,11 +74,14 @@
             </a>
           </li>
 
+
+        {% if app_role == "candidate" or app_role == "administration" or app_role == "admin" %}
           <li class="list-group-item bg-transparent">
             <a href="{% url 'myprofile' %}" class="sidebar-link list-group-item-action {% if request.resolver_match.url_name == 'myprofile' %}active{% endif %}">
               <span class="pe-1"><i class="bi bi-person"></i></span><span>My Profile</span>
             </a>
           </li>
+           {% endif %}
 
           {% if app_role == "candidate" %}
           <li class="list-group-item bg-transparent">
